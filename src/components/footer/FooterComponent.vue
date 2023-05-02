@@ -1,18 +1,32 @@
 <template>
   <footer id="rodape">
     <ul>
-      <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-      <li><a href="#"><i class="fab fa-instagram-square"></i></a></li>
-      <li><a href="#"><i class="fab fa-twitter-square"></i></a></li>
-      <li><a href="#"><i class="fab fa-snapchat-square"></i></a></li>
-      <li><a href="#"><i class="fab fa-pinterest-square"></i></a></li>
+      <li v-for="socialMedia in socialMediaIcons" :key="socialMedia">
+        <a href="#"><i :class="socialMedia | mountClassIcon"></i></a>
+      </li>
     </ul>
     <p>&copy; Todos os diretos reservados - Hotel Paraíso 2021</p>
   </footer>
 </template>
 <script>
   export default {
-    
+    data() {
+      return {
+        // Ícones do Font Awesome
+        socialMediaIcons: [
+          'facebook',
+          'instagram',
+          'twitter',
+          'snapchat',
+          'pinterest'
+        ]
+      }
+    },
+    filters: {
+      mountClassIcon(icon) {
+        return `fab fa-${ icon }-square`
+      }
+    }
   }
 </script>
 <style scoped>
