@@ -24,4 +24,26 @@
   }
 </script>
 
-<style scoped></style>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  nav, ul {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.9;
+  }
+
+  a:hover {
+    opacity: 1;
+  }
+</style>
