@@ -70,4 +70,13 @@
   #cabecalho nav li a {
     color: #191c03;
   }
+
+  @media screen and (max-width: 700px) {
+    #cabecalho {
+      flex-direction: column;
+    }
+    #cabecalho img {
+      margin-bottom: 15px;
+    }
+  }
 </style>
