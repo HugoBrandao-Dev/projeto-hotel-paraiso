@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <HeaderComponent />
-    <NewsletterComponent />
     <main>
       <router-view />
     </main>
+    <NewsletterComponent />
     <FooterComponent />
   </div>
 </template>
