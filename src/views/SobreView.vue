@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <article id="sobre" class="mt-5 content-article">
     <h1>Sobre</h1>
-  </div>
+    <hr>
+  </article>
 </template>
 
 <script>
@@ -11,5 +12,5 @@
 </script>
 
 <style scoped>
-  
+
 </style>

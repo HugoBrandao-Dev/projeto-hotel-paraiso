@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <article id="reservas" class="mt-5 content-article">
     <h1>Reservas</h1>
-  </div>
+    <hr>
+  </article>
 </template>
 
 <script>
