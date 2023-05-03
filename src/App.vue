@@ -47,14 +47,6 @@
     opacity: 1;
   }
 
-  hr {
-    width: 200px;
-    height: 2px;
-    background-color: #c3c63b;
-    border: none;
-    margin: 35px 0;
-  }
-
   /* PÁGINAS INICIAIS PARA OS ENDPOINTS */
 
   .content-article {
@@ -67,6 +59,11 @@
   }
 
   .content-article hr {
+    width: 200px;
+    height: 2px;
+    background-color: #c3c63b;
+    border: none;
+    margin: 35px 0;
     width: 50%;
     margin: 10px 0;
   }

@@ -35,6 +35,14 @@
     color: #c3c63b;
   }
 
+  #newsletter hr {
+    width: 200px;
+    height: 2px;
+    background-color: #c3c63b;
+    border: none;
+    margin: 35px 0;
+  }
+
   #newsletter form {
     display: flex;
     align-items: center;
