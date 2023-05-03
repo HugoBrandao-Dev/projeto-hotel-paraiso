@@ -46,4 +46,28 @@
   a:hover {
     opacity: 1;
   }
+
+  hr {
+    width: 200px;
+    height: 2px;
+    background-color: #c3c63b;
+    border: none;
+    margin: 35px 0;
+  }
+
+  /* PÁGINAS INICIAIS PARA OS ENDPOINTS */
+
+  .content-article {
+    padding: 100px 50px;
+  }
+
+  .content-article h1 {
+    font-size: 2.5rem;
+    color: #191c03;
+  }
+
+  .content-article hr {
+    width: 50%;
+    margin: 10px 0;
+  }
 </style>
