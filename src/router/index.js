@@ -30,7 +30,7 @@ const routes = [
     component: ContatoView
   },
   {
-    path: '/cadastrar',
+    path: '/cadastro',
     name: 'Cadastro',
     component: CadastroView
   }
