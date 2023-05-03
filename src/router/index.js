@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import SobreView from '../views/SobreView.vue'
 import ReservasView from '../views/ReservasView.vue'
 import ContatoView from '../views/ContatoView.vue'
+import CadastroView from '../views/CadastroView.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/contato',
     name: 'Contato',
     component: ContatoView
+  },
+  {
+    path: '/cadastrar',
+    name: 'Cadastro',
+    component: CadastroView
   }
 ]
 
