@@ -49,7 +49,7 @@
         </section>
         <footer class="modal-card-foot">
           <button id="btn-access" class="button">Entrar</button>
-          <button id="btn-cadastrar" class="button">Cadastrar</button>
+          <button id="btn-cadastrar" class="button" @click="newUser()">Cadastrar</button>
         </footer>
       </div>
     </div>
@@ -86,6 +86,12 @@
       },
       closeLoginModal() {
         this.modals.login.active = false
+      },
+      newUser() {
+        this.modals.login.active = false
+        if (this.$route.name != 'Cadastro') {
+          this.$router.push({ name: 'Cadastro' })
+        }
       }
     }
   }
