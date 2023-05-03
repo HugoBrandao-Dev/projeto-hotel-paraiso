@@ -8,11 +8,11 @@
       Email:
       <input class="input is-normal" type="email" placeholder="exemplo@hotmail.com">
       CPF:
-      <input class="input is-normal" type="text" placeholder="exemplo@hotmail.com">
+      <imask-input class="input is-normal" type="text" :mask="masks.cpf" placeholder="000.000.000-00" />
       Telefone:
-      <input class="input is-normal" type="tel" placeholder="(00) 00000-0000">
+      <imask-input class="input is-normal" type="tel" :mask="masks.telefone" placeholder="+00 (00) 00000-0000" />
       CEP:
-      <input class="input is-normal" type="text" placeholder="00000-000">
+      <imask-input class="input is-normal" type="text" :mask="masks.cep" placeholder="00000-000" />
       Estado:
       <input class="input is-normal" type="text" placeholder="SP">
       Cidade:
@@ -23,7 +23,7 @@
       <input class="input is-normal" type="text" placeholder="Rua: Nome da rua/Av. Um exemplo">
       Nº da residência:
       <input class="input is-normal" type="text">
-      Informações adicinais:
+      Informações adicionais:
       <textarea class="textarea" placeholder="Deseja nos informar de mais alguma coisa?" rows="10"></textarea>
 
       <button class="button is-success is-align-self-flex-end">Cadastrar</button>
@@ -32,8 +32,21 @@
 </template>
 
 <script>
-  export default {
+  import { IMaskComponent }  from 'vue-imask'
 
+  export default {
+    data() {
+      return {
+        masks: {
+          cpf: '000.000.000-00',
+          telefone: '+00 (00) 00000-0000',
+          cep: '00000-000'
+        }
+      }
+    },
+    components: {
+      'imask-input': IMaskComponent
+    }
   }
 </script>
 
