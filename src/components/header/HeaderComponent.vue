@@ -1,23 +1,38 @@
 <template>
   <header id="cabecalho">
-    <router-link to="/">
-      <img src="../../assets/logo.png" alt="Hotel Paraíso">
-    </router-link>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand is-flex is-align-items-center">
+        <router-link to="/">
+          <img src="../../assets/logo.png" alt="Hotel Paraíso">
+        </router-link>
 
-    <nav>
-      <li v-for="item in Object.keys(routes)" :key="item">
-        <router-link :to="routes[item].router">{{ item }}</router-link>
-      </li>
-      <li>
-        <button 
-          id="btn-login" 
-          type="button" 
-          class="button is-small" 
-          @click="openLoginModal()"
-        >
-          Login
-        </button>
-      </li>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="menu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="menu" class="navbar-menu">
+        <div class="navbar-end is-flex is-align-items-center">
+          <router-link 
+            v-for="item in Object.keys(routes)" 
+            :key="item"
+            :to="routes[item].router"
+            class="navbar-item"
+          >
+            {{ item }}
+          </router-link>
+          <button 
+            id="btn-login" 
+            type="button" 
+            class="button is-small navbar-item" 
+            @click="openLoginModal()"
+          >
+            Login
+          </button>
+        </div>
+      </div>
     </nav>
 
     <div class="modal" :class="{'is-active': modals.login.active}">
@@ -104,9 +119,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 20px 50px;
   }
 
@@ -114,25 +126,7 @@
     width: 200px;
   }
 
-  #cabecalho nav {
-    display: flex;
-  }
-
-  #cabecalho nav li {
-    margin: 0 15px;
-  }
-
-  #cabecalho nav li:first-child {
-    margin-left: 0;
-  }
-
-  #cabecalho nav li:last-child {
-    margin-right: 0;
-  }
-
-  #cabecalho nav li a {
-    color: #191c03;
-  }
+  /* Modal de login */
 
   #btn-access {
     color: #fff;
@@ -163,7 +157,6 @@
       flex-direction: column;
     }
     #cabecalho img {
-      margin-bottom: 15px;
     }
   }
 </style>
