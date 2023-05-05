@@ -26,10 +26,10 @@
       Informações adicionais:
       <textarea class="textarea" placeholder="Deseja nos informar de mais alguma coisa?" rows="10"></textarea>
 
-      <label class="checkbox">
+      <span class="checkbox">
         <input type="checkbox">
-        Eu aceito os <a @click="openTermsConditions()">Termos e Condições</a>
-      </label>
+        Eu aceito os <a @click="openTermsConditions()">Termos e Condições</a>.
+      </span>
 
       <button class="button is-success is-align-self-flex-end">Cadastrar</button>
     </form>
