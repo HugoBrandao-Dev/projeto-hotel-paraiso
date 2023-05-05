@@ -14,23 +14,26 @@
       </div>
 
       <div id="menu" class="navbar-menu">
-        <div class="navbar-end is-flex is-align-items-center">
-          <router-link 
+        <div class="navbar-end">
+          <a 
             v-for="item in Object.keys(routes)" 
             :key="item"
-            :to="routes[item].router"
+            :href="routes[item].router"
             class="navbar-item"
           >
             {{ item }}
-          </router-link>
-          <button 
-            id="btn-login" 
-            type="button" 
-            class="button is-small navbar-item" 
-            @click="openLoginModal()"
-          >
-            Login
-          </button>
+          </a>
+          
+          <div class="navbar-item">
+            <button 
+              id="btn-login" 
+              type="button" 
+              class="navbar-item button" 
+              @click="openLoginModal()"
+            >
+              Login
+            </button>
+          </div>
         </div>
       </div>
     </nav>
