@@ -2,7 +2,7 @@
   <article id="cadastro" class="mt-5 content-article">
     <h1>Novo usuário</h1>
     <hr>
-    <form id="form-cadastro" class="is-flex is-flex-direction-column">
+    <form id="form-cadastro" class="container is-max-desktop">
       Nome:
       <input class="input is-normal" type="text" placeholder="Nome completo">
       Email:
@@ -25,6 +25,11 @@
       <input class="input is-normal" type="text">
       Informações adicionais:
       <textarea class="textarea" placeholder="Deseja nos informar de mais alguma coisa?" rows="10"></textarea>
+
+      <label class="checkbox">
+        <input type="checkbox">
+        Eu aceito os <a href="#">Termos e Condições</a>
+      </label>
 
       <button class="button is-success is-align-self-flex-end">Cadastrar</button>
     </form>
@@ -51,12 +56,11 @@
 </script>
 
 <style scoped>
-  #form-cadastro {
-    width: 50%;
-    margin: 0 auto;
+  .input, .textarea, .checkbox {
+    margin-bottom: 10px;
   }
 
-  .input, .textarea {
-    margin-bottom: 10px;
+  .checkbox {
+    width: 100%;
   }
 </style>
