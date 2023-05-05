@@ -28,17 +28,17 @@
 
       <label class="checkbox">
         <input type="checkbox">
-        Eu aceito os <a data-target="terms-and-conditions">Termos e Condições</a>
+        Eu aceito os <a @click="openTermsConditions()">Termos e Condições</a>
       </label>
 
       <button class="button is-success is-align-self-flex-end">Cadastrar</button>
     </form>
-    <div class="modal is-active">
-      <div class="modal-background"></div>
+    <div class="modal" :class="{'is-active': windows.termsConditions.active}">
+      <div class="modal-background" @click="closeTermsConditions()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Termos e condições</p>
-          <button class="delete" aria-label="close"></button>
+          <button class="delete" @click="closeTermsConditions()" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -68,7 +68,7 @@
         </section>
         <footer class="modal-card-foot">
           <button class="button is-success">Aceitar</button>
-          <button class="button">Fechar</button>
+          <button class="button" @click="closeTermsConditions()">Fechar</button>
         </footer>
       </div>
     </div>
@@ -85,11 +85,24 @@
           cpf: '000.000.000-00',
           telefone: '+00 (00) 00000-0000',
           cep: '00000-000'
+        },
+        windows: {
+          termsConditions: {
+            active: false
+          }
         }
       }
     },
     components: {
       'imask-input': IMaskComponent
+    },
+    methods: {
+      openTermsConditions() {
+        this.windows.termsConditions.active = true
+      },
+      closeTermsConditions() {
+        this.windows.termsConditions.active = false
+      }
     }
   }
 </script>
