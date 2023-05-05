@@ -40,8 +40,9 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 * Bulma: Framework CSS para facilitar na estilização dos novos elementos da página.
 
 ### Outra(s)
-* Vue-router: Ferramenta para criação de rotas para as seções do site.
-* Vue-imask: Pacote para utilização de máscaras nos campos do input.
+* Vue-router: Ferramenta para criação de rotas para as seções do site;
+* Vue-imask: Pacote para utilização de máscaras nos campos do input;
+* Axios: Cliente HTTP, para consumo de API, como a do IBGE, que permite fazer buscas por endereços (através do CEP), UFs e etc.
 
 ## Observações
 
