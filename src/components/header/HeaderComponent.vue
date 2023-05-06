@@ -82,13 +82,13 @@
             router: '/'
           },
           'Sobre': {
-            router: 'sobre'
+            router: '/sobre'
           },
           'Reservas': {
-            router: 'reservas'
+            router: '/reservas'
           },
           'Contato': {
-            router: 'contato'
+            router: '/contato'
           }
         },
         modals: {
