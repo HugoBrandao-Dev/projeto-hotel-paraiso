@@ -60,8 +60,8 @@
       <div class="lista-reservas column columns is-flex is-flex-wrap-wrap">
         <div class="tile is-parent column is-one-third">
           <article class="tile is-child box">
-            <figure class="image is-4by3">
-              <img src="https://bulma.io/images/placeholders/640x480.png">
+            <figure class="image is-16by9">
+              <img src="../assets/reservas/reserva.png">
             </figure>
             <p class="title is-6 mt-2">Diária: R$200,00</p>
               <button class="button is-info is-light">Acessar</button>
@@ -69,8 +69,8 @@
         </div>
         <div class="tile is-parent column is-one-third">
           <article class="tile is-child box">
-            <figure class="image is-4by3">
-              <img src="https://bulma.io/images/placeholders/640x480.png">
+            <figure class="image is-16by9">
+              <img src="../assets/reservas/reserva.png">
             </figure>
             <p class="title is-6 mt-2">Diária: R$200,00</p>
               <button class="button is-info is-light">Acessar</button>
@@ -78,8 +78,8 @@
         </div>
         <div class="tile is-parent column is-one-third">
           <article class="tile is-child box">
-            <figure class="image is-4by3">
-              <img src="https://bulma.io/images/placeholders/640x480.png">
+            <figure class="image is-16by9">
+              <img src="../assets/reservas/reserva.png">
             </figure>
             <p class="title is-6 mt-2">Diária: R$200,00</p>
               <button class="button is-info is-light">Acessar</button>
@@ -87,8 +87,8 @@
         </div>
         <div class="tile is-parent column is-one-third">
           <article class="tile is-child box">
-            <figure class="image is-4by3">
-              <img src="https://bulma.io/images/placeholders/640x480.png">
+            <figure class="image is-16by9">
+              <img src="../assets/reservas/reserva.png">
             </figure>
             <p class="title is-6 mt-2">Diária: R$200,00</p>
               <button class="button is-info is-light">Acessar</button>
@@ -96,8 +96,8 @@
         </div>
         <div class="tile is-parent column is-one-third">
           <article class="tile is-child box">
-            <figure class="image is-4by3">
-              <img src="https://bulma.io/images/placeholders/640x480.png">
+            <figure class="image is-16by9">
+              <img src="../assets/reservas/reserva.png">
             </figure>
             <p class="title is-6 mt-2">Diária: R$200,00</p>
               <button class="button is-info is-light">Acessar</button>
@@ -105,8 +105,8 @@
         </div>
         <div class="tile is-parent column is-one-third">
           <article class="tile is-child box">
-            <figure class="image is-4by3">
-              <img src="https://bulma.io/images/placeholders/640x480.png">
+            <figure class="image is-16by9">
+              <img src="../assets/reservas/reserva.png">
             </figure>
             <p class="title is-6 mt-2">Diária: R$200,00</p>
               <button class="button is-info is-light">Acessar</button>
