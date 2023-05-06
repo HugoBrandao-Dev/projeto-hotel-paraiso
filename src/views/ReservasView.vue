@@ -3,13 +3,49 @@
     <h1>Reservas</h1>
     <hr>
     <div class="columns">
-      <div class="filtro column is-one-third is-align-self-flex-start">
+      <form class="filtro column is-one-third is-align-self-flex-start">
         <div class="card">
           <div class="card-content">
             <p class="title">Filtros</p>
-            <p class="subtitle">
-              Jeff Atwood
-            </p>
+              <div class="columns">
+                <div class="field column is-half">
+                  <label class="label">Tipo:</label>
+                  <div class="control">
+                    <div class="select">
+                      <select>
+                        <option checked>Apartamento</option>
+                        <option>Casa</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- <p class="help">This is a help text</p> -->
+                </div>
+                <div class="field column">
+                  <label class="label">Cômodos:</label>
+                  <div class="control">
+                    <div class="select">
+                      <select>
+                        <option checked>4</option>
+                        <option>6</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- <p class="help">This is a help text</p> -->
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Aceita animais?</label>
+                <div class="control">
+                  <label class="radio">
+                    <input type="radio" name="animais">
+                    Sim
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="animais" checked>
+                    Não
+                  </label>
+                </div>
+              </div>
           </div>
           <footer class="card-footer">
             <button class="button is-ghost card-footer-item">
@@ -20,7 +56,7 @@
             </button>
           </footer>
         </div>
-      </div>
+      </form>
       <div class="lista-reservas column columns is-flex is-flex-wrap-wrap">
         <div class="tile is-parent column is-one-third">
           <article class="tile is-child box">
