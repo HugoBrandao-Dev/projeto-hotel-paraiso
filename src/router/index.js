@@ -5,6 +5,7 @@ import SobreView from '../views/SobreView.vue'
 import ReservasView from '../views/ReservasView.vue'
 import ContatoView from '../views/ContatoView.vue'
 import CadastroView from '../views/CadastroView.vue'
+import ReservaView from '../views/ReservaView.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/reservas',
     name: 'Reservas',
     component: ReservasView
+  },
+  {
+    path: '/reserva/:id',
+    name: 'Reserva',
+    component: ReservaView
   },
   {
     path: '/contato',
