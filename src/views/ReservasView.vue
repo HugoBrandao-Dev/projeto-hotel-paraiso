@@ -64,7 +64,12 @@
               <img src="../assets/reservas/reserva.png">
             </figure>
             <p class="title is-6 mt-2">Diária: R$200,00</p>
-              <button class="button is-info is-light">Acessar</button>
+              <router-link 
+                :to="{ name: 'Reserva', params: { id: cont } }"
+                class="button is-info is-light"
+              >
+                Acessar
+              </router-link>
           </article>
         </div>
       </div>
