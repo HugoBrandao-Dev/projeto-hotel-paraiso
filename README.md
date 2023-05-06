@@ -49,3 +49,8 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 ## Bugs
 
 ## Possíveis melhorias futuras
+### ReservaView
+* Colocar um carousel de imagens do apartamento/casa que o usuário está visualizando;
+* Colocar icones para cômodos que são descritos na informação da reserva que o usuário está visualizando;
+* Colocar opções de compartilhamento da página da reserva que o usuário está visualizando;
+* Exibir informações quando o usuário passar o mouse ou clicar no ícone de informação de cada cômodo.
