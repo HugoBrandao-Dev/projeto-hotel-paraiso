@@ -58,52 +58,7 @@
         </div>
       </form>
       <div class="lista-reservas column columns is-flex is-flex-wrap-wrap">
-        <div class="tile is-parent column is-one-third">
-          <article class="tile is-child box">
-            <figure class="image is-16by9">
-              <img src="../assets/reservas/reserva.png">
-            </figure>
-            <p class="title is-6 mt-2">Diária: R$200,00</p>
-              <button class="button is-info is-light">Acessar</button>
-          </article>
-        </div>
-        <div class="tile is-parent column is-one-third">
-          <article class="tile is-child box">
-            <figure class="image is-16by9">
-              <img src="../assets/reservas/reserva.png">
-            </figure>
-            <p class="title is-6 mt-2">Diária: R$200,00</p>
-              <button class="button is-info is-light">Acessar</button>
-          </article>
-        </div>
-        <div class="tile is-parent column is-one-third">
-          <article class="tile is-child box">
-            <figure class="image is-16by9">
-              <img src="../assets/reservas/reserva.png">
-            </figure>
-            <p class="title is-6 mt-2">Diária: R$200,00</p>
-              <button class="button is-info is-light">Acessar</button>
-          </article>
-        </div>
-        <div class="tile is-parent column is-one-third">
-          <article class="tile is-child box">
-            <figure class="image is-16by9">
-              <img src="../assets/reservas/reserva.png">
-            </figure>
-            <p class="title is-6 mt-2">Diária: R$200,00</p>
-              <button class="button is-info is-light">Acessar</button>
-          </article>
-        </div>
-        <div class="tile is-parent column is-one-third">
-          <article class="tile is-child box">
-            <figure class="image is-16by9">
-              <img src="../assets/reservas/reserva.png">
-            </figure>
-            <p class="title is-6 mt-2">Diária: R$200,00</p>
-              <button class="button is-info is-light">Acessar</button>
-          </article>
-        </div>
-        <div class="tile is-parent column is-one-third">
+        <div v-for="cont in 7" :key="cont" class="tile is-parent column is-one-third">
           <article class="tile is-child box">
             <figure class="image is-16by9">
               <img src="../assets/reservas/reserva.png">
