@@ -3,7 +3,7 @@
     <h1>Usuário</h1>
     <hr>
     <div class="columns mt-3">
-      <aside class="card menu column is-one-quarter">
+      <aside class="card menu column is-one-quarter is-align-self-flex-start">
         <div class="card-content">
           <p class="menu-label">OPÇÕES</p>
           <ul class="menu-list">
