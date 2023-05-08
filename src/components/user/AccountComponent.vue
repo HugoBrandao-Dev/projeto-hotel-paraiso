@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <header class="card-header p-3 is-justify-content-space-between">
-      <button class="button is-warning">Atualizar</button>
+      <router-link to="update" class="button is-warning">Atualizar</router-link>
       <button class="button is-danger">Deletar</button>
     </header>
     <div class="card-content">
