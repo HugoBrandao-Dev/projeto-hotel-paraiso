@@ -7,6 +7,9 @@ import ContatoView from '../views/ContatoView.vue'
 import CadastroView from '../views/CadastroView.vue'
 import ReservaView from '../views/ReservaView.vue'
 
+// Rota do usuário (logado).
+import UserView from '../views/user/UserView.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -39,6 +42,11 @@ const routes = [
     path: '/cadastro',
     name: 'Cadastro',
     component: CadastroView
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: UserView
   }
 ]
 
