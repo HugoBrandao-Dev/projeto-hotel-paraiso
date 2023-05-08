@@ -9,6 +9,7 @@ import ReservaView from '../views/ReservaView.vue'
 
 // Rota do usuário (logado).
 import UserView from '../views/user/UserView.vue'
+import AccountComponent from '../components/user/AccountComponent'
 
 Vue.use(VueRouter)
 
@@ -46,7 +47,14 @@ const routes = [
   {
     path: '/user',
     name: 'User',
-    component: UserView
+    component: UserView,
+    children: [
+      {
+        path: 'account',
+        name: 'Account',
+        component: AccountComponent
+      }
+    ]
   }
 ]
 
