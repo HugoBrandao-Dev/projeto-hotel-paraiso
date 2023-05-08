@@ -1,5 +1,5 @@
 <template>
-  <article>
+  <article id="user" class="mt-5 content-article">
     <h1>Usuário</h1>
     <hr>
   </article>
@@ -7,7 +7,7 @@
 
 <script>
   export default {
-    
+
   }
 </script>
 
