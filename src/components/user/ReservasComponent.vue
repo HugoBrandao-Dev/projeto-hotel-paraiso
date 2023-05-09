@@ -8,13 +8,13 @@
         <article class="media">
           <div class="media-left">
             <figure class="image is-64x64">
-              <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+              <img src="../../assets/reservas/reserva64.png" alt="Image">
             </figure>
           </div>
           <div class="media-content">
             <div class="content">
               <p>
-                <strong>Apartamento</strong> <small>Reserva de 4 dias</small>
+                <strong>Apartamento</strong><br><small>Reserva de 4 dias</small>
                 <br>
                 Início da estadia: 00-00-0000 <br>
                 Fim da estadia: 00-00-0000
