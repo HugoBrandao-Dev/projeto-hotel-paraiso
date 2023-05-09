@@ -53,17 +53,17 @@ const routes = [
     children: [
       {
         path: 'account',
-        name: 'Account',
+        name: 'UserAccount',
         component: AccountComponent
       },
       {
         path: 'update',
-        name: 'Update',
+        name: 'UserUpdate',
         component: UpdateComponent
       },
       {
         path: 'reservas',
-        name: 'Reservas',
+        name: 'UserReservas',
         component: ReservasComponent
       }
     ]
