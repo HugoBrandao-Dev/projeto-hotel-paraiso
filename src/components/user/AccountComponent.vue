@@ -58,13 +58,31 @@
         </div>
       </div>
     </div>
+    <div class="modal is-active">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Deletar conta</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <p>Deseja realmente deletar sua conta?</p>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-primary">Sim</button>
+          <button class="button is-danger">Não</button>
+        </footer>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  
+  export default {
+    
+  }
 </script>
 
-<style>
+<style scoped>
   
 </style>
