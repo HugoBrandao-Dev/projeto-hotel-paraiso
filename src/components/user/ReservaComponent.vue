@@ -88,7 +88,20 @@
         <div class="message-header">
           Acomodação:
         </div>
+
         <div class="message-body">
+          <div class="field">
+            <label class="label">Andar:</label>
+            <div class="control">
+              6º
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Nº do apartamento:</label>
+            <div class="control">
+              22
+            </div>
+          </div>
           <ul><span class="is-size-4">6 cômodos</span>
             <li>1 sala de estar.</li>
             <li>2 quartos.</li>

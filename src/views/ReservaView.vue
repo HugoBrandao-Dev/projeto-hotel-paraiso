@@ -16,6 +16,18 @@
         <div class="card">
           <div class="card-content">
             <p class="title">Reserva #{{ this.$route.params.id }}</p>
+            <div class="field">
+              <label class="label">Andar:</label>
+              <div class="control">
+                6º
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Nº do apartamento:</label>
+              <div class="control">
+                22
+              </div>
+            </div>
             <p class="is-size-4">6 Cômodos:</p>
             <p class="is-size-5 ml-3">1 Sala(s) de estar.
               <span class="tag is-info is-light is-rounded"><i class="fas fa-info"></i></span>
