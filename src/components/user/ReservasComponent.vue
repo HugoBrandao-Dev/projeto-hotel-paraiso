@@ -27,7 +27,14 @@
                     <i class="fas fa-reply" aria-hidden="true"></i>
                   </span>
                 </a>
-                <button class="button is-small is-info is-outlined">Detalhes</button>
+                <router-link 
+                  :to="{
+                    name: 'UserReserva',
+                    params: {
+                      id: cont
+                    }
+                  }"
+                  class="button is-small is-info is-outlined">Detalhes</router-link>
               </div>
             </nav>
           </div>
