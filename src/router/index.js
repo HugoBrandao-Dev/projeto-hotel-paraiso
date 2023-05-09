@@ -11,6 +11,7 @@ import ReservaView from '../views/ReservaView.vue'
 import UserView from '../views/user/UserView.vue'
 import AccountComponent from '../components/user/AccountComponent'
 import UpdateComponent from '../components/user/UpdateComponent'
+import ReservasComponent from '../components/user/ReservasComponent'
 
 Vue.use(VueRouter)
 
@@ -59,6 +60,11 @@ const routes = [
         path: 'update',
         name: 'Update',
         component: UpdateComponent
+      },
+      {
+        path: 'reservas',
+        name: 'Reservas',
+        component: ReservasComponent
       }
     ]
   }
