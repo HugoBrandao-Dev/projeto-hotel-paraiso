@@ -2,7 +2,7 @@
   <div class="card">
     <header class="card-header p-3 is-justify-content-space-between">
       <router-link to="update" class="button is-warning">Atualizar</router-link>
-      <button class="button is-danger">Deletar</button>
+      <button class="button is-danger" @click="openDeleteAccountModal()">Deletar</button>
     </header>
     <div class="card-content">
       <div class="content">
@@ -58,19 +58,19 @@
         </div>
       </div>
     </div>
-    <div class="modal is-active">
-      <div class="modal-background"></div>
+    <div class="modal" :class="{'is-active': modal.deleteAccount.active}">
+      <div class="modal-background" @click="closeDeleteAccountModal()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Deletar conta</p>
-          <button class="delete" aria-label="close"></button>
+          <button class="delete" aria-label="close" @click="closeDeleteAccountModal()"></button>
         </header>
         <section class="modal-card-body">
           <p>Deseja realmente deletar sua conta?</p>
         </section>
         <footer class="modal-card-foot">
           <button class="button is-primary">Sim</button>
-          <button class="button is-danger">Não</button>
+          <button class="button is-danger" @click="closeDeleteAccountModal()">Não</button>
         </footer>
       </div>
     </div>
@@ -79,7 +79,23 @@
 
 <script>
   export default {
-    
+    data() {
+      return {
+        modal: {
+          deleteAccount: {
+            active: false
+          }
+        }
+      }
+    },
+    methods: {
+      openDeleteAccountModal() {
+        this.modal.deleteAccount.active = true
+      },
+      closeDeleteAccountModal() {
+        this.modal.deleteAccount.active = false
+      }
+    }
   }
 </script>
 
