@@ -11,7 +11,7 @@
                 <div class="field column is-half">
                   <label class="label">Tipo:</label>
                   <div class="control">
-                    <div class="select">
+                    <div class="select is-small">
                       <select>
                         <option checked>Apartamento</option>
                         <option>Casa</option>
@@ -23,12 +23,28 @@
                 <div class="field column">
                   <label class="label">Cômodos:</label>
                   <div class="control">
-                    <div class="select">
+                    <div class="select is-small">
                       <select>
                         <option checked>4</option>
                         <option>6</option>
                       </select>
                     </div>
+                  </div>
+                  <!-- <p class="help">This is a help text</p> -->
+                </div>
+              </div>
+              <div class="columns">
+                <div class="field column is-half">
+                  <label class="label">Menor diária:</label>
+                  <div class="control">
+                    <input class="input is-small" type="text" placeholder="100">
+                  </div>
+                  <!-- <p class="help">This is a help text</p> -->
+                </div>
+                <div class="field column">
+                  <label class="label">Maior diária:</label>
+                  <div class="control">
+                    <input class="input is-small" type="text" placeholder="500">
                   </div>
                   <!-- <p class="help">This is a help text</p> -->
                 </div>
