@@ -7,12 +7,15 @@ import ContatoView from '../views/ContatoView.vue'
 import CadastroView from '../views/CadastroView.vue'
 import ReservaView from '../views/ReservaView.vue'
 
-// Rota do usuário (logado).
+// Rotas do usuário (logado).
 import UserView from '../views/user/UserView.vue'
 import AccountComponent from '../components/user/AccountComponent'
 import UpdateComponent from '../components/user/UpdateComponent'
 import ReservasComponent from '../components/user/ReservasComponent'
 import ReservaComponent from '../components/user/ReservaComponent'
+
+// Rotas do Adminstrador.
+import AdminView from '../views/admin/AdminView.vue'
 
 Vue.use(VueRouter)
 
@@ -73,6 +76,11 @@ const routes = [
         component: ReservaComponent
       }
     ]
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: AdminView,
   }
 ]
 
