@@ -10,43 +10,15 @@
     </header>
     <div class="card-content">
       <form id="form-cadastro" class="container is-max-desktop">
-        Nome:
-        <input class="input is-normal" type="text" placeholder="Nome completo">
-        Email:
-        <input class="input is-normal" type="email" placeholder="exemplo@hotmail.com">
-        CPF:
-        <imask-input class="input is-normal" type="text" :mask="masks.cpf" placeholder="000.000.000-00" />
-        Telefone:
-        <imask-input class="input is-normal" type="tel" :mask="masks.telefone" placeholder="+00 (00) 00000-0000" />
-        CEP:
-        <imask-input class="input is-normal" type="text" :mask="masks.cep" placeholder="00000-000" />
-        Estado:
-        <input class="input is-normal" type="text" placeholder="SP">
-        Cidade:
-        <input class="input is-normal" type="text" placeholder="Nome da cidade onde você mora">
-        Bairro:
-        <input class="input is-normal" type="text" placeholder="Nome do bairro onde você reside.">
-        Rua/Avenida:
-        <input class="input is-normal" type="text" placeholder="Rua: Nome da rua/Av. Um exemplo">
-        Nº da residência:
-        <input class="input is-normal" type="text">
-        Informações adicionais:
-        <textarea class="textarea" placeholder="Deseja nos informar de mais alguma coisa?" rows="10"></textarea>
-    </form>
+        <FormComponent :type="'update'" />
+      </form>
     </div>
-    <footer class="card-footer">
-      <button class="button is-primary is-light card-footer-item">
-          Atualizar
-        </button>
-        <button class="button is-danger is is-light card-footer-item">
-          Cancelar
-        </button>
-    </footer>
   </div>
 </template>
 
 <script>
-  import { IMaskComponent }  from 'vue-imask'
+  // Componentes
+  import FormComponent from './FormComponent'
 
   export default {
     data() {
@@ -64,7 +36,7 @@
       }
     },
     components: {
-      'imask-input': IMaskComponent
+      FormComponent
     }
   }
 </script>

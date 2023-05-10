@@ -3,35 +3,7 @@
     <h1>Novo usuário</h1>
     <hr>
     <form id="form-cadastro" class="container is-max-desktop">
-      Nome:
-      <input class="input is-normal" type="text" placeholder="Nome completo">
-      Email:
-      <input class="input is-normal" type="email" placeholder="exemplo@hotmail.com">
-      CPF:
-      <imask-input class="input is-normal" type="text" :mask="masks.cpf" placeholder="000.000.000-00" />
-      Telefone:
-      <imask-input class="input is-normal" type="tel" :mask="masks.telefone" placeholder="+00 (00) 00000-0000" />
-      CEP:
-      <imask-input class="input is-normal" type="text" :mask="masks.cep" placeholder="00000-000" />
-      Estado:
-      <input class="input is-normal" type="text" placeholder="SP">
-      Cidade:
-      <input class="input is-normal" type="text" placeholder="Nome da cidade onde você mora">
-      Bairro:
-      <input class="input is-normal" type="text" placeholder="Nome do bairro onde você reside.">
-      Rua/Avenida:
-      <input class="input is-normal" type="text" placeholder="Rua: Nome da rua/Av. Um exemplo">
-      Nº da residência:
-      <input class="input is-normal" type="text">
-      Informações adicionais:
-      <textarea class="textarea" placeholder="Deseja nos informar de mais alguma coisa?" rows="10"></textarea>
-
-      <span class="checkbox">
-        <input type="checkbox">
-        Eu aceito os <a @click="openTermsConditions()">Termos e Condições</a>.
-      </span>
-
-      <button class="button is-success is-align-self-flex-end">Cadastrar</button>
+      <FormComponent :type="'register'" />
     </form>
     <div class="modal" :class="{'is-active': windows.termsConditions.active}">
       <div class="modal-background" @click="closeTermsConditions()"></div>
@@ -76,16 +48,12 @@
 </template>
 
 <script>
-  import { IMaskComponent }  from 'vue-imask'
+  // Componenetes
+  import FormComponent from '../components/user/FormComponent'
 
   export default {
     data() {
       return {
-        masks: {
-          cpf: '000.000.000-00',
-          telefone: '+00 (00) 00000-0000',
-          cep: '00000-000'
-        },
         windows: {
           termsConditions: {
             active: false
@@ -94,7 +62,7 @@
       }
     },
     components: {
-      'imask-input': IMaskComponent
+      FormComponent
     },
     methods: {
       openTermsConditions() {
