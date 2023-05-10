@@ -47,6 +47,20 @@
             <p class="is-size-5 ml-3">1 Play room(s).
               <span class="tag is-info is-light is-rounded"><i class="fas fa-info"></i></span>
             </p>
+            <div class="columns mt-3">
+              <div class="field column is-half">
+                <label class="label">Início da estadia:</label>
+                <div class="control">
+                  <input type="datetime-local" class="input">
+                </div>
+              </div>
+              <div class="field column">
+                <label class="label">Fim da estadia:</label>
+                <div class="control">
+                  <input type="datetime-local" class="input">
+                </div>
+              </div>
+            </div>
           </div>
           <footer class="card-footer">
             <button class="button is-success is-light card-footer-item">
