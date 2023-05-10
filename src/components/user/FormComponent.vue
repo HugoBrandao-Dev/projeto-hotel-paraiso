@@ -138,7 +138,7 @@
       <div class="control">
         <label class="checkbox">
           <input type="checkbox">
-          Eu aceito os <a href="#">Termos e Condições.</a>
+          Eu aceito os <a @click.stop.prevent="openTermsConditions()">Termos e Condições.</a>
         </label>
       </div>
     </div>
@@ -149,6 +149,55 @@
           {{ buttonValue.value }}
         </a>
       </p>
+    </div>
+    <div class="modal" :class="{'is-active': windows.termsConditions.active}">
+      <div class="modal-background" @click.stop.prevent="closeTermsConditions()"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Termos e condições</p>
+          <button class="delete" @click.stop.prevent="closeTermsConditions()" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </section>
+        <footer class="modal-card-foot">
+          <button 
+            class="button is-success" 
+            @click.stop.prevent="closeTermsConditions()"
+          >
+            Aceitar
+          </button>
+          <button 
+            class="button" 
+            @click.stop.prevent="closeTermsConditions()"
+          >
+            Fechar
+          </button>
+        </footer>
+      </div>
     </div>
   </fieldset>
 </template>
@@ -164,6 +213,11 @@
           telefone: '+00 (00) 00000-0000',
           cep: '00000-000'
         },
+        windows: {
+          termsConditions: {
+            active: false
+          }
+        }
       }
     },
     components: {
@@ -178,6 +232,14 @@
           return { value: 'Atualizar', class: 'is-link' }
         }
         return { value: 'Cadastrar', class: 'is-primary' }
+      }
+    },
+    methods: {
+      openTermsConditions() {
+        this.windows.termsConditions.active = true
+      },
+      closeTermsConditions() {
+        this.windows.termsConditions.active = false
       }
     }
   }
