@@ -23,6 +23,22 @@
           >
             {{ item }}
           </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Administração
+          </a>
+          <div class="navbar-dropdown is-boxed">
+            <a class="navbar-item" href="#">
+              <i class="fas fa-users mr-2" aria-hidden="true"></i>
+              <span>Usuários</span>
+            </a>
+            <a class="navbar-item" href="#">
+              <i class="fas fa-hotel mr-2" aria-hidden="true"></i>
+              <span>Reservas</span>
+            </a>
+          </div>
+        </div>
           
           <div class="navbar-item">
             <button 
