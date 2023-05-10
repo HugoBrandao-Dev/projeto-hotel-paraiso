@@ -51,13 +51,13 @@
               <div class="field column is-half">
                 <label class="label">Início da estadia:</label>
                 <div class="control">
-                  <input type="datetime-local" class="input">
+                  <input id="iptMinDate" type="datetime-local" class="input">
                 </div>
               </div>
               <div class="field column">
                 <label class="label">Fim da estadia:</label>
                 <div class="control">
-                  <input type="datetime-local" class="input">
+                  <input id="iptMaxDate" type="datetime-local" class="input">
                 </div>
               </div>
             </div>
@@ -77,7 +77,41 @@
 </template>
 
 <script>
-  
+  export default {
+    mounted() {
+      let iptMinDate = document.getElementById('iptMinDate')
+      iptMinDate.value = this.defineMinDateTime()
+    },
+    methods: {
+      // Define o dia e hora mínima para a reserva.
+      defineMinDateTime() {
+        let myData = new Date()
+
+        // DATA
+        let dia = myData.getDate()
+        let mes = myData.getMonth() + 1
+
+        // Adiciona um '0' caso o mês seja menor que 10
+        if (mes < 10) {
+          mes = '0' + mes
+        }
+
+        let ano = myData.getFullYear()
+
+        // HORA
+        let min = myData.getMinutes()
+        if (min < 10) {
+          min = '0' + min
+        }
+        let hour = myData.getHours()
+        if (hour < 10) {
+          hour = '0' + hour
+        }
+
+        return `${ ano }-${ mes }-${ dia }T${ hour }:${ min }`
+      }
+    }
+  }
 </script>
 
 <style scoped>
