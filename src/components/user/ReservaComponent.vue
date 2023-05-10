@@ -114,15 +114,15 @@
       </div>
     </div>
     <footer class="card-footer">
-      <a href="#" class="button is-primary is-light card-footer-item">Modificar estadia</a>
-      <a href="#" class="button is-danger is-light card-footer-item">Cancelar estadia</a>
+      <button class="button is-primary is-light card-footer-item" @click="openModalEstadia()">Modificar estadia</button>
+      <button class="button is-danger is-light card-footer-item" @click="closeModalEstadia()">Cancelar estadia</button>
     </footer>
-    <div class="modal is-active">
-      <div class="modal-background"></div>
+    <div class="modal" :class="{'is-active': modals.modificarEstadia.active}">
+      <div class="modal-background" @click="closeModalEstadia()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Modificar estadia</p>
-          <button class="delete" aria-label="close"></button>
+          <button class="delete" aria-label="close" @click="closeModalEstadia()"></button>
         </header>
         <section class="modal-card-body">
           <div class="columns">
@@ -142,7 +142,7 @@
         </section>
         <footer class="modal-card-foot">
           <button class="button is-success">Salvar mudança</button>
-          <button class="button is-danger">Cancelar</button>
+          <button class="button is-danger" @click="closeModalEstadia()">Cancelar</button>
         </footer>
       </div>
     </div>
@@ -151,7 +151,23 @@
 
 <script>
   export default {
-
+    data() {
+      return {
+        modals: {
+          modificarEstadia: {
+            active: false
+          }
+        }
+      }
+    },
+    methods: {
+      openModalEstadia() {
+        this.modals.modificarEstadia.active = true
+      },
+      closeModalEstadia() {
+        this.modals.modificarEstadia.active = false
+      }
+    }
   }
 </script>
 
