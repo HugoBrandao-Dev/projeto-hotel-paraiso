@@ -16,6 +16,7 @@ import ReservaComponent from '../components/user/ReservaComponent'
 
 // Rotas do Adminstrador.
 import AdminView from '../views/admin/AdminView.vue'
+import UsersComponent from '../components/admin/UsersComponent'
 
 Vue.use(VueRouter)
 
@@ -81,6 +82,13 @@ const routes = [
     path: '/admin',
     name: 'Admin',
     component: AdminView,
+    children: [
+      {
+        path: 'users',
+        name: 'Users',
+        component: UsersComponent
+      }
+    ]
   }
 ]
 
