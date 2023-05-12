@@ -40,7 +40,7 @@
             <td>
               <div class="buttons">
                 <router-link :to="{
-                  name: 'ReservaInfo',
+                  name: 'Reserva_admin',
                   params: {
                     id: reserva.id
                   }
