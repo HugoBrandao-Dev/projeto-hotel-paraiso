@@ -1,5 +1,5 @@
 <template>
-  <div id="users columns">
+  <div id="users">
     <h1>Lista de usuários</h1>
     <hr>
     <div class="card column is-one-quarter mx-auto">
