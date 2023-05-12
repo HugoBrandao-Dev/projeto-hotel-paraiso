@@ -40,11 +40,16 @@
               <i class="fas fa-info"></i>
             </span>
           </router-link>
-          <a href="#" class="button is-small is-warning" title="Editar usuário.">
+          <router-link :to="{
+            name: 'UserEdit',
+            params: {
+              id: user.id
+            }
+          }" class="button is-small is-warning" title="Editar usuário.">
             <span class="icon is-small">
               <i class="fas fa-edit"></i>
             </span>
-          </a>
+          </router-link>
           <a href="#" class="button is-small is-danger" title="Deletar usuário.">
             <span class="icon is-small">
               <i class="fas fa-trash-alt"></i>
