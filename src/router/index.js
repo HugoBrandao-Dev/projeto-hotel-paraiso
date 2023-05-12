@@ -18,6 +18,9 @@ import ReservaComponent from '../components/user/ReservaComponent'
 import AdminView from '../views/admin/AdminView.vue'
 import UsersComponent from '../components/admin/users/UsersComponent'
 
+// Rotas do Admin para o usuário
+import InfoComponent from '../components/admin/users/InfoComponent'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -87,6 +90,11 @@ const routes = [
         path: 'users',
         name: 'Users',
         component: UsersComponent
+      },
+      {
+        path: 'user/:id',
+        name: 'UserInfo',
+        component: InfoComponent
       }
     ]
   }
