@@ -20,6 +20,7 @@ import UsersComponent from '../components/admin/users/UsersComponent'
 
 // Rotas do Admin para o usuário
 import InfoComponent from '../components/admin/users/InfoComponent'
+import EditComponent from '../components/admin/users/EditComponent'
 
 Vue.use(VueRouter)
 
@@ -95,6 +96,11 @@ const routes = [
         path: 'user/:id',
         name: 'UserInfo',
         component: InfoComponent
+      },
+      {
+        path: 'user/edit/:id',
+        name: 'UserEdit',
+        component: EditComponent
       }
     ]
   }
