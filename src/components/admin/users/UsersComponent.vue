@@ -50,11 +50,14 @@
               <i class="fas fa-edit"></i>
             </span>
           </router-link>
-          <a href="#" class="button is-small is-danger" title="Deletar usuário.">
-            <span class="icon is-small">
-              <i class="fas fa-trash-alt"></i>
-            </span>
-          </a>
+          <form @submit.prevent="confirmDeletion()">
+            <input type="hidden" :value="user.id">
+            <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
+              <span class="icon is-small">
+                <i class="fas fa-trash-alt"></i>
+              </span>
+            </button>
+          </form>
         </div>
       </td>
     </tr>
@@ -73,6 +76,13 @@
           { id: 3, nome: 'Josias Cruz', cpf: '33333333333', telefone: '55119333333333', reservas_ativas: '1' },
           { id: 4, nome: 'Doralice Cruz', cpf: '44444444444', telefone: '55119444444444', reservas_ativas: '1' }
         ]
+      }
+    },
+    methods: {
+      confirmDeletion() {
+        if (confirm('Deseja realmente deletar o usuário?')) {
+          alert('Usuário deletado com sucesso.')
+        }
       }
     }
   }
