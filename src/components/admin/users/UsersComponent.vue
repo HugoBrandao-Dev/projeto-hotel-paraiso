@@ -30,11 +30,16 @@
       <td>{{ user.reservas_ativas }}</td>
       <td>
         <div class="buttons">
-          <a href="#" class="button is-small is-info" title="Informação completa.">
+          <router-link :to="{
+            name: 'UserInfo',
+            params: {
+              id: user.id
+            }
+          }" class="button is-small is-info" title="Informação completa.">
             <span class="icon is-small">
               <i class="fas fa-info"></i>
             </span>
-          </a>
+          </router-link>
           <a href="#" class="button is-small is-warning" title="Editar usuário.">
             <span class="icon is-small">
               <i class="fas fa-edit"></i>
@@ -58,10 +63,10 @@
     data() {
       return {
         users: [
-          { nome: 'Tobias de Oliveira', cpf: '11111111111', telefone: '55119111111111', reservas_ativas: '2' },
-          { nome: 'Dinorá de Oliveira', cpf: '22222222222', telefone: '55119222222222', reservas_ativas: '3' },
-          { nome: 'Josias Cruz', cpf: '33333333333', telefone: '55119333333333', reservas_ativas: '1' },
-          { nome: 'Doralice Cruz', cpf: '44444444444', telefone: '55119444444444', reservas_ativas: '1' }
+          { id: 1, nome: 'Tobias de Oliveira', cpf: '11111111111', telefone: '55119111111111', reservas_ativas: '2' },
+          { id: 2, nome: 'Dinorá de Oliveira', cpf: '22222222222', telefone: '55119222222222', reservas_ativas: '3' },
+          { id: 3, nome: 'Josias Cruz', cpf: '33333333333', telefone: '55119333333333', reservas_ativas: '1' },
+          { id: 4, nome: 'Doralice Cruz', cpf: '44444444444', telefone: '55119444444444', reservas_ativas: '1' }
         ]
       }
     }
