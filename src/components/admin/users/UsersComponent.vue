@@ -1,7 +1,42 @@
 <template>
-  <div id="users">
+  <div id="users columns">
     <h1>Lista de usuários</h1>
     <hr>
+    <div class="card column is-one-quarter mx-auto">
+      <header class="card-header">
+        <p class="card-header-title">
+          Filtro
+        </p>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          <div class="field">
+            <label class="label">Pesquisar por:</label>
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="tipo-pesquisa" checked>
+                Nome
+              </label>
+              <label class="radio">
+                <input type="radio" name="tipo-pesquisa">
+                CPF
+              </label>
+            </div>
+          </div>
+          <div class="field has-addons">
+            <div class="control">
+              <input class="input" type="text" placeholder="Pesquisar">
+            </div>
+            <div class="control">
+              <a class="button is-info">
+                <i class="fas fa-search"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
     <table class="table is-striped is-fullwidth">
       <thead>
         <tr>
