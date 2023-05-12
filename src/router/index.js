@@ -17,8 +17,9 @@ import ReservaComponent from '../components/user/ReservaComponent'
 // Rotas do Adminstrador.
 import AdminView from '../views/admin/AdminView.vue'
 import UsersComponent from '../components/admin/users/UsersComponent'
+import AdminReservasComponent from '../components/admin/reservas/ReservasComponent'
 
-// Rotas do Admin para o usuário
+// Rotas do Admin para o usuários
 import InfoComponent from '../components/admin/users/InfoComponent'
 import EditComponent from '../components/admin/users/EditComponent'
 
@@ -101,6 +102,11 @@ const routes = [
         path: 'user/edit/:id',
         name: 'UserEdit',
         component: EditComponent
+      },
+      {
+        path: 'reservas',
+        name: 'Reservas_admin',
+        component: AdminReservasComponent
       }
     ]
   }
