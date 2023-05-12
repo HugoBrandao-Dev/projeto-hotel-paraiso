@@ -16,7 +16,7 @@ import ReservaComponent from '../components/user/ReservaComponent'
 
 // Rotas do Adminstrador.
 import AdminView from '../views/admin/AdminView.vue'
-import UsersComponent from '../components/admin/UsersComponent'
+import UsersComponent from '../components/admin/users/UsersComponent'
 
 Vue.use(VueRouter)
 
