@@ -1,5 +1,7 @@
 <template>
   <div id="user-edit">
+    <h1>Edição de informações</h1>
+    <hr>
     <div class="card">
       <div class="card-content">
         <form>
