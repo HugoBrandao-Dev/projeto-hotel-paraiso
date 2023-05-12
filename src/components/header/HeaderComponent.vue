@@ -29,13 +29,13 @@
             Administração
           </a>
           <div class="navbar-dropdown is-boxed">
-            <a class="navbar-item" href="#">
-              <i class="fas fa-users mr-2" aria-hidden="true"></i>
-              <span>Usuários</span>
-            </a>
-            <a class="navbar-item" href="#">
-              <i class="fas fa-hotel mr-2" aria-hidden="true"></i>
-              <span>Reservas</span>
+            <a v-for="item in Object.keys(routes.admin)"
+              :key="item" 
+              :href="routes.admin[item].router"
+              class="navbar-item" 
+            >
+              <i :class="routes.admin[item].iconClass" aria-hidden="true"></i>
+              <span>{{ item }}</span>
             </a>
           </div>
         </div>
@@ -105,6 +105,16 @@
           },
           'Contato': {
             router: '/contato'
+          },
+          admin: {
+            'Usuários': {
+              iconClass: 'fas fa-users mr-2',
+              router: '/admin/users'
+            },
+            'Reservas': {
+              iconClass: 'fas fa-hotel mr-2',
+              router: '/admin/reservas'
+            }
           }
         },
         modals: {
