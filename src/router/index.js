@@ -16,12 +16,15 @@ import ReservaComponent from '../components/user/ReservaComponent'
 
 // Rotas do Adminstrador.
 import AdminView from '../views/admin/AdminView.vue'
-import UsersComponent from '../components/admin/users/UsersComponent'
-import AdminReservasComponent from '../components/admin/reservas/ReservasComponent'
 
 // Rotas do Admin para o usuários
+import UsersComponent from '../components/admin/users/UsersComponent'
 import InfoComponent from '../components/admin/users/InfoComponent'
 import EditComponent from '../components/admin/users/EditComponent'
+
+// Rotas do Admin para o reservas
+import AdminReservasComponent from '../components/admin/reservas/ReservasComponent'
+import AdminReservaComponent from '../components/admin/reservas/ReservaComponent'
 
 Vue.use(VueRouter)
 
@@ -107,6 +110,11 @@ const routes = [
         path: 'reservas',
         name: 'Reservas_admin',
         component: AdminReservasComponent
+      },
+      {
+        path: 'reserva/:id',
+        name: 'Reserva_admin',
+        component: AdminReservaComponent
       }
     ]
   }
