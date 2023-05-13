@@ -16,12 +16,12 @@
       <div id="menu" class="navbar-menu">
         <div class="navbar-end">
           <a 
-            v-for="item in Object.keys(routes)" 
-            :key="item"
-            :href="routes[item].router"
+            v-for="item in routes.user" 
+            :key="item.router"
+            :href="item.router"
             class="navbar-item"
           >
-            {{ item }}
+            {{ item.name }}
           </a>
 
         <div class="navbar-item has-dropdown is-hoverable">
@@ -29,13 +29,13 @@
             Administração
           </a>
           <div class="navbar-dropdown is-boxed">
-            <a v-for="item in Object.keys(routes.admin)"
-              :key="item" 
-              :href="routes.admin[item].router"
+            <a v-for="item in routes.admin"
+              :key="item.router" 
+              :href="item.router"
               class="navbar-item" 
             >
-              <i :class="routes.admin[item].iconClass" aria-hidden="true"></i>
-              <span>{{ item }}</span>
+              <i :class="item.iconClass" aria-hidden="true"></i>
+              <span>{{ item.name }}</span>
             </a>
           </div>
         </div>
@@ -94,28 +94,36 @@
     data() {
       return {
         routes: {
-          'Home': {
-            router: '/'
-          },
-          'Sobre': {
-            router: '/sobre'
-          },
-          'Reservas': {
-            router: '/reservas'
-          },
-          'Contato': {
-            router: '/contato'
-          },
-          admin: {
-            'Usuários': {
+          user: [
+            {
+              name: 'Home',
+              router: '/'
+            },
+            {
+              name: 'Sobre',
+              router: '/sobre'
+            },
+            {
+              name: 'Reservas',
+              router: '/reservas'
+            },
+            {
+              name: 'Contato',
+              router: '/contato'
+            }
+          ],
+          admin: [
+            {
+              name: 'Usuários',
               iconClass: 'fas fa-users mr-2',
               router: '/admin/users'
             },
-            'Reservas': {
+            {
+              name: 'Reservas',
               iconClass: 'fas fa-hotel mr-2',
               router: '/admin/reservas'
             }
-          }
+          ]
         },
         modals: {
           login: {
