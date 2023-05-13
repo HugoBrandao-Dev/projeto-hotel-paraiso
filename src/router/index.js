@@ -26,6 +26,7 @@ import EditComponent from '../components/admin/users/EditComponent'
 import AdminReservasComponent from '../components/admin/reservas/ReservasComponent'
 import AdminReservaComponent from '../components/admin/reservas/ReservaComponent'
 import AdminReservaEditComponent from '../components/admin/reservas/EditComponent'
+import ComodosComponent from '../components/admin/reservas/ComodosComponent'
 
 Vue.use(VueRouter)
 
@@ -120,8 +121,16 @@ const routes = [
       {
         path: 'reserva/edit/:id',
         name: 'ReservaEdit_admin',
-        component: AdminReservaEditComponent
+        component: AdminReservaEditComponent,
+        children: [
+          {
+        path: 'comodos',
+        name: 'Comodos',
+        component: ComodosComponent
       }
+        ]
+      },
+
     ]
   }
 ]
