@@ -28,33 +28,42 @@
           <td>1</td>
           <td>Sala de estar</td>
           <td>
-            <button class="button is-danger is-small" title="Deletar cômodo.">
-              <span class="icon is-small">
-                <i class="fas fa-minus"></i>
-              </span>
-            </button>
+            <form @submit.prevent="confirmDeletion()">
+              <input type="hidden">
+              <button type="submit" class="button is-danger is-small" title="Deletar cômodo.">
+                <span class="icon is-small">
+                  <i class="fas fa-minus"></i>
+                </span>
+              </button>
+            </form>
           </td>
         </tr>
         <tr>
           <td>1</td>
           <td>Cozinha</td>
           <td>
-            <button class="button is-danger is-small" title="Deletar cômodo.">
-              <span class="icon is-small">
-                <i class="fas fa-minus"></i>
-              </span>
-            </button>
+            <form @submit.prevent="confirmDeletion()">
+              <input type="hidden">
+              <button class="button is-danger is-small" title="Deletar cômodo.">
+                <span class="icon is-small">
+                  <i class="fas fa-minus"></i>
+                </span>
+              </button>
+            </form>
           </td>
         </tr>
         <tr>
           <td>2</td>
           <td>Quartos</td>
           <td>
-            <button class="button is-danger is-small" title="Deletar cômodo.">
-              <span class="icon is-small">
-                <i class="fas fa-minus"></i>
-              </span>
-            </button>
+            <form @submit.prevent="confirmDeletion()">
+              <input type="hidden">
+              <button class="button is-danger is-small" title="Deletar cômodo.">
+                <span class="icon is-small">
+                  <i class="fas fa-minus"></i>
+                </span>
+              </button>
+            </form>
           </td>
         </tr>
       </tbody>
@@ -63,7 +72,20 @@
 </template>
 
 <script>
-  
+  export default {
+    data() {
+      return {
+
+      }
+    },
+    methods: {
+      confirmDeletion() {
+        if (confirm('Deseja realmente excluir o cômodo?')) {
+          alert('Cômodo excluido.')
+        }
+      }
+    }
+  }
 </script>
 
 <style scoped>
