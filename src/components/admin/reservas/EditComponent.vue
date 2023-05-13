@@ -6,12 +6,12 @@
       <ul>
         <li class="is-active">
           <a>
-            <span>Cômodos</span>
+            <span>Ocupante</span>
           </a>
         </li>
         <li>
           <a>
-            <span>Ocupante</span>
+            <span>Cômodos</span>
           </a>
         </li>
       </ul>
