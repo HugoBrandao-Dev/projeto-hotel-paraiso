@@ -107,6 +107,13 @@
           }
         ]
       }
+    },
+    methods: {
+      confirmDeletion() {
+        if (confirm('Deseja deletar reserva?')) {
+          alert('Reserva deletada com sucesso.')
+        }
+      }
     }
   }
 </script>
