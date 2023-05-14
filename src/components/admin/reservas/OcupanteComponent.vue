@@ -1,25 +1,30 @@
 <template>
   <div id="ocupante" class="content">
     <h2>Ocupante</h2>
-    <div v-if="occupied">
-      <div class="field">
-        <label class="label">Nome:</label>
-        <div class="control">
-          <p>Tobias de Oliveira</p>
+    <div v-if="occupied" class="is-flex is-justify-content-space-between">
+      <div id="user-infos">
+        <div class="field">
+          <label class="label">Nome:</label>
+          <div class="control">
+            <p>Tobias de Oliveira</p>
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <label class="label">CPF:</label>
-        <div class="control">
-          <p>000.000.000-00</p>
+        <div class="field">
+          <label class="label">CPF:</label>
+          <div class="control">
+            <p>000.000.000-00</p>
+          </div>
         </div>
+        <a href="/admin/user/1" class="button is-small is-link is-outlined">
+          <span>Informação completa</span>
+          <span class="icon">
+            <i class="fas fa-arrow-circle-right"></i>
+          </span>
+        </a>
       </div>
-      <a href="/admin/user/1" class="button is-small is-link is-outlined">
-        <span>Informação completa</span>
-        <span class="icon">
-          <i class="fas fa-arrow-circle-right"></i>
-        </span>
-      </a>
+      <div id="user-option">
+        <button class="button is-large is-danger" @click="removeUser()">Remover</button>
+      </div>
     </div>
     <div v-else>
       <p>N/A</p>
@@ -110,7 +115,7 @@
           { id: 3, nome: 'Josias Cruz', cpf: '33333333333', telefone: '55119333333333', reservas_ativas: '1' },
           { id: 4, nome: 'Doralice Cruz', cpf: '44444444444', telefone: '55119444444444', reservas_ativas: '1' }
         ],
-        occupied: false,
+        occupied: true,
         searchType: 'nome'
       }
     },
@@ -118,6 +123,11 @@
       addUser() {
         if (confirm('Colocar o usuário como ocupante?')) {
           alert('Colocado com sucesso.')
+        }
+      },
+      removeUser() {
+        if (confirm('Remover ocupante?')) {
+          alert('Removido com sucesso.')
         }
       }
     },
