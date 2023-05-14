@@ -4,15 +4,15 @@
     <hr>
     <div class="tabs is-toggle">
       <ul>
-        <li class="is-active">
-          <a>
+        <li :class="{'is-active': getRouter == 'Ocupante'}">
+          <router-link :to="{ name: 'Ocupante' }">
             <span>Ocupante</span>
-          </a>
+          </router-link>
         </li>
-        <li>
-          <a>
+        <li :class="{'is-active': getRouter == 'Comodos'}">
+          <router-link :to="{ name: 'Comodos' }">
             <span>Cômodos</span>
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -23,7 +23,13 @@
 </template>
 
 <script>
-  
+  export default {
+    computed: {
+      getRouter() {
+        return this.$route.name
+      }
+    }
+  }
 </script>
 
 <style scoped>
