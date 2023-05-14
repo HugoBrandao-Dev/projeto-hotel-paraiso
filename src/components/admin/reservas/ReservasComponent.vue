@@ -50,7 +50,7 @@
                   </span>
                 </router-link>
                 <router-link :to="{
-                  name: 'ReservaEdit_admin',
+                  name: 'Ocupante',
                   params: {
                     id: reserva.id
                   }
