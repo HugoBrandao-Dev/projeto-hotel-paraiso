@@ -2,7 +2,7 @@
   <div id="comodos" class="content">
     <h2 class="is-flex is-justify-content-space-between">
       4 cômodos
-      <button class="button is-primary is-small" title="Adicionar novo cômodo.">
+      <button class="button is-primary is-small" title="Adicionar novo cômodo." @click="openModalNewRoom()">
         <span class="icon is-small">
           <i class="fas fa-plus"></i>
         </span>
@@ -68,12 +68,12 @@
         </tr>
       </tbody>
     </table>
-    <div class="modal is-active">
-      <div class="modal-background"></div>
+    <div class="modal" :class="{'is-active': modals.newRoom.active}">
+      <div class="modal-background" @click="closeModalNewRoom()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Novo cômodo</p>
-          <button class="delete" aria-label="close"></button>
+          <button class="delete" aria-label="close" @click="closeModalNewRoom()"></button>
         </header>
         <section class="modal-card-body">
           <div class="field is-horizontal">
@@ -110,7 +110,7 @@
         </section>
         <footer class="modal-card-foot">
           <button class="button is-success">Add</button>
-          <button class="button is-danger">Cancelar</button>
+          <button class="button is-danger" @click="closeModalNewRoom()">Cancelar</button>
         </footer>
       </div>
     </div>
@@ -121,10 +121,20 @@
   export default {
     data() {
       return {
-
+        modals: {
+          newRoom: {
+            active: false
+          }
+        }
       }
     },
     methods: {
+      openModalNewRoom() {
+        this.modals.newRoom.active = true
+      },
+      closeModalNewRoom() {
+        this.modals.newRoom.active = false
+      },
       confirmDeletion() {
         if (confirm('Deseja realmente excluir o cômodo?')) {
           alert('Cômodo excluido.')
