@@ -43,8 +43,8 @@
         <tr>
           <th><abbr title="Nome do usuário.">Nome</abbr></th>
           <th><abbr title="CPF do usuário.">CPF</abbr></th>
-          <th><abbr title="Telefone de contato do usuário.">Telefone</abbr></th>
-          <th><abbr title="Reservas ativas do usuário.">Reservas Ativas</abbr></th>
+          <th class="is-hidden-mobile"><abbr title="Telefone de contato do usuário.">Telefone</abbr></th>
+          <th class="is-hidden-mobile"><abbr title="Reservas ativas do usuário.">Reservas Ativas</abbr></th>
 
           <th><abbr title="Opções de ação.">Ações</abbr></th>
         </tr>
@@ -53,8 +53,8 @@
         <tr>
           <th><abbr title="Nome do usuário.">Nome</abbr></th>
           <th><abbr title="CPF do usuário.">CPF</abbr></th>
-          <th><abbr title="Telefone de contato do usuário.">Telefone</abbr></th>
-          <th><abbr title="Reservas ativas do usuário.">Reservas Ativas</abbr></th>
+          <th class="is-hidden-mobile"><abbr title="Telefone de contato do usuário.">Telefone</abbr></th>
+          <th class="is-hidden-mobile"><abbr title="Reservas ativas do usuário.">Reservas Ativas</abbr></th>
           <th><abbr title="Opções de ação.">Ações</abbr></th>
         </tr>
       </tfoot>
@@ -62,8 +62,8 @@
         <tr v-for="user in users" :key="user.cpf">
           <td>{{ user.nome }}</td>
           <td>{{ user.cpf }}</td>
-          <td>{{ user.telefone }}</td>
-          <td>{{ user.reservas_ativas }}</td>
+          <td class="is-hidden-mobile">{{ user.telefone }}</td>
+          <td class="is-hidden-mobile">{{ user.reservas_ativas }}</td>
           <td>
             <div class="buttons">
               <router-link :to="{
