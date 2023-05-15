@@ -114,4 +114,11 @@
     width: 50%;
     margin: 10px 0;
   }
+
+  @media screen and (max-width: 700px) {
+    .content-article {
+      margin-top: 80px;
+      padding: 4% 6%;
+    }
+  }
 </style>

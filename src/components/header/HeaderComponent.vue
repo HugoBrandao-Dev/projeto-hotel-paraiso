@@ -185,9 +185,7 @@
 
   @media screen and (max-width: 700px) {
     #cabecalho {
-      flex-direction: column;
-    }
-    #cabecalho img {
+      padding: 4% 6%;
     }
   }
 </style>
