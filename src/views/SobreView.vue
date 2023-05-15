@@ -1,5 +1,5 @@
 <template>
-  <article id="sobre" class="mt-5 content-article">
+  <article id="sobre" class="content-article">
     <h1>Sobre</h1>
     <hr>
     <div class="container">
@@ -54,7 +54,7 @@
       <section class="section">
         <h2 class="title">História 3</h2>
         <div class="bulma-clearfix-mixin">
-          <figure class="image image-half mr-4 float-right">
+          <figure class="image image-half ml-4 float-right">
             <img class="float-left" src="../assets/sobreImage.png">
             <figcaption>Fonte: Terceira imagem</figcaption>
           </figure>
@@ -94,6 +94,11 @@
     font-weight: normal;
   }
 
+  p {
+    text-align: justify;
+    text-indent: 50px;
+  }
+
   /* IMAGENS DE SUAS LEGENDAS */
 
   .image-half {
@@ -109,5 +114,13 @@
     font-size: 0.75rem;
     text-align: center;
     font-style: italic;
+  }
+
+  @media screen and (max-width: 700px) {
+    .image {
+      width: 100%;
+      margin: 0 !important;
+      margin-bottom: 1rem !important;
+    }
   }
 </style>
