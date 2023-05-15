@@ -88,21 +88,46 @@
               </div>
             </div>
           </div>
-          <div class="field is-horizontal">
+          <div class="columns is-align-items-center">
+            <div class="field is-horizontal column is-half">
+              <div class="field-label is-normal">
+                <label class="label">Cômodo:</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select :disabled="isComodoCustom">
+                        <option>Sala de estar</option>
+                        <option>Cozinha</option>
+                        <option>Quarto</option>
+                        <option>Banheiro</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="isComodoCustom"> Não está listado
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field is-horizontal" v-show="isComodoCustom">
             <div class="field-label is-normal">
-              <label class="label">Cômodo:</label>
+              <label class="label">Nome:</label>
             </div>
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <div class="select">
-                    <select>
-                      <option>Sala de estar</option>
-                      <option>Cozinha</option>
-                      <option>Quarto</option>
-                      <option>Banheiro</option>
-                    </select>
-                  </div>
+                  <input class="input" type="text">
                 </div>
               </div>
             </div>
@@ -125,7 +150,8 @@
           newRoom: {
             active: false
           }
-        }
+        },
+        isComodoCustom: false
       }
     },
     methods: {
