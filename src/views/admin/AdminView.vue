@@ -1,5 +1,5 @@
 <template>
-  <article id="admin" class="mt-5 content-article">
+  <article id="admin" class="content-article">
     <router-view />
   </article>
 </template>

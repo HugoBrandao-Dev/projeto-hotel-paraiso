@@ -1,5 +1,5 @@
 <template>
-  <article id="user" class="mt-5 content-article">
+  <article id="user" class="content-article">
     <h1>Usuário</h1>
     <hr>
     <div class="columns mt-3">

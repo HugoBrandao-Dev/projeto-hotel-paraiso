@@ -1,5 +1,5 @@
 <template>
-  <article id="reservas" class="mt-5 content-article">
+  <article id="reservas" class="content-article">
     <h1>Reservas</h1>
     <hr>
     <div class="columns">

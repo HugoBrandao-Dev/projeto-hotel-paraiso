@@ -1,5 +1,5 @@
 <template>
-  <article id="contato" class="mt-5 content-article">
+  <article id="contato" class="content-article">
     <h1>Contato</h1>
     <hr>
     <section id="location-infos" class="is-flex is-justify-content-space-around is-align-items-center">

@@ -1,5 +1,5 @@
 <template>
-  <article id="cadastro" class="mt-5 content-article">
+  <article id="cadastro" class="content-article">
     <h1>Novo usuário</h1>
     <hr>
     <form id="form-cadastro" class="container is-max-desktop">
