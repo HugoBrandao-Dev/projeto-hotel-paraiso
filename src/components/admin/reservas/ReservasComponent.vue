@@ -2,7 +2,44 @@
   <article id="reservas">
     <h1>Lista de reservas</h1>
     <hr>
-    <div class="container">
+    <div class="filter columns mt-3">
+      <div class="card column is-two-thirds-tablet mx-auto">
+        <header class="card-header">
+          <p class="card-header-title">
+            Filtro
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content is-flex is-flex-direction-column is-align-items-center">
+            <div class="field">
+              <label class="label">Pesquisar por nº de:</label>
+              <div class="control">
+                <label class="radio">
+                  <input type="radio" checked name="tipo-pesquisa" value="apartamento" v-model="searchType">
+                  Apartamento
+                </label>
+                <label class="radio">
+                  <input type="radio" name="tipo-pesquisa" value="casa" v-model="searchType">
+                  Casa
+                </label>
+              </div>
+            </div>
+              <div class="field has-addons mt-3">
+                <div class="control">
+                  <input class="input" type="text" placeholder="123456">
+                </div>
+                <div class="control">
+                  <a class="button is-info">
+                    <i class="fas fa-search"></i>
+                  </a>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-reservas">
       <table class="table is-striped is-fullwidth">
         <thead>
           <tr>
@@ -80,6 +117,7 @@
   export default {
     data() {
       return {
+        searchType: 'apartamento',
         reservas: [
           {
             id: 1,
