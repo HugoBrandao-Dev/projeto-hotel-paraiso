@@ -130,14 +130,14 @@
       </section>
     </div>
     <div class="buttons is-right">
-      <button class="button is-success is-large">Cadastrar</button>
+      <button class="button is-success is-large" @click="openConfirmReservaModal()">Cadastrar</button>
     </div>
-    <div class="modal is-active">
-      <div class="modal-background"></div>
+    <div class="modal" :class="{'is-active': modals.confirmReserva.active}">
+      <div class="modal-background" @click="closeConfirmReservaModal()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Confirme a reserva</p>
-          <button class="delete" aria-label="close"></button>
+          <button class="delete" aria-label="close" @click="closeConfirmReservaModal()"></button>
         </header>
         <section class="modal-card-body">
           <div id="info-reserva">
@@ -177,7 +177,7 @@
         </section>
         <footer class="modal-card-foot">
           <button class="button is-success">Cadastrar</button>
-          <button class="button is-danger">Cancelar</button>
+          <button class="button is-danger" @click="closeConfirmReservaModal()">Cancelar</button>
         </footer>
       </div>
     </div>
@@ -192,6 +192,11 @@
       return {
         masks: {
           cpf: '000.000.000-00'
+        },
+        modals: {
+          confirmReserva: {
+            active: false
+          }
         },
         apartamentos: [
           {
@@ -248,7 +253,15 @@
     },
     components: {
       'imask-input': IMaskComponent
-    },    
+    },
+    methods: {
+      openConfirmReservaModal() {
+        this.modals.confirmReserva.active = true
+      },
+      closeConfirmReservaModal() {
+        this.modals.confirmReserva.active = false
+      }
+    }
   }
 </script>
 
