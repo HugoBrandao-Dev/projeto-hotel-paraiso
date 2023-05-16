@@ -132,6 +132,55 @@
     <div class="buttons is-right">
       <button class="button is-success is-large">Cadastrar</button>
     </div>
+    <div class="modal is-active">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Confirme a reserva</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div id="info-reserva">
+            <p class="is-size-5">Apartamento</p>
+            <div class="columns">
+              <div class="field column is-half">
+                <label class="label">Andar:</label>
+                <div class="control">
+                  <p>4</p>
+                </div>
+              </div>
+              <div class="field column">
+                <label class="label">Nº:</label>
+                <div class="control">
+                  <p>17</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="info-user">
+            <p class="is-size-5">Cliente</p>
+            <div class="columns">
+              <div class="field column is-half">
+                <label class="label">Nome:</label>
+                <div class="control">
+                  <p>Tobias de Oliveira</p>
+                </div>
+              </div>
+              <div class="field column">
+                <label class="label">CPF:</label>
+                <div class="control">
+                  <p>111.111.111-11</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success">Cadastrar</button>
+          <button class="button is-danger">Cancelar</button>
+        </footer>
+      </div>
+    </div>
   </article>
 </template>
 
