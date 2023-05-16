@@ -26,6 +26,7 @@ import EditComponent from '../components/admin/users/EditComponent'
 import AdminReservasComponent from '../components/admin/reservas/ReservasComponent'
 import AdminReservaComponent from '../components/admin/reservas/ReservaComponent'
 import AdminReservaEditComponent from '../components/admin/reservas/EditComponent'
+import AdminNewReservaComponent from '../components/admin/reservas/NewReservaComponent'
 import ComodosComponent from '../components/admin/reservas/ComodosComponent'
 import OcupanteComponent from '../components/admin/reservas/OcupanteComponent'
 
@@ -118,6 +119,11 @@ const routes = [
         path: 'reserva/:id',
         name: 'Reserva_admin',
         component: AdminReservaComponent
+      },
+      {
+        path: 'reservas/new',
+        name: 'NewReserva_admin',
+        component: AdminNewReservaComponent
       },
       {
         path: 'reserva/edit/:id',
