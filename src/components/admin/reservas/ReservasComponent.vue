@@ -45,7 +45,7 @@
           <tr>
             <th><abbr title="Nome do usuário.">Tipo</abbr></th>
             <th><abbr title="CPF do usuário.">Status</abbr></th>
-            <th><abbr title="Telefone de contato do usuário.">Reservado por</abbr></th>
+            <th class="is-hidden-mobile"><abbr title="Telefone de contato do usuário.">Reservado por</abbr></th>
             <th><abbr title="Opções de ação.">Ações</abbr></th>
           </tr>
         </thead>
@@ -53,7 +53,7 @@
           <tr>
             <th><abbr title="Nome do usuário.">Tipo</abbr></th>
             <th><abbr title="CPF do usuário.">Status</abbr></th>
-            <th><abbr title="Telefone de contato do usuário.">Reservado por</abbr></th>
+            <th class="is-hidden-mobile"><abbr title="Telefone de contato do usuário.">Reservado por</abbr></th>
             <th><abbr title="Opções de ação.">Ações</abbr></th>
           </tr>
         </tfoot>
@@ -71,7 +71,7 @@
                 {{ reserva.status }}
               </span>
             </td>
-            <td>
+            <td class="is-hidden-mobile">
               {{ reserva.reservado_por }}
             </td>
             <td>
