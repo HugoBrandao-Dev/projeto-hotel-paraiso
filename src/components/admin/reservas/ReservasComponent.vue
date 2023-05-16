@@ -75,7 +75,52 @@
               {{ reserva.reservado_por }}
             </td>
             <td>
-              <div class="buttons">
+              <div class="dropdown is-right is-hidden-desktop">
+                <div class="dropdown-trigger">
+                  <button class="button" aria-haspopup="true" :aria-controls="reserva.id">
+                    <span>
+                      <i class="fas fa-ellipsis-v"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" :id="reserva.id" role="menu">
+                  <div class="dropdown-content">
+                    <div class="dropdown-item">
+                      <div class="buttons">
+                        <router-link :to="{
+                            name: 'Reserva_admin',
+                            params: {
+                              id: reserva.id
+                            }
+                          }" class="button is-small is-info" title="Informação completa.">
+                          <span class="icon is-small">
+                            <i class="fas fa-info"></i>
+                          </span>
+                        </router-link>
+                          <router-link :to="{
+                              name: 'Ocupante',
+                              params: {
+                                id: reserva.id
+                              }
+                            }" class="button is-small is-warning" title="Editar usuário.">
+                            <span class="icon is-small">
+                              <i class="fas fa-edit"></i>
+                            </span>
+                          </router-link>
+                          <form @submit.prevent="confirmDeletion()">
+                            <input type="hidden" :value="reserva.id">
+                            <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
+                              <span class="icon is-small">
+                                <i class="fas fa-trash-alt"></i>
+                              </span>
+                            </button>
+                          </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="buttons is-hidden-touch">
                 <router-link :to="{
                   name: 'Reserva_admin',
                   params: {
