@@ -39,6 +39,15 @@
       </div>
     </div>
 
+    <div class="buttons is-right">
+      <button class="button is-ghost is-large">
+        Cadastrar Apartamento/Casa
+      </button>
+      <button class="button is-primary is-large">
+        Nova Reserva
+      </button>
+    </div>
+
     <div id="admin-reservas">
       <table class="table is-striped is-fullwidth">
         <thead>
