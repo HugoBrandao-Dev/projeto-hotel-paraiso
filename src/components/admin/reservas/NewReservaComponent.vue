@@ -42,10 +42,15 @@
               </tr>
             </tfoot>
             <tbody>
-              <tr v-for="item in apartamentos" :key="item.id">
+              <tr 
+                v-for="item in apartamentos"
+                :key="item.id"
+                @click="apto.selected = item.id"
+                :class="{'is-selected': item.id == apto.selected }"
+              >
                 <td class="is-hidden-touch">
                   <input type="hidden" :value="item.id">
-                  <input type="radio" name="apartamento">
+                  <input type="radio" :value="item.id" v-model="apto.selected">
                 </td>
                 <td>{{ item.andar }}</td>
                 <td>{{ item.apartamento }}</td>
@@ -69,18 +74,18 @@
               <label class="label">Pesquisar por:</label>
               <div class="control">
                 <label class="radio">
-                  <input type="radio" checked name="tipo-pesquisa" value="nome" v-model="typeSearchUser">
+                  <input type="radio" checked name="tipo-pesquisa" value="nome" v-model="user.typeSearchUser">
                   Nome
                 </label>
                 <label class="radio">
-                  <input type="radio" name="tipo-pesquisa" value="cpf" v-model="typeSearchUser">
+                  <input type="radio" name="tipo-pesquisa" value="cpf" v-model="user.typeSearchUser">
                     CPF
                 </label>
               </div>
             </div>
             <div class="field has-addons mt-3">
               <div class="control">
-                <input v-if="typeSearchUser == 'nome'" class="input" type="text" placeholder="Tobias de Oliveira">
+                <input v-if="user.typeSearchUser == 'nome'" class="input" type="text" placeholder="Tobias de Oliveira">
                 <imask-input v-else class="input" type="text" placeholder="000.000.000-00" :mask="masks.cpf"/>
               </div>
               <div class="control">
@@ -106,10 +111,15 @@
               </tr>
             </tfoot>
             <tbody>
-              <tr v-for="item in users" :key="item.id">
+              <tr 
+                v-for="item in users"
+                :key="item.id"
+                @click="user.selected = item.id"
+                :class="{'is-selected': item.id == user.selected }"
+              >
                 <td class="is-hidden-touch">
                   <input type="hidden" :value="item.id">
-                  <input type="radio" name="user">
+                  <input type="radio" name="user" :value="item.id" v-model="user.selected">
                 </td>
                 <td>{{ item.nome }}</td>
                 <td>{{ item.cpf }}</td>
@@ -134,7 +144,6 @@
         masks: {
           cpf: '000.000.000-00'
         },
-        typeSearchUser: 'nome',
         apartamentos: [
           {
             id: 1,
@@ -173,17 +182,24 @@
             ocupado: 1
           },
         ],
+        apto: {
+          selected: null
+        },
         users: [
           { id: 1, nome: 'Tobias de Oliveira', cpf: '11111111111', telefone: '55119111111111', reservas_ativas: '2' },
           { id: 2, nome: 'Dinorá de Oliveira', cpf: '22222222222', telefone: '55119222222222', reservas_ativas: '3' },
           { id: 3, nome: 'Josias Cruz', cpf: '33333333333', telefone: '55119333333333', reservas_ativas: '1' },
           { id: 4, nome: 'Doralice Cruz', cpf: '44444444444', telefone: '55119444444444', reservas_ativas: '1' }
-        ]
+        ],
+        user: {
+          typeSearchUser: 'nome',
+          selected: null
+        },
       }
     },
     components: {
       'imask-input': IMaskComponent
-    }
+    },    
   }
 </script>
 
