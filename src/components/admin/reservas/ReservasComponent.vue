@@ -10,30 +10,19 @@
           </p>
         </header>
         <div class="card-content">
-          <div class="content is-flex is-flex-direction-column is-align-items-center">
-            <div class="field">
-              <label class="label">Pesquisar por nº de:</label>
+          <div class="content columns">
+            <div class="field column">
+              <label class="label">Andar:</label>
               <div class="control">
-                <label class="radio">
-                  <input type="radio" checked name="tipo-pesquisa" value="apartamento" v-model="searchType">
-                  Apartamento
-                </label>
-                <label class="radio">
-                  <input type="radio" name="tipo-pesquisa" value="casa" v-model="searchType">
-                  Casa
-                </label>
+                <input type="number" class="input">
               </div>
             </div>
-              <div class="field has-addons mt-3">
-                <div class="control">
-                  <input class="input" type="text" placeholder="123456">
-                </div>
-                <div class="control">
-                  <a class="button is-info">
-                    <i class="fas fa-search"></i>
-                  </a>
-                </div>
+            <div class="field column">
+              <label class="label">Apartamento:</label>
+              <div class="control">
+                <input type="number" class="input">
               </div>
+            </div>
           </div>
         </div>
       </div>
