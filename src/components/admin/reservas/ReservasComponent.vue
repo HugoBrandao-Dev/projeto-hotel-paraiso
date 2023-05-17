@@ -32,9 +32,9 @@
       <button class="button is-ghost is-large">
         Cadastrar Apartamento/Casa
       </button>
-      <button class="button is-primary is-large">
+      <a href="/admin/reservas/new" class="button is-link is-large">
         Nova Reserva
-      </button>
+      </a>
     </div>
 
     <div id="admin-reservas">
