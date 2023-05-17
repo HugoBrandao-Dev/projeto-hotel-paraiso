@@ -157,6 +157,7 @@
               </div>
             </div>
           </div>
+          <hr>
           <div id="info-user">
             <p class="is-size-5">Cliente</p>
             <div class="columns">
