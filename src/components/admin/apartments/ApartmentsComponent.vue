@@ -143,6 +143,9 @@
           </tr>
         </tbody>
       </table>
+      <p>
+        <span class="tag is-dark">Indisponível</span> Devido a alguma reforma, limpeza, etc.
+      </p>
     </div>
   </article>
 </template>
