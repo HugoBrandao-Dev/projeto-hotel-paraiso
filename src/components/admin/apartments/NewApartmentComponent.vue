@@ -95,7 +95,7 @@
                 <tfoot>
                   <tr>
                     <td class="has-text-right" colspan="3">
-                      <button class="button is-primary is-small">
+                      <button class="button is-primary is-small" @click="openRoomModal()">
                         <span class="icon is-small">
                           <i class="fas fa-plus"></i>
                         </span>
@@ -134,12 +134,12 @@
         </div>
       </div>
     </div>
-    <div class="modal is-active">
-      <div class="modal-background" ></div>
+    <div class="modal" :class="{'is-active': modals.rooms.active}">
+      <div class="modal-background" @click="closeRoomModal()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">Novo cômodo</p>
-          <button class="delete" aria-label="close" ></button>
+          <button class="delete" aria-label="close" @click="closeRoomModal()"></button>
         </header>
         <section class="modal-card-body">
           <div class="field is-horizontal">
@@ -201,7 +201,7 @@
         </section>
         <footer class="modal-card-foot">
           <button class="button is-success">Add</button>
-          <button class="button is-danger" >Cancelar</button>
+          <button class="button is-danger" @click="closeRoomModal()">Cancelar</button>
         </footer>
       </div>
     </div>
@@ -212,6 +212,11 @@
   export default {
     data() {
       return {
+        modals: {
+          rooms: {
+            active: false
+          }
+        },
         rooms: [
           {
             amount: 1,
@@ -237,6 +242,12 @@
         if (confirm('Deseja realmente excluir o cômodo?')) {
           alert('Excluido com sucesso.')
         }
+      },
+      openRoomModal() {
+        this.modals.rooms.active = true
+      },
+      closeRoomModal() {
+        this.modals.rooms.active = false
       }
     }
   }
