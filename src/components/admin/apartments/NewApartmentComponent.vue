@@ -37,7 +37,7 @@
               <div class="tile is-child is-flex is-justify-content-center is-align-items-center">
                 <div class="file is-link has-name is-boxed">
                   <label class="file-label">
-                    <input class="file-input" type="file" name="resume">
+                    <input class="file-input" type="file" name="resume" multiple>
                     <span class="file-cta">
                       <span class="file-icon">
                         <i class="fas fa-cloud-upload-alt"></i>
@@ -94,6 +94,15 @@
                 </thead>
                 <tfoot>
                   <tr>
+                    <td class="has-text-right" colspan="3">
+                      <button class="button is-primary is-small">
+                        <span class="icon is-small">
+                          <i class="fas fa-plus"></i>
+                        </span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
                     <td class="has-text-centered" colspan="3">
                       <strong>Total de cômodos: <span class="has-text-success is-size-5">6</span></strong>
                     </td>
@@ -123,6 +132,77 @@
             <a href="#" class="card-footer-item button is-danger is-light">Cancelar</a>
           </footer>
         </div>
+      </div>
+    </div>
+    <div class="modal is-active">
+      <div class="modal-background" ></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Novo cômodo</p>
+          <button class="delete" aria-label="close" ></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Quantidade:</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <input class="input" type="text">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="columns is-align-items-center">
+            <div class="field is-horizontal column is-half">
+              <div class="field-label is-normal">
+                <label class="label">Cômodo:</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select :disabled="isComodoCustom">
+                        <option>Sala de estar</option>
+                        <option>Cozinha</option>
+                        <option>Quarto</option>
+                        <option>Banheiro</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="isComodoCustom"> Não está listado
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field is-horizontal" v-show="isComodoCustom">
+            <div class="field-label is-normal">
+              <label class="label">Nome:</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <input class="input" type="text">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success">Add</button>
+          <button class="button is-danger" >Cancelar</button>
+        </footer>
       </div>
     </div>
   </article>
