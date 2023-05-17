@@ -151,6 +151,13 @@
           },
         ]
       }
+    },
+    methods: {
+      confirmDeletion() {
+        if (confirm('Deseja realmente excluir o cômodo?')) {
+          alert('Excluido com sucesso.')
+        }
+      }
     }
   }
 </script>
