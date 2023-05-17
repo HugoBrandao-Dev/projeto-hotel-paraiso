@@ -2,7 +2,129 @@
   <article id="new-apartment">
     <h1>Novo apartamento</h1>
     <hr>
-    
+    <div class="columns">
+      <div class="column is-three-fifths mx-auto">
+        <div class="card">
+          <div class="card-image">
+            <figure class="image is-16by9">
+              <img src="../../../assets/reservas/reserva.png" alt="Placeholder image">
+            </figure>
+          </div>
+          <div class="card-content">
+            <div class="tile is-ancestor is-centered">
+              <div class="tile is-parent">
+                <div class="tile is-child box has-background-primary is-flex is-justify-content-center is-align-items-center">
+                  <div>
+                    <label class="label is-size-5 has-text-white">Diária:</label>
+                    <div class="field-body">
+                      <div class="field is-expanded">
+                        <div class="field has-addons">
+                          <p class="control">
+                            <a class="button is-static">
+                              R$
+                            </a>
+                          </p>
+                          <p class="control is-expanded">
+                            <input type="number" class="input">
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div class="tile is-parent">
+              <div class="tile is-child is-flex is-justify-content-center is-align-items-center">
+                <div class="file is-link has-name is-boxed">
+                  <label class="file-label">
+                    <input class="file-input" type="file" name="resume">
+                    <span class="file-cta">
+                      <span class="file-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                      </span>
+                      <span class="file-label">
+                        Fotos
+                      </span>
+                    </span>
+                    <span class="file-name">
+                      Screen Shot 2017-07-29 at 15.54.25.png
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            </div>
+            <div class="columns">
+              <div class="field column is-one-third">
+                <label class="label">Status:</label>
+                <div class="control">
+                  <div class="select is-full">
+                    <select>
+                      <option value="1">Livre</option>
+                      <option value="2">Ocupado</option>
+                      <option value="3">Indisponível</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field column is-one-third">
+                <label class="label">Andar:</label>
+                <div class="control">
+                  <input type="number" class="input"/>
+                </div>
+              </div>
+              <div class="field column is-one-third">
+                <label class="label">Apartamento:</label>
+                <div class="control">
+                  <input type="number" class="input"/>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="field">
+                <label class="label">Cômodos:</label>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th><abbr title="Quantidade de cada cômodo">Quantidade</abbr></th>
+                    <th>Cômodo</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <td class="has-text-centered" colspan="3">
+                      <strong>Total de cômodos: <span class="has-text-success is-size-5">6</span></strong>
+                    </td>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  <tr v-for="room in rooms" :key="room.name">
+                    <td>{{ room.amount }}</td>
+                    <td>{{ room.name }}</td>
+                    <td>
+                      <form @submit.prevent="confirmDeletion()">
+                        <input type="hidden">
+                        <button type="submit" class="button is-danger is-small" title="Deletar cômodo.">
+                          <span class="icon is-small">
+                            <i class="fas fa-minus"></i>
+                          </span>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <a href="#" class="card-footer-item button is-success is-light">Salvar</a>
+            <a href="#" class="card-footer-item button is-danger is-light">Cancelar</a>
+          </footer>
+        </div>
+      </div>
+    </div>
   </article>
 </template>
 
@@ -10,7 +132,24 @@
   export default {
     data() {
       return {
-
+        rooms: [
+          {
+            amount: 1,
+            name: 'Sala de estar'
+          },
+          {
+            amount: 1,
+            name: 'Cozinha'
+          },
+          {
+            amount: 2,
+            name: 'Quartos'
+          },
+          {
+            amount: 2,
+            name: 'Banheiros'
+          },
+        ]
       }
     }
   }
