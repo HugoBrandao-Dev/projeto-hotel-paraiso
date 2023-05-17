@@ -14,7 +14,8 @@ import UpdateComponent from '../components/user/UpdateComponent'
 import ReservasComponent from '../components/user/ReservasComponent'
 import ReservaComponent from '../components/user/ReservaComponent'
 
-// Rotas do Adminstrador.
+/* ################## ROTAS DO ADMINSTRADOR ################## */
+
 import AdminView from '../views/admin/AdminView.vue'
 
 // Rotas do Admin para o usuários
@@ -29,6 +30,9 @@ import AdminReservaEditComponent from '../components/admin/reservas/EditComponen
 import AdminNewReservaComponent from '../components/admin/reservas/NewReservaComponent'
 import ComodosComponent from '../components/admin/reservas/ComodosComponent'
 import OcupanteComponent from '../components/admin/reservas/OcupanteComponent'
+
+// Rotas AVANÇADAS para apartamentos.
+import ApartmentsComponent from '../components/admin/apartments/ApartmentsComponent'
 
 Vue.use(VueRouter)
 
@@ -142,7 +146,11 @@ const routes = [
           }
         ]
       },
-
+      {
+        path: 'apartments',
+        name: 'Apartments',
+        component: ApartmentsComponent
+      }
     ]
   }
 ]
