@@ -34,6 +34,7 @@ import OcupanteComponent from '../components/admin/reservas/OcupanteComponent'
 // Rotas AVANÇADAS para apartamentos.
 import ApartmentsComponent from '../components/admin/apartments/ApartmentsComponent'
 import ApartmentComponent from '../components/admin/apartments/ApartmentComponent'
+import NewApartmentComponent from '../components/admin/apartments/NewApartmentComponent'
 
 Vue.use(VueRouter)
 
@@ -151,6 +152,11 @@ const routes = [
         path: 'apartments',
         name: 'Apartments_admin',
         component: ApartmentsComponent
+      },
+      {
+        path: 'apartments/new',
+        name: 'NewApartment_admin',
+        component: NewApartmentComponent
       },
       {
         path: 'apartment/:id',
