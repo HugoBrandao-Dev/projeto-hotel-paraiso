@@ -77,7 +77,7 @@
                     <div class="dropdown-item">
                       <div class="buttons">
                         <router-link :to="{
-                            name: 'apartment_admin',
+                            name: 'Apartment_admin',
                             params: {
                               id: apartment.id
                             }
@@ -111,7 +111,7 @@
               </div>
               <div class="buttons is-hidden-touch">
                 <router-link :to="{
-                  name: 'apartment_admin',
+                  name: 'Apartment_admin',
                   params: {
                     id: apartment.id
                   }
