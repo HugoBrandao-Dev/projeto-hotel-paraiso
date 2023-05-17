@@ -37,6 +37,11 @@
               <i :class="item.iconClass" aria-hidden="true"></i>
               <span>{{ item.name }}</span>
             </a>
+            <hr class="dropdown-divider">
+            <a href="/admin/apartments" class="dropdown-item">
+              <i class="fas fa-tools mr-2" aria-hidden="true"></i>
+              <span>Apartamentos</span>
+            </a>
           </div>
         </div>
           
