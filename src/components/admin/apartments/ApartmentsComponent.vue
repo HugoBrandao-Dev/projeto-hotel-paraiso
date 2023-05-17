@@ -210,6 +210,13 @@
           }
         ]
       }
+    },
+    methods: {
+      confirmDeletion() {
+        if (confirm('Deseja deletar apartamento?')) {
+          alert('Apartamento deletado com sucesso.')
+        }
+      }
     }
   }
 </script>
