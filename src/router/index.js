@@ -28,8 +28,6 @@ import AdminReservasComponent from '../components/admin/reservas/ReservasCompone
 import AdminReservaComponent from '../components/admin/reservas/ReservaComponent'
 import AdminReservaEditComponent from '../components/admin/reservas/EditComponent'
 import AdminNewReservaComponent from '../components/admin/reservas/NewReservaComponent'
-import ComodosComponent from '../components/admin/reservas/ComodosComponent'
-import OcupanteComponent from '../components/admin/reservas/OcupanteComponent'
 
 // Rotas AVANÇADAS para apartamentos.
 import ApartmentsComponent from '../components/admin/apartments/ApartmentsComponent'
@@ -135,18 +133,6 @@ const routes = [
         path: 'reserva/edit/:id',
         name: 'ReservaEdit_admin',
         component: AdminReservaEditComponent,
-        children: [
-          {
-            path: 'comodos',
-            name: 'Comodos',
-            component: ComodosComponent
-          },
-          {
-            path: 'ocupante',
-            name: 'Ocupante',
-            component: OcupanteComponent
-          }
-        ]
       },
       {
         path: 'apartments',
