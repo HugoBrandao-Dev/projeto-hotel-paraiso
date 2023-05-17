@@ -153,7 +153,7 @@ const routes = [
         component: ApartmentsComponent
       },
       {
-        path: 'apartment',
+        path: 'apartment/:id',
         name: 'Apartment_admin',
         component: ApartmentComponent
       }
