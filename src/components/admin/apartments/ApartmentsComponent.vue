@@ -29,7 +29,9 @@
         </div>
       </div>
       <div class="buttons is-right">
-        <button class="button is-primary is-large">Novo apartamento</button>
+        <a href="/admin/apartments/new" class="button is-primary is-large">
+          Novo apartamento
+        </a>
       </div>
       <table class="table">
         <thead>
