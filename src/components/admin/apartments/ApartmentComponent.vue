@@ -16,8 +16,13 @@
             </figure>
           </div>
           <div class="card-content">
-            <div class="has-text-right">
-              <span class="tag is-success is-large">Livre</span>
+            <div class="is-flex is-justify-content-space-between">
+              <div class="box has-background-primary has-text-white">
+                <p>
+                  Diária: <strong class="is-size-4 has-text-white">R$ 200,00</strong>
+                </p>
+              </div>    
+              <span class="tag is-success is-large" title="Status atual do apartamento.">Livre</span>
             </div>
             <div class="field">
               <label class="label">Andar:</label>
