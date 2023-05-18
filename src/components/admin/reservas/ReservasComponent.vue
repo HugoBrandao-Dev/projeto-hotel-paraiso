@@ -3,7 +3,7 @@
     <h1>Lista de reservas</h1>
     <hr>
     <div class="content">
-      <div class="columns mt-3">
+      <div class="columns">
         <div class="column is-half mx-auto">
           <div class="box">
             <h2>Filtro</h2>
@@ -30,7 +30,7 @@
       </div>
 
       <div class="buttons is-right">
-        <a href="/admin/reservas/new" class="button is-link is-large">
+        <a href="/admin/reservas/new" class="button is-primary is-large">
           Nova Reserva
         </a>
       </div>
