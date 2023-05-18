@@ -29,9 +29,6 @@
     </div>
 
     <div class="buttons is-right">
-      <button class="button is-ghost is-large">
-        Cadastrar Apartamento/Casa
-      </button>
       <a href="/admin/reservas/new" class="button is-link is-large">
         Nova Reserva
       </a>
