@@ -89,7 +89,7 @@
                           </span>
                         </router-link>
                           <router-link :to="{
-                              name: 'Ocupante',
+                              name: 'ApartmentEdit_admin',
                               params: {
                                 id: apartment.id
                               }
@@ -123,7 +123,7 @@
                   </span>
                 </router-link>
                 <router-link :to="{
-                  name: 'Ocupante',
+                  name: 'ApartmentEdit_admin',
                   params: {
                     id: apartment.id
                   }
