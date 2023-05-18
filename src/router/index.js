@@ -33,6 +33,7 @@ import AdminNewReservaComponent from '../components/admin/reservas/NewReservaCom
 import ApartmentsComponent from '../components/admin/apartments/ApartmentsComponent'
 import ApartmentComponent from '../components/admin/apartments/ApartmentComponent'
 import NewApartmentComponent from '../components/admin/apartments/NewApartmentComponent'
+import EditApartmentComponent from '../components/admin/apartments/EditApartmentComponent'
 
 Vue.use(VueRouter)
 
@@ -148,6 +149,11 @@ const routes = [
         path: 'apartment/:id',
         name: 'Apartment_admin',
         component: ApartmentComponent
+      },
+      {
+        path: 'apartment/edit/:id',
+        name: 'ApartmentEdit_admin',
+        component: EditApartmentComponent
       }
     ]
   }
