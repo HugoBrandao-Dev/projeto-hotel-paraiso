@@ -30,15 +30,19 @@
         </div>
       </div>
       <div v-else>
-        <p>N/A</p>
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title">
-              Filtro
-            </p>
-          </header>
-          <div class="card-content">
-            <div class="content">
+        <p class="has-text-danger">
+          <span class="icon is-large">
+            <i class="fas fa-ban fa-lg"></i>
+          </span>
+          <strong class="has-text-danger">N/A</strong>
+          <span class="icon is-large">
+            <i class="fas fa-ban fa-lg"></i>
+          </span>
+        </p>
+        <div class="columns">
+          <div class="column is-half mx-auto">
+            <div class="box">
+              <h2>Filtro</h2>
               <div class="field">
                 <label class="label">Pesquisar por:</label>
                 <div class="control">
