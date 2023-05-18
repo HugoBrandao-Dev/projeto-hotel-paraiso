@@ -217,6 +217,7 @@
   export default {
     data() {
       return {
+        isComodoCustom: false,
         modals: {
           rooms: {
             active: false
