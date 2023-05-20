@@ -89,14 +89,14 @@
           </div>
         </div>
       </div>
-
       <div class="field column is-one-quarter">
         <label class="label">Cidade/City:</label>
         <div class="control">
           <div class="select">
-            <select>
-              <option>São Paulo</option>
-              <option>São Bernardo do Campo</option>
+            <select v-model="form.iptCities.value">
+              <option v-for="item in cities" :key="item.id" :value="item.id">
+                {{ item.name }}
+              </option>
             </select>
           </div>
         </div>
@@ -230,6 +230,10 @@
           iptStates: {
             value: '',
             error: ''
+          },
+          iptCities: {
+            value: '',
+            error: ''
           }
         },
         masks: {
@@ -297,8 +301,6 @@
           for (let city of resCities.data) {
             this.cities.push(city)
           }
-
-          console.log(this.cities)
         } catch (error) {
           console.log(error)
         }
