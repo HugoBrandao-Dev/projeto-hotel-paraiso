@@ -54,11 +54,11 @@
         <span class="select">
           <select v-model="form.iptCountry.value">
             <option 
-              v-for="country in countries" 
-              :key="country"
-              :value="country"
+              v-for="item in countries" 
+              :key="item.iso2"
+              :value="item.iso2"
             >
-              {{ country }}
+              {{ item.name }}
             </option>
           </select>
         </span>
@@ -261,7 +261,10 @@
           let resCountries = await axios_countriesStatesCities.get('https://api.countrystatecity.in/v1/countries')
 
           for (let item of resCountries.data) {
-            this.countries.push(item.name)
+            this.countries.push({
+              iso2: item.iso2,
+              name: item.name
+            })
           }
         } catch (error) {
           console.log(error)
