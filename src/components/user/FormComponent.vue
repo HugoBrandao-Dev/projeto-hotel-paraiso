@@ -48,36 +48,28 @@
       </div>
       <!-- <p class="help">This is a help text</p> -->
     </div>
-    <div class="field">
-      <label class="label">País/Country:</label>
-      <p class="control has-icons-left">
-        <span class="select" :class="{'is-loading': !countries.length}">
-          <select v-model="form.iptCountry.value" @change="setStates()">
-            <option 
-              v-for="item in countries" 
-              :key="item.iso2"
-              :value="item.iso2"
-            >
-              {{ item.name }}
-            </option>
-          </select>
-        </span>
-        <span class="icon is-small is-left">
-          <i class="fas fa-globe"></i>
-        </span>
-      </p>
-    </div>
-
-    <div class="field">
-      <label class="label">CEP:</label>
-      <div class="control">
-        <imask-input class="input is-normal" type="text" :mask="masks.cep" placeholder="00000-000" />
-      </div>
-      <!-- <p class="help">This is a help text</p> -->
-    </div>
 
     <div class="columns">
-      <div class="field column is-one-quarter">
+      <div class="field column is-one-third">
+        <label class="label">País/Country:</label>
+        <p class="control has-icons-left">
+          <span class="select" :class="{'is-loading': !countries.length}">
+            <select v-model="form.iptCountry.value" @change="setStates()">
+              <option 
+                v-for="item in countries" 
+                :key="item.iso2"
+                :value="item.iso2"
+              >
+                {{ item.name }}
+              </option>
+            </select>
+          </span>
+          <span class="icon is-small is-left">
+            <i class="fas fa-globe"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field column is-one-third">
         <label class="label">Estado/State:</label>
         <div class="control">
           <div class="select" :class="{ 'is-loading': loadingStates }">
@@ -89,7 +81,7 @@
           </div>
         </div>
       </div>
-      <div class="field column is-one-quarter">
+      <div class="field column">
         <label class="label">Cidade/City:</label>
         <div class="control">
           <div class="select" :class="{ 'is-loading': loadingCities }">
@@ -102,6 +94,15 @@
         </div>
         <!-- <p class="help">This is a help text</p> -->
       </div>
+    </div>
+    
+
+    <div class="field">
+      <label class="label">CEP:</label>
+      <div class="control">
+        <imask-input class="input is-normal" type="text" :mask="masks.cep" placeholder="00000-000" />
+      </div>
+      <!-- <p class="help">This is a help text</p> -->
     </div>
 
     <div class="columns">
