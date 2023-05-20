@@ -48,15 +48,18 @@
       </div>
       <!-- <p class="help">This is a help text</p> -->
     </div>
-
     <div class="field">
       <label class="label">País/Country:</label>
       <p class="control has-icons-left">
         <span class="select">
-          <select>
-            <option selected>Brazil</option>
-            <option>England</option>
-            <option>China</option>
+          <select v-model="form.iptCountry.value">
+            <option 
+              v-for="country in countries" 
+              :key="country"
+              :value="country"
+            >
+              {{ country }}
+            </option>
           </select>
         </span>
         <span class="icon is-small is-left">
@@ -203,11 +206,26 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import { IMaskComponent }  from 'vue-imask'
+
+  let axios_countriesStatesCities = axios.create({
+    headers: {
+      'X-CSCAPI-KEY': 'UlRPNjR3OGhQOGhiRmloR0FWaDNwSGY2VzZIWlRKRzBNZDN5WUdPdQ=='
+    }
+  })
   
   export default {
     data() {
       return {
+        countries: [
+        ],
+        form: {
+          iptCountry: {
+            value: '',
+            error: ''
+          }
+        },
         masks: {
           cpf: '000.000.000-00',
           telefone: '+00 (00) 00000-0000',
@@ -223,6 +241,9 @@
     components: {
       'imask-input': IMaskComponent
     },
+    created() {
+      this.setCountries()
+    },
     props: {
       type: String
     },
@@ -235,6 +256,17 @@
       }
     },
     methods: {
+      async setCountries() {
+        try {
+          let resCountries = await axios_countriesStatesCities.get('https://api.countrystatecity.in/v1/countries')
+
+          for (let item of resCountries.data) {
+            this.countries.push(item.name)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      },
       openTermsConditions() {
         this.windows.termsConditions.active = true
       },
