@@ -82,8 +82,9 @@
         <div class="control">
           <div class="select">
             <select>
-              <option>SP</option>
-              <option>RJ</option>
+              <option v-for="item in states" :key="item.iso2" :value="item.id">
+                {{ item.iso2 }}
+              </option>
             </select>
           </div>
         </div>
@@ -224,6 +225,10 @@
           iptCountry: {
             value: '',
             error: ''
+          },
+          iptStates: {
+            value: '',
+            error: ''
           }
         },
         masks: {
@@ -280,8 +285,6 @@
               iso2: item.iso2
             })
           }
-
-          console.log(this.states)
         } catch (error) {
           console.log(error)
         }
