@@ -52,7 +52,7 @@
       <label class="label">País/Country:</label>
       <p class="control has-icons-left">
         <span class="select">
-          <select v-model="form.iptCountry.value">
+          <select v-model="form.iptCountry.value" @change="setStates()">
             <option 
               v-for="item in countries" 
               :key="item.iso2"
@@ -218,8 +218,8 @@
   export default {
     data() {
       return {
-        countries: [
-        ],
+        countries: [],
+        states: [],
         form: {
           iptCountry: {
             value: '',
@@ -266,6 +266,22 @@
               name: item.name
             })
           }
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      async setStates() {
+        try {
+          let resStates = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states`)
+
+          for (let item of resStates.data) {
+            this.states.push({
+              id: item.id,
+              iso2: item.iso2
+            })
+          }
+
+          console.log(this.states)
         } catch (error) {
           console.log(error)
         }
