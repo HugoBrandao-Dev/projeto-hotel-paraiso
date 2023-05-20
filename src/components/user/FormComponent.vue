@@ -81,7 +81,7 @@
         <label class="label">Estado/State:</label>
         <div class="control">
           <div class="select">
-            <select>
+            <select v-model="form.iptStates.value" @change="setCities()">
               <option v-for="item in states" :key="item.iso2" :value="item.id">
                 {{ item.iso2 }}
               </option>
@@ -221,6 +221,7 @@
       return {
         countries: [],
         states: [],
+        cities: [],
         form: {
           iptCountry: {
             value: '',
@@ -285,6 +286,19 @@
               iso2: item.iso2
             })
           }
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      async setCities() {
+        try {
+          let resCities = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/br/states/ms/cities`)
+
+          for (let city of resCities.data) {
+            this.cities.push(city)
+          }
+
+          console.log(this.cities)
         } catch (error) {
           console.log(error)
         }
