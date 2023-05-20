@@ -51,7 +51,7 @@
     <div class="field">
       <label class="label">País/Country:</label>
       <p class="control has-icons-left">
-        <span class="select">
+        <span class="select" :class="{'is-loading': !countries.length}">
           <select v-model="form.iptCountry.value" @change="setStates()">
             <option 
               v-for="item in countries" 
@@ -80,7 +80,7 @@
       <div class="field column is-one-quarter">
         <label class="label">Estado/State:</label>
         <div class="control">
-          <div class="select">
+          <div class="select" :class="{ 'is-loading': loadingStates }">
             <select v-model="form.iptStates.value" @change="setCities()">
               <option v-for="item in states" :key="item.iso2" :value="item.id">
                 {{ item.iso2 }}
@@ -92,7 +92,7 @@
       <div class="field column is-one-quarter">
         <label class="label">Cidade/City:</label>
         <div class="control">
-          <div class="select">
+          <div class="select" :class="{ 'is-loading': loadingCities }">
             <select v-model="form.iptCities.value">
               <option v-for="item in cities" :key="item.id" :value="item.id">
                 {{ item.name }}
@@ -258,6 +258,12 @@
       type: String
     },
     computed: {
+      loadingStates() {
+        return this.form.iptCountry.value && !this.states.length
+      },
+      loadingCities() {
+        return this.form.iptStates.value && !this.cities.length
+      },
       buttonValue() {
         if (this.type == 'update') {
           return { value: 'Atualizar', class: 'is-link' }
