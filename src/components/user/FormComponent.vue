@@ -65,7 +65,7 @@
         <label class="label">Estado/State:</label>
         <div class="control">
           <div class="select" :class="{ 'is-loading': loadingStates }">
-            <select v-model="form.iptStates.value" @change="setCities()">
+            <select v-model="form.iptState.value" @change="setCities()">
               <option v-for="item in states" :key="item.iso2" :value="item.iso2">
                 {{ item.iso2 }}
               </option>
@@ -241,7 +241,7 @@
             error: ''
           },
           phoneCode: '',
-          iptStates: {
+          iptState: {
             value: '',
             error: ''
           },
@@ -279,7 +279,7 @@
         return this.form.iptCountry.value && !this.states.length
       },
       loadingCities() {
-        return this.form.iptStates.value && !this.cities.length
+        return this.form.iptState.value && !this.cities.length
       },
       buttonValue() {
         if (this.type == 'update') {
@@ -306,7 +306,7 @@
       async setStatesAndPhoneCode() {
         try {
           this.states = []
-          this.form.iptStates.value = ''
+          this.form.iptState.value = ''
           this.cities = []
           this.form.iptCities.value = ''
 
@@ -330,7 +330,7 @@
           this.cities = []
           this.form.iptCities.value = ''
 
-          let resCities = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states/${ this.form.iptStates.value }/cities`)
+          let resCities = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states/${ this.form.iptState.value }/cities`)
 
           for (let city of resCities.data) {
             this.cities.push(city)
