@@ -100,7 +100,7 @@
     <div class="field" v-show="form.iptCountry.value == 'BR'">
       <label class="label">CEP:</label>
       <div class="control">
-        <imask-input class="input is-normal" type="text" :mask="masks.cep" placeholder="00000-000" />
+        <imask-input class="input is-normal" type="text" :mask="masks.cep" placeholder="00000-000" :disabled="disableCEP" />
       </div>
       <!-- <p class="help">This is a help text</p> -->
     </div>
@@ -259,6 +259,9 @@
       type: String
     },
     computed: {
+      disableCEP() {
+        return this.form.iptCities.value.toString().length > 0
+      },
       loadingStates() {
         return this.form.iptCountry.value && !this.states.length
       },
