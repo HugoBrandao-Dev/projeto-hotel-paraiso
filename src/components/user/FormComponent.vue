@@ -66,7 +66,12 @@
         <div class="control">
           <div class="select" :class="{ 'is-loading': loadingStates }">
             <select v-model="form.iptState.value" @change="setCities()">
-              <option v-for="item in states" :key="item.iso2" :value="item.iso2">
+              <option 
+                v-for="item in states" 
+                :key="item.iso2" 
+                :value="item.iso2"
+                :selected="item.iso2 == form.iptState.value"
+              >
                 {{ item.iso2 }}
               </option>
             </select>
@@ -78,7 +83,12 @@
         <div class="control">
           <div class="select" :class="{ 'is-loading': loadingCities }">
             <select v-model="form.iptCity.value">
-              <option v-for="item in cities" :key="item.id" :value="item.id">
+              <option 
+                v-for="item in cities" 
+                :key="item.name" 
+                :value="item.name"
+                :selected="item.name == form.iptCity.value"
+              >
                 {{ item.name }}
               </option>
             </select>
@@ -308,20 +318,27 @@
       }
     },
     watch: {
-      'form.iptCEP.value': function(cep) {
+      'form.iptCEP.value': async function(cep) {
         if (cep.length == 8) {
-          axios.get(`https://viacep.com.br/ws/${ cep }/json/`)
-            .then(response => {
-              this.form.iptNeighborhood.value = response.data.bairro
-              this.form.iptRoad.value = response.data.logradouro
-            })
-            .catch(error => {
-              console.log(error)
-            })
+          try {
+            let resCEP = await axios.get(`https://viacep.com.br/ws/${ cep }/json/`)
+            this.form.iptNeighborhood.value = resCEP.data.bairro
+            this.form.iptRoad.value = resCEP.data.logradouro
+            this.form.iptState.value = resCEP.data.uf
+            this.form.iptCity.value = resCEP.data.localidade
+
+            await this.setStatesAndPhoneCode(false)
+            await this.setCities(false)
+          } catch (error) {
+            console.log(error)
+          }
         }
       }
     },
     methods: {
+      showValues() {
+        console.log(this.form.iptState.value, this.form.iptCity.value)
+      },
       async setCountries() {
         try {
           let resCountries = await axios_countriesStatesCities.get('https://api.countrystatecity.in/v1/countries')
@@ -336,12 +353,15 @@
           console.log(error)
         }
       },
-      async setStatesAndPhoneCode() {
+      async setStatesAndPhoneCode(cepDisabled = true) {
         try {
           this.states = []
-          this.form.iptState.value = ''
           this.cities = []
-          this.form.iptCity.value = ''
+
+          if (cepDisabled) {
+            this.form.iptState.value = ''
+            this.form.iptCity.value = ''
+          }
 
           let resStates = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states`)
           let resCountry = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }`)
@@ -358,10 +378,13 @@
           console.log(error)
         }
       },
-      async setCities() {
+      async setCities(cepDisabled = true) {
         try {
           this.cities = []
-          this.form.iptCity.value = ''
+
+          if (cepDisabled) {
+            this.form.iptCity.value = ''
+          }
 
           let resCities = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states/${ this.form.iptState.value }/cities`)
 
