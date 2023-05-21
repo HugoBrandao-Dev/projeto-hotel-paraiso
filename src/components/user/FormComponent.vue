@@ -108,11 +108,18 @@
         </div>
       </div>
     </div>
-
     <div class="field" v-show="form.iptCountry.value == 'BR'">
       <label class="label">CEP:</label>
       <div class="control">
-        <imask-input class="input is-normal" type="text" :mask="masks.cep" placeholder="00000-000" :disabled="disableCEP" />
+        <imask-input 
+          class="input is-normal"
+          type="text"
+          v-model="form.iptCEP.value"
+          :mask="masks.cep"
+          :unmask="true"
+          placeholder="00000-000"
+          :disabled="disableCEP"
+        />
       </div>
       <!-- <p class="help">This is a help text</p> -->
     </div>
@@ -248,6 +255,10 @@
           iptCity: {
             value: '',
             error: ''
+          },
+          iptCEP: {
+            value: '',
+            error: ''
           }
         },
         masks: {
@@ -286,6 +297,19 @@
           return { value: 'Atualizar', class: 'is-link' }
         }
         return { value: 'Cadastrar', class: 'is-primary' }
+      }
+    },
+    watch: {
+      'form.iptCEP.value': function(cep) {
+        if (cep.length == 8) {
+          axios.get(`https://viacep.com.br/ws/${ cep }/json/`)
+            .then(response => {
+              console.log(response.data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        }
       }
     },
     methods: {
