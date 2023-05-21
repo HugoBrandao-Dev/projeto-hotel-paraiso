@@ -65,7 +65,7 @@
         <label class="label">Estado/State:</label>
         <div class="control">
           <div class="select" :class="{ 'is-loading': loadingStates }">
-            <select v-model="form.iptState.value" @change="setCities()">
+            <select v-model="form.iptState.value" @change="setCities()" :disabled="disableStatesAndCitiesFields">
               <option 
                 v-for="item in states" 
                 :key="item.iso2" 
@@ -82,7 +82,7 @@
         <label class="label">Cidade/City:</label>
         <div class="control">
           <div class="select" :class="{ 'is-loading': loadingCities }">
-            <select v-model="form.iptCity.value">
+            <select v-model="form.iptCity.value" :disabled="disableStatesAndCitiesFields">
               <option 
                 v-for="item in cities" 
                 :key="item.name" 
@@ -302,7 +302,11 @@
     },
     computed: {
       disableCEP() {
-        return this.form.iptCity.value.toString().length > 0
+        let cepString = this.form.iptCity.value.toString()
+        return cepString.length > 0 && this.form.iptCEP.value.length == 0
+      },
+      disableStatesAndCitiesFields() {
+        return this.form.iptCEP.value.length > 0
       },
       loadingStates() {
         return this.form.iptCountry.value && !this.states.length
