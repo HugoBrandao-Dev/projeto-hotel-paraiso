@@ -128,7 +128,7 @@
       <div class="field column is-one-third">
         <label class="label">Bairro:</label>
         <div class="control">
-          <input class="input is-normal" type="text" placeholder="Nome do bairro onde você reside.">
+          <input class="input is-normal" type="text" v-model="form.iptNeighborhood.value" placeholder="Nome do bairro onde você reside.">
         </div>
         <!-- <p class="help">This is a help text</p> -->
       </div>
@@ -136,7 +136,7 @@
       <div class="field column is-one-third">
         <label class="label">Rua/Avenida:</label>
         <div class="control">
-          <input class="input is-normal" type="text" placeholder="Nome da rua/Av. Um exemplo">
+          <input class="input is-normal" type="text" v-model="form.iptRoad.value" placeholder="Nome da rua/Av. Um exemplo">
         </div>
         <!-- <p class="help">This is a help text</p> -->
       </div>
@@ -259,6 +259,14 @@
           iptCEP: {
             value: '',
             error: ''
+          },
+          iptNeighborhood: {
+            value: '',
+            error: ''
+          },
+          iptRoad: {
+            value: '',
+            error: ''
           }
         },
         masks: {
@@ -304,7 +312,8 @@
         if (cep.length == 8) {
           axios.get(`https://viacep.com.br/ws/${ cep }/json/`)
             .then(response => {
-              console.log(response.data)
+              this.form.iptNeighborhood.value = response.data.bairro
+              this.form.iptRoad.value = response.data.logradouro
             })
             .catch(error => {
               console.log(error)
