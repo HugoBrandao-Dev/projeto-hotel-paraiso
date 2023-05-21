@@ -33,14 +33,6 @@
         </div>
     </div>
 
-    <div class="field">
-      <label class="label">CPF:</label>
-      <div class="control">
-        <imask-input class="input is-normal" type="text" :mask="masks.cpf" placeholder="000.000.000-00" />
-      </div>
-      <!-- <p class="help">This is a help text</p> -->
-    </div>
-
     <div class="columns">
       <div class="field column is-one-third">
         <label class="label">País/Country:</label>
@@ -93,6 +85,23 @@
               </option>
             </select>
           </div>
+        </div>
+        <!-- <p class="help">This is a help text</p> -->
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="field column is-half">
+        <label class="label">CPF:</label>
+        <div class="control">
+          <imask-input class="input is-normal" type="text" :mask="masks.cpf" placeholder="000.000.000-00" />
+        </div>
+        <!-- <p class="help">This is a help text</p> -->
+      </div>
+      <div class="field column">
+        <label class="label">Passport Number:</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="0A0A0A0A0A">
         </div>
         <!-- <p class="help">This is a help text</p> -->
       </div>
