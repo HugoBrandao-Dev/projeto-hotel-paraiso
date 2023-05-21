@@ -77,7 +77,7 @@
         <label class="label">Cidade/City:</label>
         <div class="control">
           <div class="select" :class="{ 'is-loading': loadingCities }">
-            <select v-model="form.iptCities.value">
+            <select v-model="form.iptCity.value">
               <option v-for="item in cities" :key="item.id" :value="item.id">
                 {{ item.name }}
               </option>
@@ -245,7 +245,7 @@
             value: '',
             error: ''
           },
-          iptCities: {
+          iptCity: {
             value: '',
             error: ''
           }
@@ -273,7 +273,7 @@
     },
     computed: {
       disableCEP() {
-        return this.form.iptCities.value.toString().length > 0
+        return this.form.iptCity.value.toString().length > 0
       },
       loadingStates() {
         return this.form.iptCountry.value && !this.states.length
@@ -308,7 +308,7 @@
           this.states = []
           this.form.iptState.value = ''
           this.cities = []
-          this.form.iptCities.value = ''
+          this.form.iptCity.value = ''
 
           let resStates = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states`)
           let resCountry = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }`)
@@ -328,7 +328,7 @@
       async setCities() {
         try {
           this.cities = []
-          this.form.iptCities.value = ''
+          this.form.iptCity.value = ''
 
           let resCities = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states/${ this.form.iptState.value }/cities`)
 
