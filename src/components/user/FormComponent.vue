@@ -41,14 +41,6 @@
       <!-- <p class="help">This is a help text</p> -->
     </div>
 
-    <div class="field">
-      <label class="label">Telefone:</label>
-      <div class="control">
-        <imask-input class="input is-normal" type="tel" :mask="masks.telefone" placeholder="+00 (00) 00000-0000" />
-      </div>
-      <!-- <p class="help">This is a help text</p> -->
-    </div>
-
     <div class="columns">
       <div class="field column is-one-third">
         <label class="label">País/Country:</label>
@@ -96,6 +88,26 @@
       </div>
     </div>
     
+    <div class="field">
+      <label class="label">Telefone:</label>
+      <div class="field-label">        
+      </div>
+      <div class="field-body">
+        <div class="field is-expanded">
+          <div class="field has-addons">
+            <p class="control">
+              <a class="button is-static">
+                +{{ 55 }}
+              </a>
+            </p>
+            <p class="control is-expanded">
+              <imask-input class="input is-normal" type="tel" :mask="masks.telefone" placeholder="(00) 00000-0000" />
+            </p>
+          </div>
+          <!-- <p class="help">Do not enter the first zero</p> -->
+        </div>
+      </div>
+    </div>
 
     <div class="field" v-show="form.iptCountry.value == 'BR'">
       <label class="label">CEP:</label>
@@ -239,7 +251,7 @@
         },
         masks: {
           cpf: '000.000.000-00',
-          telefone: '+00 (00) 00000-0000',
+          telefone: '(00) 00000-0000',
           cep: '00000-000'
         },
         windows: {
