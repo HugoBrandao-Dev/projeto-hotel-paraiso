@@ -46,7 +46,7 @@
         <label class="label">País/Country:</label>
         <p class="control has-icons-left">
           <span class="select" :class="{'is-loading': !countries.length}">
-            <select v-model="form.iptCountry.value" @change="setStates()">
+            <select v-model="form.iptCountry.value" @change="setStatesAndPhoneCode()">
               <option 
                 v-for="item in countries" 
                 :key="item.iso2"
@@ -97,7 +97,7 @@
           <div class="field has-addons">
             <p class="control">
               <a class="button is-static">
-                +{{ 55 }}
+                +{{ form.phoneCode }}
               </a>
             </p>
             <p class="control is-expanded">
@@ -240,6 +240,7 @@
             value: '',
             error: ''
           },
+          phoneCode: '',
           iptStates: {
             value: '',
             error: ''
@@ -302,7 +303,7 @@
           console.log(error)
         }
       },
-      async setStates() {
+      async setStatesAndPhoneCode() {
         try {
           this.states = []
           this.form.iptStates.value = ''
@@ -310,6 +311,9 @@
           this.form.iptCities.value = ''
 
           let resStates = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states`)
+          let resCountry = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }`)
+
+          this.form.phoneCode = resCountry.data.phonecode
 
           for (let item of resStates.data) {
             this.states.push({
