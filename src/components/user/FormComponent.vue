@@ -101,7 +101,7 @@
       <div class="field column">
         <label class="label">Passport Number:</label>
         <div class="control">
-          <input class="input" type="text" placeholder="0A0A0A0A0A">
+          <imask-input class="input is-normal" type="text" :mask="masks.passportNumber.custom" placeholder="0A0A0A0A0A" />
         </div>
         <!-- <p class="help">This is a help text</p> -->
       </div>
@@ -291,7 +291,11 @@
         masks: {
           cpf: '000.000.000-00',
           telefone: '(00) 00000-0000',
-          cep: '00000-000'
+          cep: '00000-000',
+          passportNumber: {
+            custom: '*********',
+            maxLength: 9
+          }
         },
         windows: {
           termsConditions: {
