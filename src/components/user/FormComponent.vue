@@ -74,7 +74,7 @@
         <div class="control">
           <div class="select" :class="{ 'is-loading': loadingStates }">
             <select v-model="form.iptStates.value" @change="setCities()">
-              <option v-for="item in states" :key="item.iso2" :value="item.id">
+              <option v-for="item in states" :key="item.iso2" :value="item.iso2">
                 {{ item.iso2 }}
               </option>
             </select>
@@ -289,6 +289,11 @@
       },
       async setStates() {
         try {
+          this.states = []
+          this.form.iptStates.value = ''
+          this.cities = []
+          this.form.iptCities.value = ''
+
           let resStates = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states`)
 
           for (let item of resStates.data) {
@@ -303,7 +308,10 @@
       },
       async setCities() {
         try {
-          let resCities = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/br/states/ms/cities`)
+          this.cities = []
+          this.form.iptCities.value = ''
+          
+          let resCities = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states/${ this.form.iptStates.value }/cities`)
 
           for (let city of resCities.data) {
             this.cities.push(city)
