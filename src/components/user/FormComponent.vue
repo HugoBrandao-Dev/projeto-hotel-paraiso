@@ -97,7 +97,7 @@
     </div>
     
 
-    <div class="field">
+    <div class="field" v-show="form.iptCountry.value == 'BR'">
       <label class="label">CEP:</label>
       <div class="control">
         <imask-input class="input is-normal" type="text" :mask="masks.cep" placeholder="00000-000" />
@@ -310,7 +310,7 @@
         try {
           this.cities = []
           this.form.iptCities.value = ''
-          
+
           let resCities = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states/${ this.form.iptStates.value }/cities`)
 
           for (let city of resCities.data) {
