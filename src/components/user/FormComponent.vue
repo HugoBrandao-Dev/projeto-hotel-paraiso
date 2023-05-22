@@ -193,10 +193,26 @@
       </div>
       <div class="field column is-half" v-show="form.iptCountry.value != 'BR'">
         <label class="label">Passport Number:</label>
-        <div class="control">
-          <imask-input class="input is-normal" type="text" :mask="masks.passportNumber.custom" placeholder="0A0A0A0A0A" />
+        <div class="control" :class="{ 'has-icons-right': form.iptPassportNumber.hasError }">
+          <imask-input 
+            class="input"
+            :class="{
+              'is-normal': !form.iptPassportNumber.hasError,
+              'is-danger': form.iptPassportNumber.hasError
+            }"
+            type="text"
+            :mask="masks.passportNumber.custom"
+            :unmask="true"
+            v-model="form.iptPassportNumber.value"
+            placeholder="0A0A0A0A0A"
+          />
+          <span class="icon is-small is-right" v-show="form.iptPassportNumber.hasError">
+            <i class="fas fa-exclamation-triangle"></i>
+          </span>
         </div>
-        <!-- <p class="help">This is a help text</p> -->
+        <p class="help" :class="{ 'is-danger': form.iptPassportNumber.hasError }">
+          {{ form.iptPassportNumber.error }}
+        </p>
       </div>
     </div>
     
@@ -392,7 +408,11 @@
             hasError: false,
             error: ''
           },
-
+          iptPassportNumber: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
           iptCEP: {
             value: '',
             error: ''
