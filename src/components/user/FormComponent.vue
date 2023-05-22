@@ -24,10 +24,24 @@
 
     <div class="field">
       <label class="label">Email:</label>
-      <div class="control">
-        <input class="input is-normal" type="email" placeholder="exemplo@hotmail.com">
+      <div class="control" :class="{ 'has-icons-right': form.iptEmail.hasError }">
+        <input 
+          class="input"
+          :class="{
+            'is-normal': !form.iptEmail.hasError,
+            'is-danger': form.iptEmail.hasError
+          }"
+          v-model="form.iptEmail.value"
+          type="email"
+          placeholder="exemplo@hotmail.com"
+        />
+        <span class="icon is-small is-right" v-show="form.iptEmail.hasError">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
       </div>
-      <!-- <p class="help">This is a help text</p> -->
+      <p class="help" :class="{ 'is-danger': form.iptEmail.hasError }">
+        {{ form.iptEmail.error }}
+      </p>
     </div>
 
     <div class="box columns mt-2">
@@ -277,6 +291,11 @@
         cities: [],
         form: {
           iptName: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptEmail: {
             value: '',
             hasError: false,
             error: ''
