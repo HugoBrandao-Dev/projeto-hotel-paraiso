@@ -45,20 +45,42 @@
     </div>
 
     <div class="box columns mt-2">
-        <div class="field column is-half">
-          <label class="label">Senha:</label>
-          <div class="control">
-            <input type="password" class="input is-normal"/>
-          </div>
-          <!-- <p class="help">This is a help text</p> -->
+      <div class="field column is-half">
+        <label class="label">Senha:</label>
+        <div class="control" :class="{ 'has-icons-right': form.iptPassword.hasError }">
+          <input 
+            type="password" 
+            class="input is-normal"
+            :class="{
+              'is-normal': !form.iptPassword.hasError,
+              'is-danger': form.iptPassword.hasError
+            }"
+            v-model="form.iptPassword.value2"
+          />
+          <span class="icon is-small is-right" v-show="form.iptPassword.hasError">
+            <i class="fas fa-exclamation-triangle"></i>
+          </span>
         </div>
-        <div class="field column">
-          <label class="label">Repita sua senha:</label>
-          <div class="control">
-            <input type="password" class="input is-normal"/>
-          </div>
-          <!-- <p class="help">This is a help text</p> -->
+        <p class="help" :class="{ 'is-danger': form.iptPassword.hasError }">
+          {{ form.iptPassword.error }}
+        </p>
+      </div>
+      <div class="field column">
+        <label class="label">Repita sua senha:</label>
+        <div class="control" :class="{ 'has-icons-right': form.iptPassword.hasError }">
+          <input 
+            type="password" 
+            class="input is-normal"
+            :class="{
+              'is-normal': !form.iptPassword.hasError,
+              'is-danger': form.iptPassword.hasError
+            }"
+          />
+          <span class="icon is-small is-right" v-show="form.iptPassword.hasError">
+            <i class="fas fa-exclamation-triangle"></i>
+          </span>
         </div>
+      </div>
     </div>
 
     <div class="columns">
@@ -297,6 +319,12 @@
           },
           iptEmail: {
             value: '',
+            hasError: false,
+            error: ''
+          },
+          iptPassword: {
+            value1: '',
+            value2: '',
             hasError: false,
             error: ''
           },
