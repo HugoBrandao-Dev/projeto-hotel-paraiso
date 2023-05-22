@@ -167,15 +167,11 @@
     </div>
 
     <div class="columns">
-      <div 
-        class="field column is-half"
-        :class="{ 'has-icons-right': form.iptCPF.hasError }"
-        v-show="form.iptCountry.value == 'BR'"
-      >
+      <div class="field column is-half">
         <label class="label">CPF:</label>
-        <div class="control">
+        <div class="control" :class="{ 'has-icons-right': form.iptCPF.hasError }">
           <imask-input 
-            class="input is-normal"
+            class="input"
             :class="{
               'is-normal': !form.iptCPF.hasError,
               'is-danger': form.iptCPF.hasError
@@ -186,12 +182,15 @@
             placeholder="000.000.000-00"
             v-model="form.iptCPF.value"
           />
+          <span class="icon is-small is-right" v-show="form.iptCPF.hasError">
+            <i class="fas fa-exclamation-triangle"></i>
+          </span>
         </div>
         <p class="help" :class="{ 'is-danger': form.iptCPF.hasError }">
           {{ form.iptCPF.error }}
         </p>
       </div>
-      <div class="field column is-half" v-show="form.iptCountry.value != 'BR'">
+      <div class="field column is-half">
         <label class="label">Passport Number:</label>
         <div class="control" :class="{ 'has-icons-right': form.iptPassportNumber.hasError }">
           <imask-input 
