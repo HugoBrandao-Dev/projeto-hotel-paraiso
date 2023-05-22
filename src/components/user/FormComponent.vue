@@ -2,10 +2,24 @@
   <fieldset>
     <div class="field">
       <label class="label">Nome:</label>
-      <div class="control">
-        <input class="input is-normal" type="text" placeholder="Nome completo">
+      <div class="control" :class="{ 'has-icons-right': form.iptName.hasError }">
+        <input 
+          class="input"
+          :class="{
+            'is-normal': !form.iptName.hasError,
+            'is-danger': form.iptName.hasError
+          }"
+          type="text"
+          placeholder="Nome completo"
+          v-model="form.iptName.value"
+        />
+        <span class="icon is-small is-right" v-show="form.iptName.hasError">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
       </div>
-      <!-- <p class="help">This is a help text</p> -->
+      <p class="help" :class="{ 'is-danger': form.iptName.hasError }">
+        {{ form.iptName.error }}
+      </p>
     </div>
 
     <div class="field">
@@ -262,6 +276,11 @@
         states: [],
         cities: [],
         form: {
+          iptName: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
           iptCountry: {
             value: '',
             error: ''
