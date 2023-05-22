@@ -168,7 +168,16 @@
 
     <div class="columns">
       <div class="field column is-half">
-        <label class="label">CPF:</label>
+        <label class="label">
+          CPF:
+          <span 
+            v-show="!disablePassportNumber"
+            class="icon has-text-info"
+            title="Required only for Brazilians."
+          >
+            <i class="fas fa-info-circle"></i>
+          </span>
+        </label>
         <div class="control" :class="{ 'has-icons-right': form.iptCPF.hasError }">
           <imask-input 
             class="input"
@@ -192,7 +201,16 @@
         </p>
       </div>
       <div class="field column is-half">
-        <label class="label">Passport Number:</label>
+        <label class="label">
+          Passport Number:
+          <span 
+            v-show="disablePassportNumber"
+            class="icon has-text-info"
+            title="Necessário somente para estrangeiros."
+          >
+            <i class="fas fa-info-circle"></i>
+          </span>
+        </label>
         <div class="control" :class="{ 'has-icons-right': form.iptPassportNumber.hasError }">
           <imask-input 
             class="input"
