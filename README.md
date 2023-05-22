@@ -39,6 +39,10 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 * Vue JS 2: Framework JavaScript, usado desde o projeto base;
 * Bulma: Framework CSS para facilitar na estilização dos novos elementos da página.
 
+### API(s) e Webservice(s)
+* [Country State City](https://countrystatecity.in/): __API__ para a listagem de países, seus estados e suas cidades;
+* [ViaCEP](https://viacep.com.br/): __Webservice__ para busca de informações de endereços (bairro, rua, DDD, etc.) dentro do Brasil, a partir do CEP.
+
 ### Outra(s)
 * Vue-router: Ferramenta para criação de rotas para as seções do site;
 * Vue-imask: Pacote para utilização de máscaras nos campos do input;
