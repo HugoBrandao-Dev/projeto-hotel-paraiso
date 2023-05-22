@@ -115,7 +115,13 @@
       <div class="field column is-one-third">
         <label class="label">Estado/State:</label>
         <div class="control">
-          <div class="select" :class="{ 'is-loading': loadingStates }">
+          <div 
+            class="select"
+            :class="{
+              'is-loading': loadingStates,
+              'is-danger': form.iptState.hasError
+            }"
+          >
             <select v-model="form.iptState.value" @change="setCities()" :disabled="disableStatesAndCitiesFields">
               <option 
                 v-for="item in states" 
@@ -128,6 +134,9 @@
             </select>
           </div>
         </div>
+        <p class="help" :class="{ 'is-danger': form.iptState.hasError }">
+          {{ form.iptState.error }}
+        </p>
       </div>
       <div class="field column">
         <label class="label">Cidade/City:</label>
@@ -345,6 +354,7 @@
           phoneCode: '',
           iptState: {
             value: '',
+            hasError: false,
             error: ''
           },
           iptCity: {
