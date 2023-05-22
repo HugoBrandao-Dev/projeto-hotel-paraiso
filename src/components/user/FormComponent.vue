@@ -141,7 +141,13 @@
       <div class="field column">
         <label class="label">Cidade/City:</label>
         <div class="control">
-          <div class="select" :class="{ 'is-loading': loadingCities }">
+          <div
+            class="select"
+            :class="{
+              'is-loading': loadingCities,
+              'is-danger': form.iptCity.hasError
+            }"
+          >
             <select v-model="form.iptCity.value" :disabled="disableStatesAndCitiesFields">
               <option 
                 v-for="item in cities" 
@@ -154,7 +160,9 @@
             </select>
           </div>
         </div>
-        <!-- <p class="help">This is a help text</p> -->
+        <p class="help" :class="{'is-danger': form.iptCity.hasError}">
+          {{ form.iptCity.error }}
+        </p>
       </div>
     </div>
 
@@ -359,6 +367,7 @@
           },
           iptCity: {
             value: '',
+            hasError: false,
             error: ''
           },
           iptCEP: {
