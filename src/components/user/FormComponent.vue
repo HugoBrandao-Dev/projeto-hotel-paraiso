@@ -179,8 +179,9 @@
             type="text"
             :mask="masks.cpf"
             :unmask="true"
-            placeholder="000.000.000-00"
             v-model="form.iptCPF.value"
+            placeholder="000.000.000-00"
+            :disabled="!disablePassportNumber"
           />
           <span class="icon is-small is-right" v-show="form.iptCPF.hasError">
             <i class="fas fa-exclamation-triangle"></i>
