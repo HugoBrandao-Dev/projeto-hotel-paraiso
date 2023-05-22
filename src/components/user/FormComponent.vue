@@ -218,8 +218,7 @@
     
     <div class="field">
       <label class="label">Telefone:</label>
-      <div class="field-label">        
-      </div>
+      <div class="field-label"></div>
       <div class="field-body">
         <div class="field is-expanded">
           <div class="field has-addons">
@@ -229,10 +228,23 @@
               </a>
             </p>
             <p class="control is-expanded">
-              <imask-input class="input is-normal" type="tel" :mask="masks.telefone" placeholder="(00) 00000-0000" />
+              <imask-input 
+                class="input"
+                :class="{
+                  'is-normal': !form.iptPhoneNumber.hasError,
+                  'is-danger': form.iptPhoneNumber.hasError
+                }"
+                type="tel"
+                :mask="masks.telefone"
+                :unmask="true"
+                v-model="form.iptPhoneNumber.value"
+                placeholder="(00) 00000-0000"
+              />
             </p>
           </div>
-          <!-- <p class="help">Do not enter the first zero</p> -->
+          <p class="help" :class="{ 'is-danger': form.iptPhoneNumber.hasError }">
+            {{ form.iptPhoneNumber.error }}
+          </p>
         </div>
       </div>
     </div>
@@ -409,6 +421,11 @@
             error: ''
           },
           iptPassportNumber: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptPhoneNumber: {
             value: '',
             hasError: false,
             error: ''
