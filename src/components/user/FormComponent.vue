@@ -87,7 +87,13 @@
       <div class="field column is-one-third">
         <label class="label">País/Country:</label>
         <p class="control has-icons-left">
-          <span class="select" :class="{'is-loading': !countries.length}">
+          <span 
+            class="select" 
+            :class="{
+              'is-loading': !countries.length,
+              'is-danger': form.iptCountry.hasError
+            }"
+          >
             <select v-model="form.iptCountry.value" @change="setStatesAndPhoneCode()">
               <option 
                 v-for="item in countries" 
@@ -101,6 +107,9 @@
           <span class="icon is-small is-left">
             <i class="fas fa-globe"></i>
           </span>
+        </p>
+        <p class="help" :class="{ 'is-danger': form.iptCountry.hasError }">
+          {{ form.iptCountry.error }}
         </p>
       </div>
       <div class="field column is-one-third">
@@ -330,6 +339,7 @@
           },
           iptCountry: {
             value: '',
+            hasError: false,
             error: ''
           },
           phoneCode: '',
