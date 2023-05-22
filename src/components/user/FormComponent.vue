@@ -204,6 +204,7 @@
             :unmask="true"
             v-model="form.iptPassportNumber.value"
             placeholder="0A0A0A0A0A"
+            :disabled="disablePassportNumber"
           />
           <span class="icon is-small is-right" v-show="form.iptPassportNumber.hasError">
             <i class="fas fa-exclamation-triangle"></i>
@@ -468,6 +469,9 @@
       type: String
     },
     computed: {
+      disablePassportNumber() {
+        return this.form.iptCountry.value == 'BR'
+      },
       disableCEP() {
         let cepString = this.form.iptCity.value.toString()
         return cepString.length > 0 && this.form.iptCEP.value.length == 0
