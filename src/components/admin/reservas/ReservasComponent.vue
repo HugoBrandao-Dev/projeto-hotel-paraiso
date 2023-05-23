@@ -27,8 +27,18 @@
               <div class="field column">
                 <label class="label">Número:</label>
                 <div class="control">
-                  <input type="number" class="input">
+                  <input 
+                    type="number" 
+                    class="input"
+                    :class="{
+                      'is-danger': search.iptNumber.hasError
+                    }"
+                    v-model="search.iptNumber.value"
+                  />
                 </div>
+                <p class="help" :class="{ 'is-danger': search.iptNumber.hasError }">
+                  {{ search.iptNumber.error }}
+                </p>
               </div>
             </div>
             <div class="buttons is-right">
@@ -172,6 +182,11 @@
         search: {
           type: 'apartamento',
           iptFloor: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptNumber: {
             value: '',
             hasError: false,
             error: ''
