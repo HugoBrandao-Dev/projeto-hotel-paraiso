@@ -384,10 +384,16 @@
     <div class="field">
       <div class="control">
         <label class="checkbox">
-          <input type="checkbox">
+          <input type="checkbox" v-model="form.ckbTermsConditions.value">
           Eu aceito os <a @click.stop.prevent="openTermsConditions()">Termos e Condições.</a>
         </label>
+        <span class="icon is-small is-right ml-2" v-show="form.ckbTermsConditions.hasError">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
       </div>
+      <p class="help" :class="{ 'is-danger': form.ckbTermsConditions.hasError }">
+        {{ form.ckbTermsConditions.error }}
+      </p>
     </div>
 
     <div class="field is-grouped is-grouped-centered">
@@ -535,6 +541,11 @@
           },
           iptAddInformation: {
             value: '',
+            hasError: false,
+            error: ''
+          },
+          ckbTermsConditions: {
+            value: false,
             hasError: false,
             error: ''
           }
