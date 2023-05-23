@@ -7,37 +7,65 @@
         <div class="column is-half mx-auto">
           <div class="box">
             <h2>Filtro</h2>
-            <div class="content is-flex is-flex-direction-column is-align-items-center">
+            <div class="content">
               <div class="field">
                 <label class="label">Pesquisar por:</label>
                 <div class="control">
                   <label class="radio">
-                    <input type="radio" checked name="tipo-pesquisa" value="nome" v-model="searchType">
+                    <input type="radio" checked name="tipo-pesquisa" value="nome" v-model="search.type">
                     Nome
                   </label>
                   <label class="radio">
-                    <input type="radio" name="tipo-pesquisa" value="cpf" v-model="searchType">
+                    <input type="radio" name="tipo-pesquisa" value="cpf" v-model="search.type">
                       CPF
                   </label>
                 </div>
               </div>
-              <div class="field has-addons mt-3">
-                <div class="control">
-                  <input v-if="searchType == 'nome'" class="input" type="text" placeholder="Tobias de Oliveira">
-                  <imask-input v-else class="input" type="text" placeholder="000.000.000-00" :mask="masks.cpf"/>
-                </div>
-                <div class="control">
+              <div class="field is-grouped" v-if="search.type == 'nome'">
+                <p class="control is-expanded" :class="{ 'has-icons-right': search.iptName.hasError }">
+                  <input
+                    class="input"
+                    :class="{
+                      'is-normal': search.iptName.hasError,
+                      'is-danger': search.iptName.hasError
+                    }"
+                    type="text"
+                    placeholder="Tobias de Oliveira"
+                    v-model="search.iptName.value"
+                  />
+                  <span class="icon is-small is-right" v-show="search.iptName.hasError">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
+                </p>
+                <p class="control">
                   <a class="button is-info">
-                    <i class="fas fa-search"></i>
+                    Pesquisar
                   </a>
-                </div>
+                </p>
               </div>
+              <div class="field is-grouped" v-else>
+                <p class="control is-expanded">
+                  <imask-input
+                    class="input" 
+                    type="text" 
+                    placeholder="000.000.000-00" 
+                    :mask="masks.cpf"
+                  />
+                </p>
+                <p class="control">
+                  <a class="button is-info">
+                    Pesquisar
+                  </a>
+                </p>
+              </div>
+              <p class="help" :class="{ 'is-danger': search.iptName.error }">
+                  {{ search.iptName.error }}
+                </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-   
     <table class="table is-striped is-fullwidth">
       <thead>
         <tr>
@@ -162,7 +190,19 @@
           { id: 3, nome: 'Josias Cruz', cpf: '33333333333', telefone: '55119333333333', reservas_ativas: '1' },
           { id: 4, nome: 'Doralice Cruz', cpf: '44444444444', telefone: '55119444444444', reservas_ativas: '1' }
         ],
-        searchType: 'nome'
+        search: {
+          type: 'nome',
+          iptName: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptCPF: {
+            value: '',
+            hasError: true,
+            error: 'Nome inválido.'
+          }
+        }
       }
     },
     methods: {
