@@ -11,8 +11,18 @@
               <div class="field column is-half">
                 <label class="label">Andar:</label>
                 <div class="control">
-                  <input type="number" class="input">
+                  <input 
+                    type="number"
+                    class="input"
+                    :class="{
+                      'is-danger': search.iptFloor.hasError
+                    }"
+                    v-model="search.iptFloor.value"
+                  />
                 </div>
+                <p class="help" :class="{ 'is-danger': search.iptFloor.hasError }">
+                  {{ search.iptFloor.error }}
+                </p>
               </div>
               <div class="field column">
                 <label class="label">Número:</label>
@@ -159,7 +169,14 @@
   export default {
     data() {
       return {
-        searchType: 'apartamento',
+        search: {
+          type: 'apartamento',
+          iptFloor: {
+            value: '',
+            hasError: false,
+            error: ''
+          }
+        },
         reservas: [
           {
             id: 1,
