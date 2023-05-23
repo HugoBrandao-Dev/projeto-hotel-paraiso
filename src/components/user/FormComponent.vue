@@ -267,6 +267,7 @@
         </div>
       </div>
     </div>
+
     <div class="field" v-show="form.iptCountry.value == 'BR'">
       <label class="label">CEP:</label>
       <div class="control" :class="{ 'has-icons-right': form.iptCEP.hasError }">
@@ -295,10 +296,24 @@
     <div class="columns">
       <div class="field column is-one-third">
         <label class="label">Bairro:</label>
-        <div class="control">
-          <input class="input is-normal" type="text" v-model="form.iptNeighborhood.value" placeholder="Nome do bairro onde você reside.">
+        <div class="control" :class="{ 'has-icons-right': form.iptNeighborhood.hasError }">
+          <input 
+            class="input"
+            :class="{
+              'is-normal': !form.iptNeighborhood.hasError,
+              'is-danger': form.iptNeighborhood.hasError
+            }"
+            type="text"
+            placeholder="Nome do bairro onde você reside."
+            v-model="form.iptNeighborhood.value"
+          />
+          <span class="icon is-small is-right" v-show="form.iptNeighborhood.hasError">
+            <i class="fas fa-exclamation-triangle"></i>
+          </span>
         </div>
-        <!-- <p class="help">This is a help text</p> -->
+        <p class="help" :class="{ 'is-danger': form.iptNeighborhood.hasError }">
+          {{ form.iptNeighborhood.error }}
+        </p>
       </div>
 
       <div class="field column is-one-third">
@@ -465,6 +480,7 @@
           },
           iptNeighborhood: {
             value: '',
+            hasError: false,
             error: ''
           },
           iptRoad: {
@@ -492,7 +508,7 @@
       'imask-input': IMaskComponent
     },
     created() {
-      this.setCountries()
+      // this.setCountries()
     },
     props: {
       type: String
