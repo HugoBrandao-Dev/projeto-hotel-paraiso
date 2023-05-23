@@ -318,10 +318,24 @@
 
       <div class="field column is-one-third">
         <label class="label">Rua/Avenida:</label>
-        <div class="control">
-          <input class="input is-normal" type="text" v-model="form.iptRoad.value" placeholder="Nome da rua/Av. Um exemplo">
+        <div class="control" :class="{ 'has-icons-right': form.iptRoad.hasError }">
+          <input 
+            class="input"
+            :class="{
+              'is-normal': !form.iptRoad.hasError,
+              'is-danger': form.iptRoad.hasError
+            }"
+            type="text"
+            placeholder="Nome da rua/Av. Um exemplo"
+            v-model="form.iptRoad.value"
+          />
+          <span class="icon is-small is-right" v-show="form.iptRoad.hasError">
+            <i class="fas fa-exclamation-triangle"></i>
+          </span>
         </div>
-        <!-- <p class="help">This is a help text</p> -->
+        <p class="help" :class="{ 'is-danger': form.iptRoad.hasError }">
+          {{ form.iptRoad.error }}
+        </p>
       </div>
 
       <div class="field column is-one-third">
@@ -485,6 +499,7 @@
           },
           iptRoad: {
             value: '',
+            hasError: false,
             error: ''
           }
         },
