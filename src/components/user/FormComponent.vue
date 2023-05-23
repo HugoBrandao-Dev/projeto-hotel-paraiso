@@ -269,18 +269,27 @@
     </div>
     <div class="field" v-show="form.iptCountry.value == 'BR'">
       <label class="label">CEP:</label>
-      <div class="control">
+      <div class="control" :class="{ 'has-icons-right': form.iptCEP.hasError }">
         <imask-input 
-          class="input is-normal"
+          class="input"
+          :class="{
+            'is-normal': !form.iptCEP.hasError,
+            'is-danger': form.iptCEP.hasError
+          }"
           type="text"
-          v-model="form.iptCEP.value"
           :mask="masks.cep"
           :unmask="true"
           placeholder="00000-000"
           :disabled="disableCEP"
+          v-model="form.iptCEP.value"
         />
+        <span class="icon is-small is-right" v-show="form.iptCEP.hasError">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
       </div>
-      <!-- <p class="help">This is a help text</p> -->
+      <p class="help" :class="{ 'is-danger': form.iptCEP.hasError }">
+        {{ form.iptCEP.error }}
+      </p>
     </div>
 
     <div class="columns">
@@ -451,6 +460,7 @@
           },
           iptCEP: {
             value: '',
+            hasError: false,
             error: ''
           },
           iptNeighborhood: {
