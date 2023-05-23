@@ -2,37 +2,35 @@
   <div id="users">
     <h1>Lista de usuários</h1>
     <hr>
-    <div class="filter columns mt-3">
-      <div class="card column is-two-thirds-tablet mx-auto">
-        <header class="card-header">
-          <p class="card-header-title">
-            Filtro
-          </p>
-        </header>
-        <div class="card-content">
-          <div class="content is-flex is-flex-direction-column is-align-items-center">
-            <div class="field">
-              <label class="label">Pesquisar por:</label>
-              <div class="control">
-                <label class="radio">
-                  <input type="radio" checked name="tipo-pesquisa" value="nome" v-model="searchType">
-                  Nome
-                </label>
-                <label class="radio">
-                  <input type="radio" name="tipo-pesquisa" value="cpf" v-model="searchType">
-                    CPF
-                </label>
+    <div class="content">
+      <div class="columns">
+        <div class="column is-half mx-auto">
+          <div class="box">
+            <h2>Filtro</h2>
+            <div class="content is-flex is-flex-direction-column is-align-items-center">
+              <div class="field">
+                <label class="label">Pesquisar por:</label>
+                <div class="control">
+                  <label class="radio">
+                    <input type="radio" checked name="tipo-pesquisa" value="nome" v-model="searchType">
+                    Nome
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="tipo-pesquisa" value="cpf" v-model="searchType">
+                      CPF
+                  </label>
+                </div>
               </div>
-            </div>
-            <div class="field has-addons mt-3">
-              <div class="control">
-                <input v-if="searchType == 'nome'" class="input" type="text" placeholder="Tobias de Oliveira">
-                <imask-input v-else class="input" type="text" placeholder="000.000.000-00" :mask="masks.cpf"/>
-              </div>
-              <div class="control">
-                <a class="button is-info">
-                  <i class="fas fa-search"></i>
-                </a>
+              <div class="field has-addons mt-3">
+                <div class="control">
+                  <input v-if="searchType == 'nome'" class="input" type="text" placeholder="Tobias de Oliveira">
+                  <imask-input v-else class="input" type="text" placeholder="000.000.000-00" :mask="masks.cpf"/>
+                </div>
+                <div class="control">
+                  <a class="button is-info">
+                    <i class="fas fa-search"></i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
