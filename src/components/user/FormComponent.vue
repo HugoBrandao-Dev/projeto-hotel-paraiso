@@ -362,10 +362,23 @@
 
     <div class="field">
       <label class="label">Informações adicionais:</label>
-      <div class="control">
-        <textarea class="textarea" placeholder="Deseja nos informar de mais alguma coisa?" rows="10"></textarea>
+      <div class="control" :class="{ 'has-icons-right': form.iptAddInformation.hasError }">
+        <textarea 
+          class="textarea" 
+          :class="{
+            'is-danger': form.iptAddInformation.hasError
+          }"
+          placeholder="Deseja nos informar de mais alguma coisa?" 
+          rows="10"
+          v-model="form.iptAddInformation.value"
+        ></textarea>
+        <span class="icon is-small is-right" v-show="form.iptAddInformation.hasError">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
       </div>
-      <!-- <p class="help">This is a help text</p> -->
+      <p class="help" :class="{ 'is-danger': form.iptAddInformation.hasError }">
+        {{ form.iptAddInformation.error }}
+      </p>
     </div>
 
     <div class="field">
@@ -516,6 +529,11 @@
             error: ''
           },
           iptNumber: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptAddInformation: {
             value: '',
             hasError: false,
             error: ''
