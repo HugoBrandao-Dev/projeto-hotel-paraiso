@@ -340,10 +340,23 @@
 
       <div class="field column is-one-third">
         <label class="label">Nº da residência:</label>
-        <div class="control">
-          <input class="input is-normal" type="text" placeholder="00000">
+        <div class="control" :class="{ 'has-icons-right': form.iptNumber.hasError }">
+          <input 
+            class="input"
+            :class="{
+              'is-normal': !form.iptNumber.hasError,
+              'is-danger': form.iptNumber.hasError
+            }"
+            type="text"
+            placeholder="00000"
+          />
+          <span class="icon is-small is-right" v-show="form.iptNumber.hasError">
+            <i class="fas fa-exclamation-triangle"></i>
+          </span>
         </div>
-        <!-- <p class="help">This is a help text</p> -->
+        <p class="help" :class="{ 'is-danger': form.iptNumber.hasError }">
+          {{ form.iptNumber.error }}
+        </p>
       </div>
     </div>
 
@@ -498,6 +511,11 @@
             error: ''
           },
           iptRoad: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptNumber: {
             value: '',
             hasError: false,
             error: ''
