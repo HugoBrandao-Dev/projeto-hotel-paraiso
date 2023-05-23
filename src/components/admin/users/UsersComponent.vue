@@ -44,13 +44,22 @@
                 </p>
               </div>
               <div class="field is-grouped" v-else>
-                <p class="control is-expanded">
+                <p class="control is-expanded" :class="{ 'has-icons-right': search.iptCPF.hasError }">
                   <imask-input
-                    class="input" 
-                    type="text" 
-                    placeholder="000.000.000-00" 
+                    class="input"
+                    :class="{
+                      'is-normal': search.iptCPF.hasError,
+                      'is-danger': search.iptCPF.hasError
+                    }"
+                    type="text"
+                    placeholder="000.000.000-00"
                     :mask="masks.cpf"
+                    :unmask="true"
+                    v-model="search.iptCPF.value"
                   />
+                  <span class="icon is-small is-right" v-show="search.iptCPF.hasError">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
                 </p>
                 <p class="control">
                   <a class="button is-info">
@@ -59,8 +68,11 @@
                 </p>
               </div>
               <p class="help" :class="{ 'is-danger': search.iptName.error }">
-                  {{ search.iptName.error }}
-                </p>
+                {{ search.iptName.error }}
+              </p>
+              <p class="help" :class="{ 'is-danger': search.iptCPF.error }">
+                {{ search.iptCPF.error }}
+              </p>
             </div>
           </div>
         </div>
@@ -199,8 +211,8 @@
           },
           iptCPF: {
             value: '',
-            hasError: true,
-            error: 'Nome inválido.'
+            hasError: false,
+            error: ''
           }
         }
       }
