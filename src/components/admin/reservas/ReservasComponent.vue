@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="buttons is-right">
-              <button class="button is-ghost">Limpar</button>
+              <button class="button is-ghost" @click="clearFields()">Limpar</button>
               <button class="button is-info">Buscar</button>
             </div>
           </div>
@@ -225,6 +225,10 @@
         if (confirm('Deseja deletar reserva?')) {
           alert('Reserva deletada com sucesso.')
         }
+      },
+      clearFields() {
+        this.search.iptFloor.value = ''
+        this.search.iptNumber.value = ''
       }
     }
   }
