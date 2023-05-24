@@ -4,11 +4,11 @@
     <hr>
     <div class="content columns">
       <section class="section column is-fullhd-tablet">
-        <div class="notification is-danger">
-          <button class="delete"></button>
-          Você deve escolher o apartamento no qual o Cliente quer se hospedar.
+        <div class="notification is-danger" v-show="messages.apartment.hasError">
+          <button class="delete" @click="messages.apartment.hasError = false"></button>
+          {{ messages.apartment.error }}
         </div>
-        <div class="tile is-child box has-background-danger">
+        <div class="tile is-child box" :class="{'has-background-danger': messages.apartment.hasError}">
           <h2>Reservas</h2>
           <p>Selecione uma reserva...</p>
           <div class="box">
@@ -289,6 +289,12 @@
       return {
         masks: {
           cpf: '000.000.000-00'
+        },
+        messages: {
+          apartment: {
+            hasError: false,
+            error: ''
+          }
         },
         modals: {
           confirmReserva: {
