@@ -38,7 +38,8 @@
             <td class="is-hidden-mobile">{{ apartment.rooms }}</td>
             <td>
               <span v-if="apartment.status == 1" class="tag is-success">Livre</span>
-              <span v-else-if="apartment.status == 2" class="tag is-danger">Ocupado</span>
+              <span v-else-if="apartment.status == 2" class="tag is-link">Reservado</span>
+              <span v-else-if="apartment.status == 3" class="tag is-danger">Ocupado</span>
               <span v-else class="tag is-dark">Indisponível</span>
             </td>
             <td>
@@ -121,9 +122,17 @@
           </tr>
         </tbody>
       </table>
-      <p>
-        <span class="tag is-dark">Indisponível</span> Devido a alguma reforma, limpeza, etc.
-      </p>
+      <section id="info-status">
+        <p>
+          <span class="tag is-link">Reservado</span> O usuário fez a reserva, mas ainda <strong>não está</strong> no local.
+        </p>
+        <p>
+          <span class="tag is-danger">Ocupado</span> O usuário fez a reserva e <strong>já está</strong> no local.
+        </p>
+        <p>
+          <span class="tag is-dark">Indisponível</span> Devido a alguma reforma, limpeza, etc.
+        </p>
+      </section>
     </div>
   </article>
 </template>
@@ -147,21 +156,21 @@
             andar: 1,
             numero: 2,
             rooms: 8,
-            status: 1
+            status: 2
           },
           {
             id: 3,
             andar: 2,
             numero: 3,
             rooms: 4,
-            status: 1
+            status: 3
           },
           {
             id: 4,
             andar: 2,
             numero: 4,
             rooms: 4,
-            status: 2
+            status: 4
           },
           {
             id: 5,
@@ -182,14 +191,14 @@
             andar: 3,
             numero: 7,
             rooms: 8,
-            status: 1
+            status: 3
           },
           {
             id: 8,
             andar: 3,
             numero: 8,
             rooms: 8,
-            status: 3
+            status: 4
           }
         ]
       }
