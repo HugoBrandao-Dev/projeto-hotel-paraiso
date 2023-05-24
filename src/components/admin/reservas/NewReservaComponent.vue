@@ -17,6 +17,7 @@
                     type="number" 
                     class="input is-small"
                     :class="{'is-danger': searchApartment.iptFloor.hasError}"
+                    v-model="searchApartment.iptFloor.value"
                   />
                 </div>
                 <p class="help" :class="{'is-danger': searchApartment.iptFloor.hasError}">
@@ -24,7 +25,7 @@
                 </p>
               </div>
               <div class="field column is-half is-fullhd-tablet">
-                <label class="label">Apartamento: {{ searchApartment.iptNumber.value }} </label>
+                <label class="label">Apartamento:</label>
                 <div class="control">
                   <input 
                   type="number" 
