@@ -19,6 +19,10 @@
                     <input type="radio" name="tipo-pesquisa" value="cpf" v-model="search.type">
                       CPF
                   </label>
+                  <label class="radio">
+                    <input type="radio" name="tipo-pesquisa" value="passport-number" v-model="search.type">
+                      Passport Number
+                  </label>
                 </div>
               </div>
               <div class="field is-grouped" v-if="search.type == 'nome'">
@@ -43,7 +47,7 @@
                   </a>
                 </p>
               </div>
-              <div class="field is-grouped" v-else>
+              <div class="field is-grouped" v-else-if="search.type == 'cpf'">
                 <p class="control is-expanded" :class="{ 'has-icons-right': search.iptCPF.hasError }">
                   <imask-input
                     class="input"
@@ -67,11 +71,36 @@
                   </a>
                 </p>
               </div>
+              <div class="field is-grouped" v-else>
+                <p class="control is-expanded" :class="{ 'has-icons-right': search.iptPassportNumber.hasError }">
+                  <imask-input
+                    class="input"
+                    :class="{
+                      'is-normal': search.iptPassportNumber.hasError,
+                      'is-danger': search.iptPassportNumber.hasError
+                    }"
+                    type="text"
+                    placeholder="0A0A0A0A0A"
+                    v-model="search.iptPassportNumber.value"
+                  />
+                  <span class="icon is-small is-right" v-show="search.iptPassportNumber.hasError">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
+                </p>
+                <p class="control">
+                  <a class="button is-info">
+                    Pesquisar
+                  </a>
+                </p>
+              </div>
               <p class="help" :class="{ 'is-danger': search.iptName.error }">
                 {{ search.iptName.error }}
               </p>
               <p class="help" :class="{ 'is-danger': search.iptCPF.error }">
                 {{ search.iptCPF.error }}
+              </p>
+              <p class="help" :class="{ 'is-danger': search.iptPassportNumber.error }">
+                {{ search.iptPassportNumber.error }}
               </p>
             </div>
           </div>
@@ -210,6 +239,11 @@
             error: ''
           },
           iptCPF: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptPassportNumber: {
             value: '',
             hasError: false,
             error: ''
