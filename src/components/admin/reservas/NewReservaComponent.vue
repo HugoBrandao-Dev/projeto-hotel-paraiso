@@ -24,10 +24,18 @@
                 </p>
               </div>
               <div class="field column is-half is-fullhd-tablet">
-                <label class="label">Apartamento:</label>
+                <label class="label">Apartamento: {{ searchApartment.iptNumber.value }} </label>
                 <div class="control">
-                  <input type="number" class="input is-small">
+                  <input 
+                  type="number" 
+                  class="input is-small"
+                  :class="{'is-danger': searchApartment.iptNumber.hasError}"
+                  v-model="searchApartment.iptNumber.value"
+                />
                 </div>
+                <p class="help" :class="{'is-danger': searchApartment.iptNumber.hasError}">
+                  {{ searchApartment.iptNumber.error }}
+                </p>
               </div>
             </div>
             <div class="buttons is-right">
@@ -326,6 +334,11 @@
             hasError: false,
             error: ''
           },
+          iptNumber: {
+            value: '',
+            hasError: false,
+            error: ''
+          }
         },
         apto: {
           selected: null
