@@ -4,7 +4,11 @@
     <hr>
     <div class="content columns">
       <section class="section column is-fullhd-tablet">
-        <div class="tile is-child box">
+        <div class="notification is-danger">
+          <button class="delete"></button>
+          Você deve escolher o apartamento no qual o Cliente quer se hospedar.
+        </div>
+        <div class="tile is-child box has-background-danger">
           <h2>Reservas</h2>
           <p>Selecione uma reserva...</p>
           <div class="box">
