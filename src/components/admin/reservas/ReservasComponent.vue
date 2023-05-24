@@ -3,52 +3,6 @@
     <h1>Lista de reservas</h1>
     <hr>
     <div class="content">
-      <div class="columns">
-        <div class="column is-half mx-auto">
-          <div class="box">
-            <h2>Filtro</h2>
-            <div class="columns">
-              <div class="field column is-half">
-                <label class="label">Andar:</label>
-                <div class="control">
-                  <input 
-                    type="number"
-                    class="input"
-                    :class="{
-                      'is-danger': search.iptFloor.hasError
-                    }"
-                    v-model="search.iptFloor.value"
-                  />
-                </div>
-                <p class="help" :class="{ 'is-danger': search.iptFloor.hasError }">
-                  {{ search.iptFloor.error }}
-                </p>
-              </div>
-              <div class="field column">
-                <label class="label">Número:</label>
-                <div class="control">
-                  <input 
-                    type="number" 
-                    class="input"
-                    :class="{
-                      'is-danger': search.iptNumber.hasError
-                    }"
-                    v-model="search.iptNumber.value"
-                  />
-                </div>
-                <p class="help" :class="{ 'is-danger': search.iptNumber.hasError }">
-                  {{ search.iptNumber.error }}
-                </p>
-              </div>
-            </div>
-            <div class="buttons is-right">
-              <button class="button is-ghost" @click="clearFields()">Limpar</button>
-              <button class="button is-info">Buscar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="buttons is-right">
         <a href="/admin/reservas/new" class="button is-primary is-large">
           Nova Reserva
@@ -179,19 +133,6 @@
   export default {
     data() {
       return {
-        search: {
-          type: 'apartamento',
-          iptFloor: {
-            value: '',
-            hasError: false,
-            error: ''
-          },
-          iptNumber: {
-            value: '',
-            hasError: false,
-            error: ''
-          }
-        },
         reservas: [
           {
             id: 1,
@@ -225,10 +166,6 @@
         if (confirm('Deseja deletar reserva?')) {
           alert('Reserva deletada com sucesso.')
         }
-      },
-      clearFields() {
-        this.search.iptFloor.value = ''
-        this.search.iptNumber.value = ''
       }
     }
   }
