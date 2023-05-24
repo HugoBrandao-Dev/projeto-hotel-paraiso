@@ -3,6 +3,7 @@
     <h1>Lista de reservas</h1>
     <hr>
     <div class="content">
+      <SearchFilterComponent />
       <div class="buttons is-right">
         <a href="/admin/reservas/new" class="button is-primary is-large">
           Nova Reserva
@@ -130,6 +131,8 @@
 </template>
 
 <script>
+  import SearchFilterComponent from './SearchFilterComponent'
+
   export default {
     data() {
       return {
@@ -160,6 +163,9 @@
           }
         ]
       }
+    },
+    components: {
+      SearchFilterComponent
     },
     methods: {
       confirmDeletion() {
