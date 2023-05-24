@@ -382,6 +382,10 @@
       },
       closeConfirmReservaModal() {
         this.modals.confirmReserva.active = false
+      },
+      clearFields() {
+        this.searchApartment.iptFloor = ''
+        this.searchApartment.iptNumber = ''
       }
     }
   }
