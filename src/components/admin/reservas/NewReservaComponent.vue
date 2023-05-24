@@ -13,15 +13,19 @@
               <div class="field column is-half is-fullhd-tablet">
                 <label class="label">Andar:</label>
                 <div class="control">
-                  <input type="number" class="input">
+                  <input type="number" class="input is-small">
                 </div>
               </div>
               <div class="field column is-half is-fullhd-tablet">
                 <label class="label">Apartamento:</label>
                 <div class="control">
-                  <input type="number" class="input">
+                  <input type="number" class="input is-small">
                 </div>
               </div>
+            </div>
+            <div class="buttons is-right">
+              <button class="button is-small is-ghost" @click="clearFields()">Limpar</button>
+              <button class="button is-small is-info">Buscar</button>
             </div>
           </div>
           <table class="table">
@@ -69,30 +73,102 @@
           <h2>Clientes</h2>
           <p>Selecione um cliente...</p>
           <div class="box">
-            <h3>Filtro</h3>
-            <div class="field">
-              <label class="label">Pesquisar por:</label>
-              <div class="control">
-                <label class="radio">
-                  <input type="radio" checked name="tipo-pesquisa" value="nome" v-model="user.typeSearchUser">
-                  Nome
-                </label>
-                <label class="radio">
-                  <input type="radio" name="tipo-pesquisa" value="cpf" v-model="user.typeSearchUser">
-                    CPF
-                </label>
+            <h2>Filtro</h2>
+            <div class="content">
+              <div class="field">
+                <label class="label">Pesquisar por:</label>
+                <div class="control">
+                  <label class="radio">
+                    <input type="radio" checked name="tipo-pesquisa" value="nome" v-model="searchClient.type">
+                    Nome
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="tipo-pesquisa" value="cpf" v-model="searchClient.type">
+                      CPF
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="tipo-pesquisa" value="passport-number" v-model="searchClient.type">
+                      Passport Number
+                  </label>
+                </div>
               </div>
-            </div>
-            <div class="field has-addons mt-3">
-              <div class="control">
-                <input v-if="user.typeSearchUser == 'nome'" class="input" type="text" placeholder="Tobias de Oliveira">
-                <imask-input v-else class="input" type="text" placeholder="000.000.000-00" :mask="masks.cpf"/>
+              <div class="field is-grouped" v-if="searchClient.type == 'nome'">
+                <p class="control is-expanded" :class="{ 'has-icons-right': searchClient.iptName.hasError }">
+                  <input
+                    class="input is-small"
+                    :class="{
+                      'is-normal': searchClient.iptName.hasError,
+                      'is-danger': searchClient.iptName.hasError
+                    }"
+                    type="text"
+                    placeholder="Tobias de Oliveira"
+                    v-model="searchClient.iptName.value"
+                  />
+                  <span class="icon is-small is-right" v-show="searchClient.iptName.hasError">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
+                </p>
+                <p class="control">
+                  <a class="button is-small is-info">
+                    Pesquisar
+                  </a>
+                </p>
               </div>
-              <div class="control">
-                <a class="button is-info">
-                  <i class="fas fa-search"></i>
-                </a>
+              <div class="field is-grouped" v-else-if="searchClient.type == 'cpf'">
+                <p class="control is-expanded" :class="{ 'has-icons-right': searchClient.iptCPF.hasError }">
+                  <imask-input
+                    class="input is-small"
+                    :class="{
+                      'is-normal': searchClient.iptCPF.hasError,
+                      'is-danger': searchClient.iptCPF.hasError
+                    }"
+                    type="text"
+                    placeholder="000.000.000-00"
+                    :mask="masks.cpf"
+                    :unmask="true"
+                    v-model="searchClient.iptCPF.value"
+                  />
+                  <span class="icon is-small is-right" v-show="searchClient.iptCPF.hasError">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
+                </p>
+                <p class="control">
+                  <a class="button is-small is-info">
+                    Pesquisar
+                  </a>
+                </p>
               </div>
+              <div class="field is-grouped" v-else>
+                <p class="control is-expanded" :class="{ 'has-icons-right': searchClient.iptPassportNumber.hasError }">
+                  <imask-input
+                    class="input is-small"
+                    :class="{
+                      'is-normal': searchClient.iptPassportNumber.hasError,
+                      'is-danger': searchClient.iptPassportNumber.hasError
+                    }"
+                    type="text"
+                    placeholder="0A0A0A0A0A"
+                    v-model="searchClient.iptPassportNumber.value"
+                  />
+                  <span class="icon is-small is-right" v-show="searchClient.iptPassportNumber.hasError">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
+                </p>
+                <p class="control">
+                  <a class="button is-small is-info">
+                    Pesquisar
+                  </a>
+                </p>
+              </div>
+              <p class="help" :class="{ 'is-danger': searchClient.iptName.error }">
+                {{ searchClient.iptName.error }}
+              </p>
+              <p class="help" :class="{ 'is-danger': searchClient.iptCPF.error }">
+                {{ searchClient.iptCPF.error }}
+              </p>
+              <p class="help" :class="{ 'is-danger': searchClient.iptPassportNumber.error }">
+                {{ searchClient.iptPassportNumber.error }}
+              </p>
             </div>
           </div>
           <table class="table">
@@ -239,6 +315,24 @@
         ],
         apto: {
           selected: null
+        },
+        searchClient: {
+          type: 'nome',
+          iptName: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptCPF: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptPassportNumber: {
+            value: '',
+            hasError: false,
+            error: ''
+          }
         },
         users: [
           { id: 1, nome: 'Tobias de Oliveira', cpf: '11111111111', telefone: '55119111111111', reservas_ativas: '2' },
