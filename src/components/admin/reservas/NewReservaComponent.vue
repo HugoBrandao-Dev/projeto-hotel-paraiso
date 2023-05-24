@@ -13,8 +13,15 @@
               <div class="field column is-half is-fullhd-tablet">
                 <label class="label">Andar:</label>
                 <div class="control">
-                  <input type="number" class="input is-small">
+                  <input 
+                    type="number" 
+                    class="input is-small"
+                    :class="{'is-danger': searchApartment.iptFloor.hasError}"
+                  />
                 </div>
+                <p class="help" :class="{'is-danger': searchApartment.iptFloor.hasError}">
+                  {{ searchApartment.iptFloor.error }}
+                </p>
               </div>
               <div class="field column is-half is-fullhd-tablet">
                 <label class="label">Apartamento:</label>
@@ -313,6 +320,13 @@
             ocupado: 1
           },
         ],
+        searchApartment: {
+          iptFloor: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+        },
         apto: {
           selected: null
         },
@@ -341,9 +355,8 @@
           { id: 4, nome: 'Doralice Cruz', cpf: '44444444444', telefone: '55119444444444', reservas_ativas: '1' }
         ],
         user: {
-          typeSearchUser: 'nome',
           selected: null
-        },
+        }
       }
     },
     components: {
