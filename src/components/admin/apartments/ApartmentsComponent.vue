@@ -3,31 +3,7 @@
     <h1>Lista de apartamentos</h1>
     <hr>
     <div class="content">
-      <div class="columns">
-        <div class="column is-half mx-auto">
-          <div class="box">
-            <h2>Filtro</h2>
-            <div class="columns">
-              <div class="field column is-half">
-                <label class="label">Andar:</label>
-                <div class="control">
-                  <input type="number" class="input">
-                </div>
-              </div>
-              <div class="field column">
-                <label class="label">Número:</label>
-                <div class="control">
-                  <input type="number" class="input">
-                </div>
-              </div>
-            </div>
-            <div class="buttons is-right">
-              <button class="button is-ghost">Limpar</button>
-              <button class="button is-info">Buscar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <SearchFilterComponent />
       <div class="buttons is-right">
         <a href="/admin/apartments/new" class="button is-primary is-large">
           Novo apartamento
@@ -153,6 +129,8 @@
 </template>
 
 <script>
+  import SearchFilterComponent from '../reservas/SearchFilterComponent'
+
   export default {
     data() {
       return {
@@ -215,6 +193,9 @@
           }
         ]
       }
+    },
+    components: {
+      SearchFilterComponent
     },
     methods: {
       confirmDeletion() {
