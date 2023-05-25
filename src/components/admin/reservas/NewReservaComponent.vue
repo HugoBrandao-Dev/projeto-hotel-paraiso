@@ -89,7 +89,11 @@
         </div>
       </section>
       <section class="section column is-fullhd-tablet">
-        <div class="tile is-child box">
+        <div class="notification is-danger" v-show="messages.client.hasError">
+          <button class="delete" @click="messages.client.hasError = false"></button>
+          {{ messages.client.error }}
+        </div>
+        <div class="tile is-child box" :class="{'has-background-danger': messages.client.hasError}">
           <h2>Clientes</h2>
           <p>Selecione um cliente...</p>
           <div class="box">
@@ -294,6 +298,10 @@
           apartment: {
             hasError: false,
             error: ''
+          },
+          client: {
+            hasError: true,
+            error: 'Você deve indicar o cliente que ocupará o Apartamento.'
           }
         },
         modals: {
