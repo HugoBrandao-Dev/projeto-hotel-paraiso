@@ -93,8 +93,19 @@
               <div class="field column is-one-third">
                 <label class="label">Andar:</label>
                 <div class="control">
-                  <input type="number" class="input"/>
+                  <input 
+                    type="number" 
+                    class="input"
+                    :class="{'is-danger': form.iptFloor.hasError}"
+                    v-model="form.iptFloor.value"
+                  />
                 </div>
+                <p 
+                  class="help" 
+                  :class="{'is-danger': form.iptFloor.hasError}"
+                >
+                  {{ form.iptFloor.error }}
+                </p>
               </div>
               <div class="field column is-one-third">
                 <label class="label">Apartamento:</label>
@@ -267,6 +278,11 @@
           },
           iptStatus: {
             value: '1',
+            hasError: false,
+            error: ''
+          },
+          iptFloor: {
+            value: '',
             hasError: false,
             error: ''
           }
