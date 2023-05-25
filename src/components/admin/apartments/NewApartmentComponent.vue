@@ -218,15 +218,25 @@
               <div class="field-body">
                 <div class="field">
                   <div class="control">
-                    <div class="select">
-                      <select :disabled="isComodoCustom">
-                        <option>Sala de estar</option>
-                        <option>Cozinha</option>
-                        <option>Quarto</option>
-                        <option>Banheiro</option>
+                    <div class="select" :class="{'is-danger': form.iptRoom.hasError}">
+                      <select :disabled="isComodoCustom" v-model="form.iptRoom.value">
+                        <option 
+                          v-for="item in roomsList"
+                          :key="item.id"
+                          :value="item.id"
+                          :selected="form.iptRoom.value"
+                        >
+                          {{ item.room }}
+                        </option>
                       </select>
                     </div>
                   </div>
+                  <p 
+                    class="help" 
+                    :class="{'is-danger': form.iptRoom.hasError}" 
+                  >
+                    {{ form.iptRoom.error }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -287,6 +297,24 @@
             type: 'Indisponível'
           }
         ],
+        roomsList: [
+          {
+            id: 1,
+            room: 'Sala de estar'
+          },
+          {
+            id: 2,
+            room: 'Cozinha'
+          },
+          {
+            id: 3,
+            room: 'Banheiro'
+          },
+          {
+            id: 4,
+            room: 'Quarto'
+          }
+        ],
         modals: {
           rooms: {
             active: false
@@ -315,6 +343,11 @@
           },
           iptRoomNumber: {
             value: '',
+            hasError: false,
+            error: ''
+          },
+          iptRoom: {
+            value: '1',
             hasError: false,
             error: ''
           }
