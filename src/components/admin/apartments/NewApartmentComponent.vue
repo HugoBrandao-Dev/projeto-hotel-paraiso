@@ -67,14 +67,28 @@
               <div class="field column is-one-third">
                 <label class="label">Status:</label>
                 <div class="control">
-                  <div class="select is-full">
-                    <select>
-                      <option value="1">Livre</option>
-                      <option value="2">Ocupado</option>
-                      <option value="3">Indisponível</option>
+                  <div 
+                    class="select" 
+                    :class="{'is-danger': form.iptStatus.hasError}"
+                  >
+                    <select v-model="form.iptStatus.value">
+                      <option 
+                        v-for="item in statusList" 
+                        :key="item.id" 
+                        :selected="form.iptStatus.value"
+                        :value="item.id"
+                      >
+                        {{ item.type }}
+                      </option>
                     </select>
                   </div>
                 </div>
+                  <p 
+                    class="help" 
+                    :class="{'is-danger': form.iptStatus.hasError}"
+                  >
+                    {{ form.iptStatus.error }}
+                  </p>
               </div>
               <div class="field column is-one-third">
                 <label class="label">Andar:</label>
@@ -222,6 +236,24 @@
     data() {
       return {
         isComodoCustom: false,
+        statusList: [
+          {
+            id: 1,
+            type: 'Livre'
+          },
+          {
+            id: 2,
+            type: 'Reservado'
+          },
+          {
+            id: 3,
+            type: 'Ocupado'
+          },
+          {
+            id: 4,
+            type: 'Indisponível'
+          }
+        ],
         modals: {
           rooms: {
             active: false
@@ -230,6 +262,11 @@
         form: {
           iptPrice: {
             value: '',
+            hasError: false,
+            error: ''
+          },
+          iptStatus: {
+            value: '1',
             hasError: false,
             error: ''
           }
