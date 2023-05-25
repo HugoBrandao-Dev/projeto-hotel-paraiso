@@ -1,15 +1,10 @@
 <template>
-  <article id="edit-apartment">
-    <h1>Editar informações</h1>
+  <article id="new-apartment">
+    <h1>Novo apartamento</h1>
     <hr>
     <div class="columns">
       <div class="column is-three-fifths mx-auto">
         <div class="card">
-          <header class="card-header">
-            <p class="card-header-title is-size-4">
-              Apartamento #{{ this.$route.params.id }}
-            </p>
-          </header>
           <div class="card-image">
             <figure class="image is-16by9">
               <img src="../../../assets/reservas/reserva.png" alt="Placeholder image">
@@ -20,19 +15,28 @@
               <div class="tile is-parent">
                 <div class="tile is-child box has-background-primary is-flex is-justify-content-center is-align-items-center">
                   <div>
-                    <label class="label is-size-5 has-text-white">Diária:</label>
+                    <label class="label is-size-5 has-text-white">
+                      Diária:
+                    </label>
                     <div class="field-body">
                       <div class="field is-expanded">
                         <div class="field has-addons">
                           <p class="control">
-                            <a class="button is-static">
-                              R$
-                            </a>
+                            <a class="button is-static">R$</a>
                           </p>
                           <p class="control is-expanded">
-                            <input type="number" class="input">
+                            <input 
+                              type="number" class="input" 
+                              :class="{'is-danger': form.iptPrice.hasError}" v-model="form.iptPrice.value"
+                            />
                           </p>
                         </div>
+                        <p 
+                          class="help" 
+                          :class="{'is-danger': form.iptPrice.hasError}" 
+                        >
+                          {{ form.iptPrice.error }}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -63,32 +67,80 @@
               <div class="field column is-one-third">
                 <label class="label">Status:</label>
                 <div class="control">
-                  <div class="select is-full">
-                    <select>
-                      <option value="1">Livre</option>
-                      <option value="2">Ocupado</option>
-                      <option value="3">Indisponível</option>
+                  <div 
+                    class="select" 
+                    :class="{'is-danger': form.iptStatus.hasError}"
+                  >
+                    <select v-model="form.iptStatus.value">
+                      <option 
+                        v-for="item in statusList" 
+                        :key="item.id" 
+                        :selected="form.iptStatus.value"
+                        :value="item.id"
+                      >
+                        {{ item.type }}
+                      </option>
                     </select>
                   </div>
                 </div>
+                  <p 
+                    class="help" 
+                    :class="{'is-danger': form.iptStatus.hasError}"
+                  >
+                    {{ form.iptStatus.error }}
+                  </p>
               </div>
               <div class="field column is-one-third">
                 <label class="label">Andar:</label>
                 <div class="control">
-                  <input type="number" class="input"/>
+                  <input 
+                    type="number" 
+                    class="input"
+                    :class="{'is-danger': form.iptFloor.hasError}"
+                    v-model="form.iptFloor.value"
+                  />
                 </div>
+                <p 
+                  class="help" 
+                  :class="{'is-danger': form.iptFloor.hasError}"
+                >
+                  {{ form.iptFloor.error }}
+                </p>
               </div>
               <div class="field column is-one-third">
                 <label class="label">Apartamento:</label>
                 <div class="control">
-                  <input type="number" class="input"/>
+                  <input 
+                    type="number"
+                    class="input"
+                    :class="{'is-danger': form.iptNumber.hasError}"
+                    v-model="form.iptNumber.value"
+                  />
                 </div>
+                <p 
+                  class="help" 
+                  :class="{'is-danger': form.iptNumber.hasError}"
+                >
+                  {{ form.iptNumber.error }}
+                </p>
               </div>
             </div>
             <div>
               <div class="field">
                 <label class="label">Cômodos:</label>
               </div>
+              <article class="message is-danger" v-show="messages.roomsRegistred.hasError">
+                <div class="message-header">
+                  <p>Erro</p>
+                  <button 
+                    class="delete" 
+                    aria-label="delete" 
+                    @click="messages.roomsRegistred.hasError = false"></button>
+                </div>
+                <div class="message-body">
+                  {{ messages.roomsRegistred.error }}
+                </div>
+              </article>
               <table class="table">
                 <thead>
                   <tr>
@@ -139,7 +191,7 @@
         </div>
       </div>
     </div>
-    <div class="modal" :class="{'is-active': modals.rooms.active}">
+    <div class="modal" :class="isModalsRoomsActive">
       <div class="modal-background" @click="closeRoomModal()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -154,8 +206,19 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <input class="input" type="text">
+                  <input 
+                    class="input"
+                    :class="{'is-danger': form.iptRoomNumber.hasError}"
+                    type="number"
+                    v-model="form.iptRoomNumber.value"
+                  />
                 </div>
+                <p 
+                  class="help" 
+                  :class="{'is-danger': form.iptRoomNumber.hasError}" 
+                >
+                  {{ form.iptRoomNumber.error }}
+                </p>
               </div>
             </div>
           </div>
@@ -167,15 +230,25 @@
               <div class="field-body">
                 <div class="field">
                   <div class="control">
-                    <div class="select">
-                      <select :disabled="isComodoCustom">
-                        <option>Sala de estar</option>
-                        <option>Cozinha</option>
-                        <option>Quarto</option>
-                        <option>Banheiro</option>
+                    <div class="select" :class="{'is-danger': form.iptRoom.hasError}">
+                      <select :disabled="isComodoCustom" v-model="form.iptRoom.value">
+                        <option 
+                          v-for="item in roomsList"
+                          :key="item.id"
+                          :value="item.id"
+                          :selected="form.iptRoom.value"
+                        >
+                          {{ item.room }}
+                        </option>
                       </select>
                     </div>
                   </div>
+                  <p 
+                    class="help" 
+                    :class="{'is-danger': form.iptRoom.hasError}" 
+                  >
+                    {{ form.iptRoom.error }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -184,22 +257,36 @@
                 <div class="field">
                   <div class="control">
                     <label class="checkbox">
-                      <input type="checkbox" v-model="isComodoCustom"> Não está listado
+                      <input type="checkbox" v-model="isComodoCustom" :checked="form.iptNewRoom.hasError"> Não está listado
                     </label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="field is-horizontal" v-show="isComodoCustom">
+          <div class="field is-horizontal" v-show="isComodoCustomActive">
             <div class="field-label is-normal">
               <label class="label">Nome:</label>
             </div>
             <div class="field-body">
               <div class="field">
-                <div class="control">
-                  <input class="input" type="text">
+                <div class="control has-icons-right">
+                  <input 
+                    class="input"
+                    :class="{'is-danger': form.iptNewRoom.hasError}"
+                    type="text"
+                    v-model="form.iptNewRoom.value"
+                  />
+                  <span class="icon is-small is-right" v-show="form.iptNewRoom.hasError">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
                 </div>
+                <p 
+                  class="help" 
+                  :class="{'is-danger': form.iptNewRoom.hasError}" 
+                >
+                  {{ form.iptNewRoom.error }}
+                </p>
               </div>
             </div>
           </div>
@@ -218,9 +305,88 @@
     data() {
       return {
         isComodoCustom: false,
+        statusList: [
+          {
+            id: 1,
+            type: 'Livre'
+          },
+          {
+            id: 2,
+            type: 'Reservado'
+          },
+          {
+            id: 3,
+            type: 'Ocupado'
+          },
+          {
+            id: 4,
+            type: 'Indisponível'
+          }
+        ],
+        roomsList: [
+          {
+            id: 1,
+            room: 'Sala de estar'
+          },
+          {
+            id: 2,
+            room: 'Cozinha'
+          },
+          {
+            id: 3,
+            room: 'Banheiro'
+          },
+          {
+            id: 4,
+            room: 'Quarto'
+          }
+        ],
+        messages: {
+          roomsRegistred: {
+            hasError: false,
+            error: ''
+          }
+        },
         modals: {
           rooms: {
             active: false
+          }
+        },
+        form: {
+          iptPrice: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptStatus: {
+            value: '1',
+            hasError: false,
+            error: ''
+          },
+          iptFloor: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptNumber: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptRoomNumber: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptRoom: {
+            value: '1',
+            hasError: false,
+            error: ''
+          },
+          iptNewRoom: {
+            value: '',
+            hasError: false,
+            error: ''
           }
         },
         rooms: [
@@ -241,6 +407,17 @@
             name: 'Banheiros'
           },
         ]
+      }
+    },
+    computed: {
+      isModalsRoomsActive() {
+        if (this.modals.rooms.active || this.form.iptRoomNumber.hasError || this.form.iptRoom.hasError || this.form.iptNewRoom.hasError) {
+          return 'is-active'
+        }
+        return ''
+      },
+      isComodoCustomActive() {
+        return this.form.iptNewRoom.hasError || this.isComodoCustom
       }
     },
     methods: {
