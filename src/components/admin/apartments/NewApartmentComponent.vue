@@ -129,6 +129,18 @@
               <div class="field">
                 <label class="label">Cômodos:</label>
               </div>
+              <article class="message is-danger" v-show="messages.roomsRegistred.hasError">
+                <div class="message-header">
+                  <p>Erro</p>
+                  <button 
+                    class="delete" 
+                    aria-label="delete" 
+                    @click="messages.roomsRegistred.hasError = false"></button>
+                </div>
+                <div class="message-body">
+                  {{ messages.roomsRegistred.error }}
+                </div>
+              </article>
               <table class="table">
                 <thead>
                   <tr>
@@ -329,6 +341,12 @@
             room: 'Quarto'
           }
         ],
+        messages: {
+          roomsRegistred: {
+            hasError: false,
+            error: ''
+          }
+        },
         modals: {
           rooms: {
             active: false
