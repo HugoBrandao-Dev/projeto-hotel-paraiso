@@ -15,19 +15,28 @@
               <div class="tile is-parent">
                 <div class="tile is-child box has-background-primary is-flex is-justify-content-center is-align-items-center">
                   <div>
-                    <label class="label is-size-5 has-text-white">Diária:</label>
+                    <label class="label is-size-5 has-text-white">
+                      Diária:
+                    </label>
                     <div class="field-body">
                       <div class="field is-expanded">
                         <div class="field has-addons">
                           <p class="control">
-                            <a class="button is-static">
-                              R$
-                            </a>
+                            <a class="button is-static">R$</a>
                           </p>
                           <p class="control is-expanded">
-                            <input type="number" class="input">
+                            <input 
+                              type="number" class="input" 
+                              :class="{'is-danger': form.iptPrice.hasError}" v-model="form.iptPrice.value"
+                            />
                           </p>
                         </div>
+                        <p 
+                          class="help" 
+                          :class="{'is-danger': form.iptPrice.hasError}" 
+                        >
+                          {{ form.iptPrice.error }}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -216,6 +225,13 @@
         modals: {
           rooms: {
             active: false
+          }
+        },
+        form: {
+          iptPrice: {
+            value: '',
+            hasError: false,
+            error: ''
           }
         },
         rooms: [
