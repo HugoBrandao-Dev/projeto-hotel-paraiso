@@ -300,8 +300,8 @@
             error: ''
           },
           client: {
-            hasError: true,
-            error: 'Você deve indicar o cliente que ocupará o Apartamento.'
+            hasError: false,
+            error: ''
           }
         },
         modals: {
