@@ -194,8 +194,19 @@
             <div class="field-body">
               <div class="field">
                 <div class="control">
-                  <input class="input" type="text">
+                  <input 
+                    class="input"
+                    :class="{'is-danger': form.iptRoomNumber.hasError}"
+                    type="number"
+                    v-model="form.iptRoomNumber.value"
+                  />
                 </div>
+                <p 
+                  class="help" 
+                  :class="{'is-danger': form.iptRoomNumber.hasError}" 
+                >
+                  {{ form.iptRoomNumber.error }}
+                </p>
               </div>
             </div>
           </div>
@@ -298,6 +309,11 @@
             error: ''
           },
           iptNumber: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
+          iptRoomNumber: {
             value: '',
             hasError: false,
             error: ''
