@@ -179,7 +179,7 @@
         </div>
       </div>
     </div>
-    <div class="modal" :class="{'is-active': modals.rooms.active}">
+    <div class="modal" :class="isModalsRoomsActive">
       <div class="modal-background" @click="closeRoomModal()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -245,22 +245,36 @@
                 <div class="field">
                   <div class="control">
                     <label class="checkbox">
-                      <input type="checkbox" v-model="isComodoCustom"> Não está listado
+                      <input type="checkbox" v-model="isComodoCustom" :checked="form.iptNewRoom.hasError"> Não está listado
                     </label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="field is-horizontal" v-show="isComodoCustom">
+          <div class="field is-horizontal" v-show="isComodoCustomActive">
             <div class="field-label is-normal">
               <label class="label">Nome:</label>
             </div>
             <div class="field-body">
               <div class="field">
-                <div class="control">
-                  <input class="input" type="text">
+                <div class="control has-icons-right">
+                  <input 
+                    class="input"
+                    :class="{'is-danger': form.iptNewRoom.hasError}"
+                    type="text"
+                    v-model="form.iptNewRoom.value"
+                  />
+                  <span class="icon is-small is-right" v-show="form.iptNewRoom.hasError">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
                 </div>
+                <p 
+                  class="help" 
+                  :class="{'is-danger': form.iptNewRoom.hasError}" 
+                >
+                  {{ form.iptNewRoom.error }}
+                </p>
               </div>
             </div>
           </div>
@@ -350,6 +364,11 @@
             value: '1',
             hasError: false,
             error: ''
+          },
+          iptNewRoom: {
+            value: '',
+            hasError: false,
+            error: ''
           }
         },
         rooms: [
@@ -370,6 +389,17 @@
             name: 'Banheiros'
           },
         ]
+      }
+    },
+    computed: {
+      isModalsRoomsActive() {
+        if (this.modals.rooms.active || this.form.iptRoomNumber.hasError || this.form.iptRoom.hasError || this.form.iptNewRoom.hasError) {
+          return 'is-active'
+        }
+        return ''
+      },
+      isComodoCustomActive() {
+        return this.form.iptNewRoom.hasError || this.isComodoCustom
       }
     },
     methods: {
