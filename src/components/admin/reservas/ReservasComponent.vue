@@ -81,7 +81,6 @@
                     <input
                       class="input"
                       :class="{
-                        'is-normal': search.client.iptName.hasError,
                         'is-danger': search.client.iptName.hasError
                       }"
                       type="text"
@@ -103,7 +102,6 @@
                     <imask-input
                       class="input"
                       :class="{
-                        'is-normal': search.client.iptCPF.hasError,
                         'is-danger': search.client.iptCPF.hasError
                       }"
                       type="text"
@@ -128,7 +126,6 @@
                     <imask-input
                       class="input"
                       :class="{
-                        'is-normal': search.client.iptPassportNumber.hasError,
                         'is-danger': search.client.iptPassportNumber.hasError
                       }"
                       type="text"
@@ -339,8 +336,8 @@
             },
             iptPassportNumber: {
               value: '',
-              hasError: true,
-              error: 'passport-number'
+              hasError: false,
+              error: ''
             }
           }
         }
