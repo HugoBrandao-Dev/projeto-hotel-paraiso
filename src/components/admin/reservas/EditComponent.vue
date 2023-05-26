@@ -39,37 +39,7 @@
             <i class="fas fa-ban fa-lg"></i>
           </span>
         </p>
-        <div class="columns">
-          <div class="column is-half mx-auto">
-            <div class="box">
-              <h2>Filtro</h2>
-              <div class="field">
-                <label class="label">Pesquisar por:</label>
-                <div class="control">
-                  <label class="radio">
-                    <input type="radio" checked name="tipo-pesquisa" value="nome" v-model="searchType">
-                    Nome
-                  </label>
-                  <label class="radio">
-                    <input type="radio" name="tipo-pesquisa" value="cpf" v-model="searchType">
-                      CPF
-                  </label>
-                </div>
-              </div>
-              <div class="field has-addons">
-                <div class="control">
-                  <input v-if="searchType == 'nome'" class="input" type="text" placeholder="Tobias de Oliveira">
-                  <imask-input v-else class="input" type="text" placeholder="000.000.000-00" :mask="masks.cpf"/>
-                </div>
-                <div class="control">
-                  <a class="button is-info">
-                    <i class="fas fa-search"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <SearchFilterComponent />
         <table class="table is-striped is-fullwidth mt-4">
           <thead>
             <tr>
@@ -109,14 +79,11 @@
 </template>
 
 <script>
-  import { IMaskComponent }  from 'vue-imask'
+  import SearchFilterComponent from '../users/SearchFilterComponent'
 
   export default {
     data() {
       return {
-        masks: {
-          cpf: '000.000.000-00'
-        },
         users: [
           { id: 1, nome: 'Tobias de Oliveira', cpf: '11111111111', telefone: '55119111111111', reservas_ativas: '2' },
           { id: 2, nome: 'Dinorá de Oliveira', cpf: '22222222222', telefone: '55119222222222', reservas_ativas: '3' },
@@ -124,8 +91,10 @@
           { id: 4, nome: 'Doralice Cruz', cpf: '44444444444', telefone: '55119444444444', reservas_ativas: '1' }
         ],
         occupied: false,
-        searchType: 'nome'
       }
+    },
+    components: {
+      SearchFilterComponent
     },
     methods: {
       addUser() {
@@ -138,9 +107,6 @@
           alert('Removido com sucesso.')
         }
       }
-    },
-    components: {
-      'imask-input': IMaskComponent
     }
   }
 </script>
