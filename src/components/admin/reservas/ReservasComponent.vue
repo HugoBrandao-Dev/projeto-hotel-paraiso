@@ -56,8 +56,15 @@
                   <input 
                     type="number" 
                     class="input"
+                    :class="{
+                      'is-danger': search.apartment.iptNumber.hasError
+                    }"
+                    v-model="search.apartment.iptNumber.value"
                   />
                 </div>
+                <p class="help is-danger" v-show="search.apartment.iptNumber.hasError">
+                  {{ search.apartment.iptNumber.error }}
+                </p>
               </div>
             </div>
             <div class="mb-4">
@@ -358,6 +365,11 @@
               error: ''
             },
             iptFloor: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptNumber: {
               value: '',
               hasError: false,
               error: ''
