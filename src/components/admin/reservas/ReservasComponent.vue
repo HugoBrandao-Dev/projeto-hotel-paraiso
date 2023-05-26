@@ -41,27 +41,42 @@
                 </div>
               </div>
             </div>
-            <div>
+            <div class="mb-4">
               <h3>Cliente</h3>
               <div>
                 <div class="field">
                   <label class="label">Pesquisar por:</label>
                   <div class="control">
                     <label class="radio">
-                      <input type="radio" checked name="tipo-pesquisa" value="nome">
-                      Nome
+                      <input 
+                        type="radio"
+                        name="tipo-pesquisa"
+                        value="nome"
+                        v-model="search.client.type"
+                      >
+                        Nome
                     </label>
                     <label class="radio">
-                      <input type="radio" name="tipo-pesquisa" value="cpf">
+                      <input 
+                        type="radio"
+                        name="tipo-pesquisa"
+                        value="cpf"
+                        v-model="search.client.type"
+                      >
                         CPF
                     </label>
                     <label class="radio">
-                      <input type="radio" name="tipo-pesquisa" value="passport-number">
+                      <input 
+                        type="radio"
+                        name="tipo-pesquisa"
+                        value="passport-number"
+                        v-model="search.client.type"
+                      >
                         Passport Number
                     </label>
                   </div>
                 </div>
-                <div class="field is-grouped">
+                <div class="field is-grouped" v-if="search.client.type == 'nome'">
                   <p class="control is-expanded has-icons-right">
                     <input
                       class="input"
@@ -80,7 +95,7 @@
                     </a>
                   </p>
                 </div>
-                <div class="field is-grouped">
+                <div class="field is-grouped" v-else-if="search.client.type == 'cpf'">
                   <p class="control is-expanded has-icons-right">
                     <imask-input
                       class="input"
@@ -99,7 +114,7 @@
                     </a>
                   </p>
                 </div>
-                <div class="field is-grouped">
+                <div class="field is-grouped" v-else>
                   <p class="control is-expanded has-icons-right">
                     <imask-input
                       class="input"
@@ -282,7 +297,12 @@
             status: 'Livre',
             reservado_por: 'N/A'
           }
-        ]
+        ],
+        search: {
+          client: {
+            type: 'nome'
+          }
+        }
       }
     },
     methods: {
