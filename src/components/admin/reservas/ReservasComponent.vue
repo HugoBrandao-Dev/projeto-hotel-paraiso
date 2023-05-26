@@ -15,9 +15,15 @@
                 <label class="label">Status:</label>
                 <div class="control">
                   <div class="select">
-                    <select>
-                      <option>Select dropdown</option>
-                      <option>With options</option>
+                    <select v-model="search.apartment.iptStatus.value">
+                      <option 
+                        v-for="item in statusList" 
+                        :key="item.id"
+                        :selected="search.apartment.iptStatus.value"
+                        :value="item.id"
+                      >
+                        {{ item.status }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -321,7 +327,24 @@
             reservado_por: 'N/A'
           }
         ],
+        statusList: [
+          {
+            id: 1,
+            status: 'Livre'
+          },
+          {
+            id: 2,
+            status: 'Reservado'
+          }
+        ],
         search: {
+          apartment: {
+            iptStatus: {
+              value: 1,
+              hasError: false,
+              error: ''
+            }
+          },
           client: {
             type: 'nome',
             iptName: {
