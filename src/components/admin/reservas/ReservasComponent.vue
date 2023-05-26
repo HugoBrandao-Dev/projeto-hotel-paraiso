@@ -124,14 +124,18 @@
                 </div>
                 <div class="field is-grouped" v-else>
                   <p class="control is-expanded has-icons-right">
+                    {{ search.client.iptPassportNumber.value }}
                     <imask-input
                       class="input"
-                      
+                      :class="{
+                        'is-normal': search.client.iptPassportNumber.hasError,
+                        'is-danger': search.client.iptPassportNumber.hasError
+                      }"
                       type="text"
                       placeholder="0A0A0A0A0A"
-                      
+                      v-model="search.client.iptPassportNumber.value"
                     />
-                    <span class="icon is-small is-right">
+                    <span class="icon is-small is-right" v-show="search.client.iptPassportNumber.hasError">
                       <i class="fas fa-exclamation-triangle"></i>
                     </span>
                   </p>
@@ -146,6 +150,9 @@
                 </p>
                 <p class="help" :class="{ 'is-danger': search.client.iptCPF.error }">
                   {{ search.client.iptCPF.error }}
+                </p>
+                <p class="help" :class="{ 'is-danger': search.client.iptPassportNumber.error }">
+                  {{ search.client.iptPassportNumber.error }}
                 </p>
               </div>
             </div>
@@ -329,6 +336,11 @@
               value: '',
               hasError: false,
               error: ''
+            },
+            iptPassportNumber: {
+              value: '',
+              hasError: true,
+              error: 'passport-number'
             }
           }
         }
