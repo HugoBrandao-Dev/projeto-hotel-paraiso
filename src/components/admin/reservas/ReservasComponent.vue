@@ -80,12 +80,15 @@
                   <p class="control is-expanded has-icons-right">
                     <input
                       class="input"
-                      
+                      :class="{
+                        'is-normal': search.client.iptName.hasError,
+                        'is-danger': search.client.iptName.hasError
+                      }"
                       type="text"
                       placeholder="Tobias de Oliveira"
-                      
+                      v-model="search.client.iptName.value"
                     />
-                    <span class="icon is-small is-right">
+                    <span class="icon is-small is-right" v-show="search.client.iptName.hasError">
                       <i class="fas fa-exclamation-triangle"></i>
                     </span>
                   </p>
@@ -133,6 +136,9 @@
                     </a>
                   </p>
                 </div>
+                <p class="help" :class="{ 'is-danger': search.client.iptName.error }">
+                  {{ search.client.iptName.error }}
+                </p>
               </div>
             </div>
             <div class="buttons is-right">
@@ -302,7 +308,12 @@
         ],
         search: {
           client: {
-            type: 'nome'
+            type: 'nome',
+            iptName: {
+              value: '',
+              hasError: false,
+              error: ''
+            }
           }
         }
       }
