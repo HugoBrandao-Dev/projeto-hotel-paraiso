@@ -102,12 +102,17 @@
                   <p class="control is-expanded has-icons-right">
                     <imask-input
                       class="input"
-                      
+                      :class="{
+                        'is-normal': search.client.iptCPF.hasError,
+                        'is-danger': search.client.iptCPF.hasError
+                      }"
                       type="text"
                       placeholder="000.000.000-00"
-                      
+                      :mask="masks.cpf"
+                      :unmask="true"
+                      v-model="search.client.iptCPF.value"
                     />
-                    <span class="icon is-small is-right">
+                    <span class="icon is-small is-right" v-show="search.client.iptCPF.hasError">
                       <i class="fas fa-exclamation-triangle"></i>
                     </span>
                   </p>
@@ -138,6 +143,9 @@
                 </div>
                 <p class="help" :class="{ 'is-danger': search.client.iptName.error }">
                   {{ search.client.iptName.error }}
+                </p>
+                <p class="help" :class="{ 'is-danger': search.client.iptCPF.error }">
+                  {{ search.client.iptCPF.error }}
                 </p>
               </div>
             </div>
@@ -280,6 +288,9 @@
   export default {
     data() {
       return {
+        masks: {
+          cpf: '000.000.000-00'
+        },
         reservas: [
           {
             id: 1,
@@ -310,6 +321,11 @@
           client: {
             type: 'nome',
             iptName: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptCPF: {
               value: '',
               hasError: false,
               error: ''
