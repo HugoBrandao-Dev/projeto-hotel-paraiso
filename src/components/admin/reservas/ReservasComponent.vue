@@ -14,7 +14,10 @@
               <div class="field column">
                 <label class="label">Status:</label>
                 <div class="control">
-                  <div class="select">
+                  <div 
+                    class="select" 
+                    :class="{'is-danger': search.apartment.iptStatus.hasError}"
+                  >
                     <select v-model="search.apartment.iptStatus.value">
                       <option 
                         v-for="item in statusList" 
@@ -27,6 +30,9 @@
                     </select>
                   </div>
                 </div>
+                <p class="help is-danger" v-show="search.apartment.iptStatus.hasError">
+                  {{ search.apartment.iptStatus.error }}
+                </p>
               </div>
               <div class="field column">
                 <label class="label">Andar:</label>
