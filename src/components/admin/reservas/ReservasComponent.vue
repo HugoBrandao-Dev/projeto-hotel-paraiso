@@ -269,6 +269,8 @@
 </template>
 
 <script>
+  import { IMaskComponent }  from 'vue-imask'
+
   export default {
     data() {
       return {
@@ -304,6 +306,9 @@
           }
         }
       }
+    },
+    components: {
+      'imask-input': IMaskComponent
     },
     methods: {
       confirmDeletion() {
