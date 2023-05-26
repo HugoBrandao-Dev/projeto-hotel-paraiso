@@ -148,7 +148,6 @@
                 </div>
                 <div class="field is-grouped" v-else>
                   <p class="control is-expanded has-icons-right">
-                    {{ search.client.iptPassportNumber.value }}
                     <imask-input
                       class="input"
                       :class="{
@@ -404,6 +403,18 @@
         if (confirm('Deseja deletar reserva?')) {
           alert('Reserva deletada com sucesso.')
         }
+      },
+      clearFields() {
+        // Reset dos campos de apartamento.
+        this.search.apartment.iptStatus.value = 1
+        this.search.apartment.iptFloor.value = ''
+        this.search.apartment.iptNumber.value = ''
+
+        // Reset dos campos de cliente.
+        this.search.client.type = 'nome'
+        this.search.client.iptName.value = ''
+        this.search.client.iptCPF.value = ''
+        this.search.client.iptPassportNumber.value = ''
       }
     }
   }
