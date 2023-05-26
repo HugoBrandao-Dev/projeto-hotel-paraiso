@@ -3,7 +3,130 @@
     <h1>Lista de reservas</h1>
     <hr>
     <div class="content">
-      <SearchFilterComponent />
+      <section id="search-filter" class="columns">
+        <div class="column is-half mx-auto">
+          <div class="box">
+            <hgroup>
+              <h2>Filtro</h2>
+              <h3>Apartamento</h3>
+            </hgroup>
+            <div class="columns">
+              <div class="field column">
+                <label class="label">Status:</label>
+                <div class="control">
+                  <div class="select">
+                    <select>
+                      <option>Select dropdown</option>
+                      <option>With options</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field column">
+                <label class="label">Andar:</label>
+                <div class="control">
+                  <input 
+                    type="number"
+                    class="input"
+                  />
+                </div>
+              </div>
+              <div class="field column">
+                <label class="label">Número:</label>
+                <div class="control">
+                  <input 
+                    type="number" 
+                    class="input"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3>Cliente</h3>
+              <div>
+                <div class="field">
+                  <label class="label">Pesquisar por:</label>
+                  <div class="control">
+                    <label class="radio">
+                      <input type="radio" checked name="tipo-pesquisa" value="nome">
+                      Nome
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="tipo-pesquisa" value="cpf">
+                        CPF
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="tipo-pesquisa" value="passport-number">
+                        Passport Number
+                    </label>
+                  </div>
+                </div>
+                <div class="field is-grouped">
+                  <p class="control is-expanded has-icons-right">
+                    <input
+                      class="input"
+                      
+                      type="text"
+                      placeholder="Tobias de Oliveira"
+                      
+                    />
+                    <span class="icon is-small is-right">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </span>
+                  </p>
+                  <p class="control">
+                    <a class="button is-info">
+                      Pesquisar
+                    </a>
+                  </p>
+                </div>
+                <div class="field is-grouped">
+                  <p class="control is-expanded has-icons-right">
+                    <imask-input
+                      class="input"
+                      
+                      type="text"
+                      placeholder="000.000.000-00"
+                      
+                    />
+                    <span class="icon is-small is-right">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </span>
+                  </p>
+                  <p class="control">
+                    <a class="button is-info">
+                      Pesquisar
+                    </a>
+                  </p>
+                </div>
+                <div class="field is-grouped">
+                  <p class="control is-expanded has-icons-right">
+                    <imask-input
+                      class="input"
+                      
+                      type="text"
+                      placeholder="0A0A0A0A0A"
+                      
+                    />
+                    <span class="icon is-small is-right">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </span>
+                  </p>
+                  <p class="control">
+                    <a class="button is-info">
+                      Pesquisar
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="buttons is-right">
+              <button class="button is-ghost" @click="clearFields()">Limpar</button>
+              <button class="button is-info">Buscar</button>
+            </div>
+          </div>
+        </div>
+      </section>
       <div class="buttons is-right">
         <a href="/admin/reservas/new" class="button is-primary is-large">
           Nova Reserva
@@ -131,8 +254,6 @@
 </template>
 
 <script>
-  import SearchFilterComponent from './SearchFilterComponent'
-
   export default {
     data() {
       return {
@@ -163,9 +284,6 @@
           }
         ]
       }
-    },
-    components: {
-      SearchFilterComponent
     },
     methods: {
       confirmDeletion() {
