@@ -572,7 +572,7 @@
       'imask-input': IMaskComponent
     },
     created() {
-      // this.setCountries()
+      this.setCountries()
     },
     props: {
       type: String
@@ -695,6 +695,8 @@
         // Verifica se as senhas são diferentes
         if (this.form.iptPassword.value1 !== this.form.iptPassword.value2) {
           this.setError('iptPassword', 'As senhas não conferem.')
+
+        // Verifica se a senha é fraca.
         } else if (!this.isValidPassword()) {
           this.setError('iptPassword', 'As senhas são muito fracas.')
         }
