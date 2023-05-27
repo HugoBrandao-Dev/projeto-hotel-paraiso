@@ -55,7 +55,7 @@
               'is-normal': !form.iptPassword.hasError,
               'is-danger': form.iptPassword.hasError
             }"
-            v-model="form.iptPassword.value2"
+            v-model="form.iptPassword.value1"
           />
           <span class="icon is-small is-right" v-show="form.iptPassword.hasError">
             <i class="fas fa-exclamation-triangle"></i>
@@ -75,6 +75,7 @@
               'is-normal': !form.iptPassword.hasError,
               'is-danger': form.iptPassword.hasError
             }"
+            v-model="form.iptPassword.value2"
           />
           <span class="icon is-small is-right" v-show="form.iptPassword.hasError">
             <i class="fas fa-exclamation-triangle"></i>
