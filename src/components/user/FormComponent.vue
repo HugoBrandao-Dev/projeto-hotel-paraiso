@@ -629,6 +629,9 @@
 
         return itsValidPT_BR || itsValidEN_US
       },
+      isValidEmail() {
+        return validator.isEmail(this.form.iptEmail.value)
+      },
       setError(field, msg) {
         this.form[field].hasError = true
         this.form[field].error = msg
@@ -675,12 +678,14 @@
 
         this.form.iptAddInformation.hasError = false
         this.form.iptAddInformation.error = ''
-
       },
       registerUser() {
         this.clearErrorFields()
         if (!this.isValidName()) {
           this.setError('iptName', 'Nome inválido.')
+        }
+        if (!this.isValidEmail()) {
+          this.setError('iptEmail', 'Email inválido.')
         }
       },
       showValues() {
