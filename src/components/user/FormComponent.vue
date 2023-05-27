@@ -629,9 +629,9 @@
 
         return itsValidPT_BR || itsValidEN_US
       },
-      setNameError(msg) {
-        this.form.iptName.hasError = true
-        this.form.iptName.error = msg
+      setError(field, msg) {
+        this.form[field].hasError = true
+        this.form[field].error = msg
       },
       clearErrorFields() {
         this.form.iptName.hasError = false
@@ -680,7 +680,7 @@
       registerUser() {
         this.clearErrorFields()
         if (!this.isValidName()) {
-          this.setNameError('Nome inválido.')
+          this.setError('iptName', 'Nome inválido.')
         }
       },
       showValues() {
