@@ -633,7 +633,52 @@
         this.form.iptName.hasError = true
         this.form.iptName.error = msg
       },
+      clearErrorFields() {
+        this.form.iptName.hasError = false
+        this.form.iptName.error = ''
+
+        this.form.iptEmail.hasError = false
+        this.form.iptEmail.error = ''
+
+        this.form.iptPassword.hasError = false
+        this.form.iptPassword.error = ''
+
+        this.form.iptCountry.hasError = false
+        this.form.iptCountry.error = ''
+
+        this.form.iptState.hasError = false
+        this.form.iptState.error = ''
+
+        this.form.iptCity.hasError = false
+        this.form.iptCity.error = ''
+
+        this.form.iptCPF.hasError = false
+        this.form.iptCPF.error = ''
+
+        this.form.iptPassportNumber.hasError = false
+        this.form.iptPassportNumber.error = ''
+
+        this.form.iptPhoneNumber.hasError = false
+        this.form.iptPhoneNumber.error = ''
+
+        this.form.iptCEP.hasError = false
+        this.form.iptCEP.error = ''
+
+        this.form.iptNeighborhood.hasError = false
+        this.form.iptNeighborhood.error = ''
+
+        this.form.iptRoad.hasError = false
+        this.form.iptRoad.error = ''
+
+        this.form.iptNumber.hasError = false
+        this.form.iptNumber.error = ''
+
+        this.form.iptAddInformation.hasError = false
+        this.form.iptAddInformation.error = ''
+
+      },
       registerUser() {
+        this.clearErrorFields()
         if (!this.isValidName()) {
           this.setNameError('Nome inválido.')
         }
