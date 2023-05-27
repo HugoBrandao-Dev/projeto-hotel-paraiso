@@ -636,6 +636,9 @@
       isValidPassword() {
         return validator.isStrongPassword(this.form.iptPassword.value1)
       },
+      isValidCountry() {
+        return validator.isISO31661Alpha2(this.form.iptCountry.value)
+      },
       setError(field, msg) {
         this.form[field].hasError = true
         this.form[field].error = msg
@@ -701,6 +704,9 @@
           this.setError('iptPassword', 'As senhas são muito fracas.')
         }
 
+        if (!this.isValidCountry()) {
+          this.setError('iptCountry', 'O país é inválido.')
+        }
       },
       showValues() {
         console.log(this.form.iptState.value, this.form.iptCity.value)
