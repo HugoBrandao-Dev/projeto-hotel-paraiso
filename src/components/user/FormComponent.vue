@@ -633,6 +633,9 @@
       isValidEmail() {
         return validator.isEmail(this.form.iptEmail.value)
       },
+      isValidPassword() {
+        return validator.isStrongPassword(this.form.iptPassword.value1)
+      },
       setError(field, msg) {
         this.form[field].hasError = true
         this.form[field].error = msg
@@ -688,6 +691,14 @@
         if (!this.isValidEmail()) {
           this.setError('iptEmail', 'Email inválido.')
         }
+
+        // Verifica se as senhas são diferentes
+        if (this.form.iptPassword.value1 !== this.form.iptPassword.value2) {
+          this.setError('iptPassword', 'As senhas não conferem.')
+        } else if (!this.isValidPassword()) {
+          this.setError('iptPassword', 'As senhas são muito fracas.')
+        }
+
       },
       showValues() {
         console.log(this.form.iptState.value, this.form.iptCity.value)
