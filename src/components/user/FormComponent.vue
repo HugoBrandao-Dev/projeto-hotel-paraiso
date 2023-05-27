@@ -398,7 +398,7 @@
 
     <div class="field is-grouped is-grouped-centered">
       <p class="control">
-        <a class="button" :class="buttonValue.class">
+        <a class="button" :class="buttonValue.class" @click="registerUser()">
           {{ buttonValue.value }}
         </a>
       </p>
@@ -457,6 +457,7 @@
 
 <script>
   import axios from 'axios'
+  import validator from 'validator'
   import { IMaskComponent }  from 'vue-imask'
 
   let axios_countriesStatesCities = axios.create({
@@ -618,6 +619,25 @@
       }
     },
     methods: {
+      isValidName() {
+        let itsValidPT_BR = validator.isAlpha(this.form.iptName.value, ['pt-BR'], {
+          ignore: ' \''
+        })
+        let itsValidEN_US = validator.isAlpha(this.form.iptName.value, ['en-US'], {
+          ignore: ' \''
+        })
+
+        return itsValidPT_BR || itsValidEN_US
+      },
+      setNameError(msg) {
+        this.form.iptName.hasError = true
+        this.form.iptName.error = msg
+      },
+      registerUser() {
+        if (!this.isValidName()) {
+          this.setNameError('Nome inválido.')
+        }
+      },
       showValues() {
         console.log(this.form.iptState.value, this.form.iptCity.value)
       },
