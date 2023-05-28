@@ -62,3 +62,6 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 
 ### Estado/Cidade
 * Implementar métodos de validação do estado e da cidade, no componente/formulário de cadastro de um novo cliente.
+
+### Telefone
+* Implementar método de validação do telefone, no componente/formulário de cadastro de um novo cliente.
