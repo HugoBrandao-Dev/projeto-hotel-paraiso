@@ -658,6 +658,11 @@
 
         return hasLengthRight && isAlphanumeric
       },
+      isValidNeighborhood() {
+        return validator.isAlphanumeric(this.form.iptNeighborhood.value, [navigator.language], {
+          ignore: ' \':,.'
+        })
+      },
       setError(field, msg) {
         this.form[field].hasError = true
         this.form[field].error = msg
@@ -731,6 +736,9 @@
         }
         if (!this.isValidPassportNumber()) {
           this.setError('iptPassportNumber', 'Invalid Passport Number.')
+        }
+        if (!this.isValidNeighborhood()) {
+          this.setError('iptNeighborhood', 'Nome do bairro inválido.')
         }
       },
       showValues() {
