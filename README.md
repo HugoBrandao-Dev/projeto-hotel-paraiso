@@ -53,6 +53,9 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 ## Bugs
 
 ## Possíveis melhorias futuras
+### Linguagem
+* Exportar/enviar a linguagem do navegador para o BACK-END, para que hajam verificações dos campos dos formulários corretamente.
+
 ### Para sessões de Usuários e Admins
 * Colocar um carousel de imagens do apartamento/casa que o usuário está visualizando;
 * Implementado sistema para armazenamento das imagens de cada Apartamento.
