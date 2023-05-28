@@ -59,3 +59,6 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 * Colocar icones para cômodos que são descritos na informação da reserva que o usuário está visualizando;
 * Colocar opções de compartilhamento da página da reserva que o usuário está visualizando;
 * Exibir informações quando o usuário passar o mouse ou clicar no ícone de informação de cada cômodo.
+
+### Estado/Cidade
+* Implementar métodos de validação do estado e da cidade, no componente/formulário de cadastro de um novo cliente.
