@@ -639,6 +639,16 @@
       isValidCountry() {
         return validator.isISO31661Alpha2(this.form.iptCountry.value)
       },
+      isValidCPF() {
+        let hasLengthRight = validator.isLength(this.form.iptCPF.value, {
+          min: 11,
+          max: 11
+        })
+        let isNumeric = validator.isNumeric(this.form.iptCPF.value, {
+          no_symbols: true
+        })
+        return hasLengthRight && isNumeric
+      },
       setError(field, msg) {
         this.form[field].hasError = true
         this.form[field].error = msg
@@ -706,6 +716,9 @@
 
         if (!this.isValidCountry()) {
           this.setError('iptCountry', 'O país é inválido.')
+        }
+        if (!this.isValidCPF()) {
+          this.setError('iptCPF', 'Número de CPF inválido.')
         }
       },
       showValues() {
