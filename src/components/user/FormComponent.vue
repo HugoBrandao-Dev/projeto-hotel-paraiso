@@ -649,6 +649,15 @@
         })
         return hasLengthRight && isNumeric
       },
+      isValidPassportNumber() {
+        let hasLengthRight = validator.isLength(this.form.iptPassportNumber.value, {
+          min: 8,
+          max: 9
+        })
+        let isAlphanumeric = validator.isAlphanumeric(this.form.iptPassportNumber.value, ['en-US'])
+
+        return hasLengthRight && isAlphanumeric
+      },
       setError(field, msg) {
         this.form[field].hasError = true
         this.form[field].error = msg
@@ -719,6 +728,9 @@
         }
         if (!this.isValidCPF()) {
           this.setError('iptCPF', 'Número de CPF inválido.')
+        }
+        if (!this.isValidPassportNumber()) {
+          this.setError('iptPassportNumber', 'Invalid Passport Number.')
         }
       },
       showValues() {
