@@ -69,16 +69,26 @@
         <section class="modal-card-body">
           <form id="form-login">
             <div class="field">
-              <p class="control has-icons-left">
-                <input class="input" type="email" placeholder="Email">
+              <p class="control has-icons-left has-icons-right">
+                <input 
+                  class="input" 
+                  type="email" 
+                  placeholder="Email"
+                  v-model="forms.login.iptEmail.value"
+                />
                 <span class="icon is-small is-left">
                   <i class="fas fa-envelope"></i>
                 </span>
               </p>
             </div>
             <div class="field">
-              <p class="control has-icons-left">
-                <input class="input" type="password" placeholder="Password">
+              <p class="control has-icons-left has-icons-right">
+                <input 
+                  class="input" 
+                  type="password" 
+                  placeholder="Senha"
+                  v-model="forms.login.iptPassword.value"
+                />
                 <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
                 </span>
@@ -98,6 +108,11 @@
   export default {
     data() {
       return {
+        modals: {
+          login: {
+            active: true
+          }
+        },
         routes: {
           user: [
             {
@@ -130,9 +145,18 @@
             }
           ]
         },
-        modals: {
+        forms: {
           login: {
-            active: false
+            iptEmail: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptPassword: {
+              value: '',
+              hasError: false,
+              error: ''
+            }
           }
         }
       }
