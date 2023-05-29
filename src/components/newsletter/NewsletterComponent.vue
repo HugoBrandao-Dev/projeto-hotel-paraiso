@@ -1,24 +1,43 @@
 <template>
   <section id="newsletter">
     <h3>Newsletter</h3>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam suscipit reprehenderit, adipisci explicabo ab porro sequi mollitia voluptas id at modi veniam amet officia delectus?</p>
+    <p id="newsletter-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam suscipit reprehenderit, adipisci explicabo ab porro sequi mollitia voluptas id at modi veniam amet officia delectus?</p>
     <hr>
     <form>
-      <input type="email" placeholder="Informe seu email">
+      <input 
+        type="email"
+        placeholder="Informe seu email"
+        v-model="forms.newsletter.iptEmail.value"
+      />
       <button type="button">Cadastrar</button>
     </form>
+    <p class="help is-danger" v-show="forms.newsletter.iptEmail.hasError">
+      {{ forms.newsletter.iptEmail.error }}
+    </p>
   </section>
 </template>
 <script>
   export default {
-    
+    data() {
+      return {
+        forms: {
+          newsletter: {
+            iptEmail: {
+              value: '',
+              hasError: false,
+              error: ''
+            }
+          }
+        }
+      }
+    }
   }
 </script>
 <style scoped>
   #newsletter {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
     padding: 50px;
   }
 
@@ -29,7 +48,7 @@
     color: #c3c63b;
   }
 
-  #newsletter p {
+  #newsletter #newsletter-text {
     max-width: 800px;
     text-align: center;
     color: #c3c63b;
