@@ -69,29 +69,43 @@
         <section class="modal-card-body">
           <form id="form-login">
             <div class="field">
-              <p class="control has-icons-left has-icons-right">
+              <div class="control has-icons-left has-icons-right">
                 <input 
-                  class="input" 
-                  type="email" 
+                  class="input"
+                  :class="{'is-danger': forms.login.iptEmail.hasError}"
+                  type="email"
                   placeholder="Email"
                   v-model="forms.login.iptEmail.value"
                 />
                 <span class="icon is-small is-left">
                   <i class="fas fa-envelope"></i>
                 </span>
+                <span class="icon is-small is-right" v-show="forms.login.iptEmail.hasError">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </span>
+              </div>
+              <p class="help is-danger" v-show="forms.login.iptEmail.hasError">
+                {{ forms.login.iptEmail.error }}
               </p>
             </div>
             <div class="field">
-              <p class="control has-icons-left has-icons-right">
+              <div class="control has-icons-left has-icons-right">
                 <input 
-                  class="input" 
-                  type="password" 
+                  class="input"
+                  :class="{'is-danger': forms.login.iptPassword.hasError}"
+                  type="password"
                   placeholder="Senha"
                   v-model="forms.login.iptPassword.value"
                 />
                 <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
                 </span>
+                <span class="icon is-small is-right" v-show="forms.login.iptPassword.hasError">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </span>
+              </div>
+              <p class="help is-danger" v-show="forms.login.iptPassword.hasError">
+                {{ forms.login.iptPassword.error }}
               </p>
             </div>
           </form>
@@ -110,7 +124,7 @@
       return {
         modals: {
           login: {
-            active: true
+            active: false
           }
         },
         routes: {
