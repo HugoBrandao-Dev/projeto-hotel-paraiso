@@ -686,6 +686,11 @@
 
         return isLength && isNumeric
       },
+      isValidAddInformation() {
+        return validator.isAlphanumeric(this.form.iptAddInformation.value, ['en-US'], {
+          ignore: ' \n\',.:$-()'
+        })
+      },
       setError(field, msg) {
         this.form.hasErrors = true
         this.form[field].hasError = true
@@ -781,6 +786,9 @@
         }
         if (!this.isValidNumber()) {
           this.setError('iptNumber', 'Número da casa inválido.')
+        }
+        if (!this.isValidAddInformation()) {
+          this.setError('iptAddInformation', 'Texto inválido.')
         }
 
         if (!this.form.hasErrors) {
