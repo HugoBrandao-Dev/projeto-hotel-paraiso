@@ -475,6 +475,7 @@
         states: [],
         cities: [],
         form: {
+          hasErrors: false,
           iptName: {
             value: '',
             hasError: false,
@@ -675,10 +676,13 @@
         })
       },
       setError(field, msg) {
+        this.form.hasErrors = true
         this.form[field].hasError = true
         this.form[field].error = msg
       },
       clearErrorFields() {
+        this.form.hasErrors = false
+
         this.form.iptName.hasError = false
         this.form.iptName.error = ''
 
@@ -756,6 +760,10 @@
         }
         if (!this.isValidNumber()) {
           this.setError('iptNumber', 'Número da casa inválido.')
+        }
+
+        if (!this.form.hasErrors) {
+          console.log('Cadastrado com sucesso.')
         }
       },
       showValues() {
