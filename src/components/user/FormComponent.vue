@@ -790,6 +790,9 @@
         if (!this.isValidAddInformation()) {
           this.setError('iptAddInformation', 'Texto inválido.')
         }
+        if (!this.form.ckbTermsConditions.value) {
+          this.setError('ckbTermsConditions', 'Aceite nossos termos e condições.')
+        }
 
         if (!this.form.hasErrors) {
           console.log('Cadastrado com sucesso.')
