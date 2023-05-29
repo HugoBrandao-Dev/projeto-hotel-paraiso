@@ -740,6 +740,9 @@
 
         this.form.iptAddInformation.hasError = false
         this.form.iptAddInformation.error = ''
+
+        this.form.ckbTermsConditions.hasError = false
+        this.form.ckbTermsConditions.error = ''
       },
       registerUser() {
         this.clearErrorFields()
