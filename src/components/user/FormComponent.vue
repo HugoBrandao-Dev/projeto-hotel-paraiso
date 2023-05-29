@@ -675,6 +675,17 @@
           no_symbols: true
         })
       },
+      isValidCEP() {
+        let isLength = validator.isLength(this.form.iptCEP.value, {
+          min: 8,
+          max: 8
+        })
+        let isNumeric = validator.isNumeric(this.form.iptCEP.value, {
+          no_symbols: true
+        })
+
+        return isLength && isNumeric
+      },
       setError(field, msg) {
         this.form.hasErrors = true
         this.form[field].hasError = true
@@ -748,8 +759,10 @@
         } else {
 
           // Valida o CEP ou Passport Number, a depender da nacionalidade do Cliente.
-          if (this.form.iptCountry.value == 'BR') {
-            // Implementar validação de CEP.
+          if (this.form.iptCountry.value === 'BR') {
+            if (!this.isValidCEP()) {
+              this.setError('iptCEP', 'CEP inválido.')
+            }
           } else {
             if (!this.isValidPassportNumber()) {
               this.setError('iptPassportNumber', 'Invalid Passport Number.')
