@@ -745,12 +745,20 @@
 
         if (!this.isValidCountry()) {
           this.setError('iptCountry', 'O país é inválido.')
+        } else {
+
+          // Valida o CEP ou Passport Number, a depender da nacionalidade do Cliente.
+          if (this.form.iptCountry.value == 'BR') {
+            // Implementar validação de CEP.
+          } else {
+            if (!this.isValidPassportNumber()) {
+              this.setError('iptPassportNumber', 'Invalid Passport Number.')
+            }
+          }
         }
+
         if (!this.isValidCPF()) {
           this.setError('iptCPF', 'Número de CPF inválido.')
-        }
-        if (!this.isValidPassportNumber()) {
-          this.setError('iptPassportNumber', 'Invalid Passport Number.')
         }
         if (!this.isValidNeighborhood()) {
           this.setError('iptNeighborhood', 'Nome do bairro inválido.')
