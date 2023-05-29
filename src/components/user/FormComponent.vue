@@ -768,7 +768,7 @@
 
           // Valida o CEP ou Passport Number, a depender da nacionalidade do Cliente.
           if (this.form.iptCountry.value === 'BR') {
-            if (!this.isValidCEP()) {
+            if (!this.isValidCEP() && !this.disableCEP) {
               this.setError('iptCEP', 'CEP inválido.')
             }
           } else {
