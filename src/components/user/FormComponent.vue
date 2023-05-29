@@ -663,6 +663,11 @@
           ignore: ' \':,.'
         })
       },
+      isValidRoad() {
+        return validator.isAlphanumeric(this.form.iptRoad.value, [navigator.language], {
+          ignore: ' \':,.'
+        })
+      },
       setError(field, msg) {
         this.form[field].hasError = true
         this.form[field].error = msg
@@ -739,6 +744,9 @@
         }
         if (!this.isValidNeighborhood()) {
           this.setError('iptNeighborhood', 'Nome do bairro inválido.')
+        }
+        if (!this.isValidRoad()) {
+          this.setError('iptRoad', 'Nome da rua inválido.')
         }
       },
       showValues() {
