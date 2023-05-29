@@ -350,6 +350,7 @@
             }"
             type="text"
             placeholder="00000"
+            v-model="form.iptNumber.value"
           />
           <span class="icon is-small is-right" v-show="form.iptNumber.hasError">
             <i class="fas fa-exclamation-triangle"></i>
@@ -668,6 +669,11 @@
           ignore: ' \':,.'
         })
       },
+      isValidNumber() {
+        return validator.isNumeric(this.form.iptNumber.value, {
+          no_symbols: true
+        })
+      },
       setError(field, msg) {
         this.form[field].hasError = true
         this.form[field].error = msg
@@ -747,6 +753,9 @@
         }
         if (!this.isValidRoad()) {
           this.setError('iptRoad', 'Nome da rua inválido.')
+        }
+        if (!this.isValidNumber()) {
+          this.setError('iptNumber', 'Número da casa inválido.')
         }
       },
       showValues() {
