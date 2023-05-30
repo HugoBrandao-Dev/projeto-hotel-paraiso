@@ -143,12 +143,22 @@
         this.forms.filter.iptHighestDailyRate.value = ''
         this.forms.filter.ckbAnimal.value = false
       },
+      clearErrorFields() {
+        this.forms.hasErrors = false
+        let fields = Object.keys(this.forms.filter)
+        fields.forEach(field => {
+          if (field.indexOf('ipt') >= 0) {
+            this.forms.filter[field].hasError = false
+            this.forms.filter[field].error = ''
+          }
+        })
+      },
       setError(field, msg) {
         this.forms.filter[field].hasError = true
         this.forms.filter[field].error = msg
       },
       applyFilters() {
-        this.setError('iptRooms', 'O valor é inválido.')
+        this.clearErrorFields()
       }
     }
   }
