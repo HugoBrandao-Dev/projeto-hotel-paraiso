@@ -8,29 +8,29 @@
           <div class="card-content">
             <p class="title">Filtros</p>
               <div class="columns">
-                <div class="field column is-half">
-                  <label class="label">Tipo:</label>
-                  <div class="control">
-                    <div class="select is-small">
-                      <select>
-                        <option checked>Apartamento</option>
-                        <option>Casa</option>
-                      </select>
-                    </div>
-                  </div>
-                  <!-- <p class="help">This is a help text</p> -->
-                </div>
                 <div class="field column">
-                  <label class="label">Cômodos:</label>
+                  <label class="label">Cômodos: {{ forms.filter.iptRooms.value }}</label>
                   <div class="control">
-                    <div class="select is-small">
-                      <select>
-                        <option checked>4</option>
-                        <option>6</option>
+                    <div 
+                      class="select is-small"
+                      :class="{'is-danger': forms.filter.iptRooms.hasError}"
+                    >
+                      <select
+                        v-model="forms.filter.iptRooms.value"
+                      >
+                        <option 
+                          v-for="item in roomsList" 
+                          :key="item" 
+                          :value="item"
+                        >
+                          {{ item }}
+                        </option>
                       </select>
                     </div>
                   </div>
-                  <!-- <p class="help">This is a help text</p> -->
+                  <p class="help is-danger" v-show="forms.filter.iptRooms.hasError">
+                    {{ forms.filter.iptRooms.error }}
+                  </p>
                 </div>
               </div>
               <div class="columns">
@@ -95,7 +95,20 @@
 
 <script>
   export default {
-    
+    data() {
+      return {
+        roomsList: [10,8,6,4],
+        forms: {
+          filter: {
+            iptRooms: {
+              value: '',
+              hasError: false,
+              error: ''
+            }
+          }
+        }
+      }
+    }
   }
 </script>
 
