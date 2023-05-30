@@ -3,7 +3,7 @@
     <h1>Reservas</h1>
     <hr>
     <div class="columns">
-      <form class="filtro column is-one-third is-align-self-flex-start">
+      <aside class="column is-one-third is-align-self-flex-start">
         <div class="card">
           <div class="card-content">
             <p class="title">Filtros</p>
@@ -78,12 +78,12 @@
             <button class="button is-ghost card-footer-item">
               Aplicar
             </button>
-            <button class="button is-ghost card-footer-item" @click.prevent="clearFields()">
+            <button class="button is-ghost card-footer-item" @click="clearFields()">
               Limpar
             </button>
           </footer>
         </div>
-      </form>
+      </aside>
       <div class="lista-reservas column columns is-flex is-flex-wrap-wrap">
         <div v-for="cont in 7" :key="cont" class="tile is-parent column is-one-third">
           <article class="tile is-child box">
