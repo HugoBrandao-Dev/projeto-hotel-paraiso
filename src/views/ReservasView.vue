@@ -37,7 +37,12 @@
                 <div class="field column is-half">
                   <label class="label">Menor diária:</label>
                   <div class="control">
-                    <input class="input is-small" type="text" placeholder="100">
+                    <input 
+                      class="input is-small" 
+                      type="number" 
+                      placeholder="100"
+                      v-model="forms.filter.iptLowerDailyRate.value"
+                    />
                   </div>
                   <!-- <p class="help">This is a help text</p> -->
                 </div>
@@ -101,6 +106,11 @@
         forms: {
           filter: {
             iptRooms: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptLowerDailyRate: {
               value: '',
               hasError: false,
               error: ''
