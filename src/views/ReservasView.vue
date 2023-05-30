@@ -9,7 +9,7 @@
             <p class="title">Filtros</p>
               <div class="columns">
                 <div class="field column">
-                  <label class="label">Cômodos: {{ forms.filter.iptRooms.value }}</label>
+                  <label class="label">Cômodos:</label>
                   <div class="control">
                     <div 
                       class="select is-small"
@@ -78,7 +78,7 @@
             <button class="button is-ghost card-footer-item">
               Aplicar
             </button>
-            <button class="button is-ghost card-footer-item">
+            <button class="button is-ghost card-footer-item" @click.prevent="clearFields()">
               Limpar
             </button>
           </footer>
@@ -133,6 +133,14 @@
             }
           }
         }
+      }
+    },
+    methods: {
+      clearFields() {
+        this.forms.filter.iptRooms.value = ''
+        this.forms.filter.iptLowerDailyRate.value = ''
+        this.forms.filter.iptHighestDailyRate.value = ''
+        this.forms.filter.ckbAnimal.value = false
       }
     }
   }
