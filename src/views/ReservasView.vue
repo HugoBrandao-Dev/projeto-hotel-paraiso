@@ -53,13 +53,16 @@
                   <label class="label">Maior diária:</label>
                   <div class="control">
                     <input 
-                      class="input is-small" 
-                      type="number" 
+                      class="input is-small"
+                      :class="{'is-danger': forms.filter.iptHighestDailyRate.hasError}"
+                      type="number"
                       placeholder="500"
                       v-model="forms.filter.iptHighestDailyRate.value"
                     />
                   </div>
-                  <!-- <p class="help">This is a help text</p> -->
+                  <p class="help is-danger" v-show="forms.filter.iptHighestDailyRate.hasError">
+                    {{ forms.filter.iptHighestDailyRate.error }}
+                  </p>
                 </div>
               </div>
               <div class="field">
