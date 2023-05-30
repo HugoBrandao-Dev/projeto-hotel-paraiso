@@ -161,13 +161,27 @@
 
         return isEmpty || isInsideRoomsList
       },
+      isValidLowerDailyRate() {
+        let isEmpty = validator.isEmpty(this.forms.filter.iptLowerDailyRate.value)
+        let isFloat = validator.isFloat(this.forms.filter.iptLowerDailyRate.value, {
+          locale: 'pt-BR',
+          min: 0
+        })
+
+        return isEmpty || isFloat
+      },
       setError(field, msg) {
         this.forms.filter[field].hasError = true
         this.forms.filter[field].error = msg
       },
       applyFilters() {
+        this.clearErrorFields()
+
         if (!this.isValidRooms()) {
           this.setError('iptRooms', 'Quantidade de cômodos inválida.')
+        }
+        if (!this.isValidLowerDailyRate()) {
+          this.setError('iptLowerDailyRate', 'Diária mínima inválida.')
         }
       }
     }
