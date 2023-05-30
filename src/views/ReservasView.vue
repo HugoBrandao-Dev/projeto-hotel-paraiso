@@ -75,7 +75,7 @@
               </div>
           </div>
           <footer class="card-footer">
-            <button class="button is-ghost card-footer-item">
+            <button class="button is-ghost card-footer-item" @click="applyFilters()">
               Aplicar
             </button>
             <button class="button is-ghost card-footer-item" @click="clearFields()">
@@ -110,6 +110,7 @@
       return {
         roomsList: [10,8,6,4],
         forms: {
+          hasErrors: false,
           filter: {
             iptRooms: {
               value: '',
@@ -141,6 +142,13 @@
         this.forms.filter.iptLowerDailyRate.value = ''
         this.forms.filter.iptHighestDailyRate.value = ''
         this.forms.filter.ckbAnimal.value = false
+      },
+      setError(field, msg) {
+        this.forms.filter[field].hasError = true
+        this.forms.filter[field].error = msg
+      },
+      applyFilters() {
+        this.setError('iptRooms', 'O valor é inválido.')
       }
     }
   }
