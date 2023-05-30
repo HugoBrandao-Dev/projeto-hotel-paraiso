@@ -50,9 +50,14 @@
                   </p>
                 </div>
                 <div class="field column">
-                  <label class="label">Maior diária:{{ iptLowerDailyRate }}</label>
+                  <label class="label">Maior diária:</label>
                   <div class="control">
-                    <input class="input is-small" type="text" placeholder="500">
+                    <input 
+                      class="input is-small" 
+                      type="number" 
+                      placeholder="500"
+                      v-model="forms.filter.iptHighestDailyRate.value"
+                    />
                   </div>
                   <!-- <p class="help">This is a help text</p> -->
                 </div>
@@ -114,6 +119,11 @@
               error: ''
             },
             iptLowerDailyRate: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptHighestDailyRate: {
               value: '',
               hasError: false,
               error: ''
