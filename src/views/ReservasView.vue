@@ -38,16 +38,19 @@
                   <label class="label">Menor diária:</label>
                   <div class="control">
                     <input 
-                      class="input is-small" 
-                      type="number" 
+                      class="input is-small"
+                      :class="{'is-danger': forms.filter.iptLowerDailyRate.hasError}"
+                      type="number"
                       placeholder="100"
                       v-model="forms.filter.iptLowerDailyRate.value"
                     />
                   </div>
-                  <!-- <p class="help">This is a help text</p> -->
+                  <p class="help is-danger" v-show="forms.filter.iptLowerDailyRate.hasError">
+                    {{ forms.filter.iptLowerDailyRate.error }}
+                  </p>
                 </div>
                 <div class="field column">
-                  <label class="label">Maior diária:</label>
+                  <label class="label">Maior diária:{{ iptLowerDailyRate }}</label>
                   <div class="control">
                     <input class="input is-small" type="text" placeholder="500">
                   </div>
