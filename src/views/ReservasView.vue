@@ -170,6 +170,15 @@
 
         return isEmpty || isFloat
       },
+      isValidHighestDailyRate() {
+        let isEmpty = validator.isEmpty(this.forms.filter.iptHighestDailyRate.value)
+        let isFloat = validator.isFloat(this.forms.filter.iptHighestDailyRate.value, {
+          locale: 'pt-BR',
+          min: 0
+        })
+
+        return isEmpty || isFloat
+      },
       setError(field, msg) {
         this.forms.filter[field].hasError = true
         this.forms.filter[field].error = msg
@@ -182,6 +191,16 @@
         }
         if (!this.isValidLowerDailyRate()) {
           this.setError('iptLowerDailyRate', 'Diária mínima inválida.')
+        }
+
+        let minValue = this.forms.filter.iptLowerDailyRate.value
+        let maxValue = this.forms.filter.iptHighestDailyRate.value
+        if (!this.isValidHighestDailyRate()) {
+          this.setError('iptHighestDailyRate', 'Diária máxima inválida.')
+
+        // Verifica se a Diária máxima é menor que a Diária mínima.
+        } else if (maxValue <= minValue) {
+          this.setError('iptHighestDailyRate', 'Deve ser maior que a mínima.')
         }
       }
     }
