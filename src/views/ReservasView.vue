@@ -66,15 +66,10 @@
                 </div>
               </div>
               <div class="field">
-                <label class="label">Aceita animais?</label>
                 <div class="control">
-                  <label class="radio">
-                    <input type="radio" name="animais">
-                    Sim
-                  </label>
-                  <label class="radio">
-                    <input type="radio" name="animais" checked>
-                    Não
+                  <label class="checkbox">
+                    <input type="checkbox" v-model="forms.filter.ckbAnimal.value">
+                    Aceita animal.
                   </label>
                 </div>
               </div>
@@ -128,6 +123,11 @@
             },
             iptHighestDailyRate: {
               value: '',
+              hasError: false,
+              error: ''
+            },
+            ckbAnimal: {
+              value: false,
               hasError: false,
               error: ''
             }
