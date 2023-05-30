@@ -105,6 +105,8 @@
 </template>
 
 <script>
+  import validator from 'validator'
+
   export default {
     data() {
       return {
@@ -153,12 +155,20 @@
           }
         })
       },
+      isValidRooms() {
+        let isEmpty = validator.isEmpty(this.forms.filter.iptRooms.value)
+        let isInsideRoomsList = this.roomsList.indexOf(this.forms.filter.iptRooms.value) >= 0
+
+        return isEmpty || isInsideRoomsList
+      },
       setError(field, msg) {
         this.forms.filter[field].hasError = true
         this.forms.filter[field].error = msg
       },
       applyFilters() {
-        this.clearErrorFields()
+        if (!this.isValidRooms()) {
+          this.setError('iptRooms', 'Quantidade de cômodos inválida.')
+        }
       }
     }
   }
