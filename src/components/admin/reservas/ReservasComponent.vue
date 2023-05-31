@@ -447,6 +447,16 @@
         let isEmpty = validator.isEmpty(this.search.apartment.iptNumber.value)
         return isInt || isEmpty
       },
+      isValidName() {
+        let isEmpty = validator.isEmpty(this.search.client.iptName.value)
+        let stringPT_BR = validator.isAlpha(this.search.client.iptName.value, ['pt-BR'], {
+          ignore: ' \''
+        })
+        let stringEN_US = validator.isAlpha(this.search.client.iptName.value, ['en-US'], {
+          ignore: ' \''
+        })
+        return stringPT_BR || stringEN_US || isEmpty
+      },
       searchReserva() {
         this.clearErrorFields()
         if (!this.isValidStatus()) {
@@ -457,6 +467,9 @@
         }
         if (!this.isValidNumber()) {
           this.setError('iptNumber', 'Número inválido.')
+        }
+        if (!this.isValidName()) {
+          this.setError('iptName', 'Nome inválido.')
         }
       }
     }
