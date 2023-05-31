@@ -165,7 +165,7 @@
             </div>
             <div class="buttons is-right">
               <button class="button is-ghost" @click="clearFields()">Limpar</button>
-              <button class="button is-info">Buscar</button>
+              <button class="button is-info" @click="searchReserva()">Buscar</button>
             </div>
           </div>
         </div>
@@ -342,6 +342,7 @@
           }
         ],
         search: {
+          hasErrors: false,
           apartment: {
             iptStatus: {
               value: 1,
@@ -400,6 +401,21 @@
         this.search.client.iptName.value = ''
         this.search.client.iptCPF.value = ''
         this.search.client.iptPassportNumber.value = ''
+      },
+      setError(field, msg) {
+        this.search.hasErrors = true
+        let fieldsSearch = Object.keys(this.search)
+        fieldsSearch.forEach(searchField => {
+          let fields = Object.keys(this.search[searchField])
+          let isInside = fields.indexOf(field) >= 0
+          if (isInside) {
+            this.search[searchField][field].hasError = true
+            this.search[searchField][field].error = msg
+          }
+        })
+      },
+      searchReserva() {
+        this.setError('iptFloor', 'Andar inválido.')
       }
     }
   }
