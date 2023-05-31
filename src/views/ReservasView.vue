@@ -156,10 +156,10 @@
         })
       },
       isValidRooms() {
-        let isEmpty = validator.isEmpty(this.forms.filter.iptRooms.value)
-        let isInsideRoomsList = this.roomsList.indexOf(this.forms.filter.iptRooms.value) >= 0
+        let rooms = (this.forms.filter.iptRooms.value).toString()
+        let isInsideRoomsList = validator.isIn(rooms, this.roomsList)
 
-        return isEmpty || isInsideRoomsList
+        return isInsideRoomsList
       },
       isValidLowerDailyRate() {
         let isEmpty = validator.isEmpty(this.forms.filter.iptLowerDailyRate.value)
@@ -202,6 +202,10 @@
         // Verifica se a Diária máxima é menor que a Diária mínima.
         } else if (maxValue <= minValue) {
           this.setError('iptHighestDailyRate', 'Deve ser maior que a mínima.')
+        }
+
+        if (!this.forms.filter.hasErrors) {
+          console.log('Filtrado com sucesso.')
         }
       }
     }
