@@ -420,9 +420,17 @@
         let id = (this.search.apartment.iptStatus.value).toString()
         return validator.isIn(id, ids)
       },
+      isValidFloor() {
+        return validator.isInt(this.search.apartment.iptFloor.value, {
+          min: 0
+        })
+      },
       searchReserva() {
         if (!this.isValidStatus()) {
           this.setError('iptStatus', 'Status inválido.')
+        }
+        if (!this.isValidFloor()) {
+          this.setError('iptFloor', 'Andar inválido.')
         }
       }
     }
