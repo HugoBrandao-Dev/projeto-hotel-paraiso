@@ -297,6 +297,7 @@
 </template>
 
 <script>
+  import validator from 'validator'
   import { IMaskComponent }  from 'vue-imask'
 
   export default {
@@ -414,8 +415,15 @@
           }
         })
       },
+      isValidStatus() {
+        let ids = this.statusList.map(item => (item.id).toString())
+        let id = (this.search.apartment.iptStatus.value).toString()
+        return validator.isIn(id, ids)
+      },
       searchReserva() {
-        this.setError('iptFloor', 'Andar inválido.')
+        if (!this.isValidStatus()) {
+          this.setError('iptStatus', 'Status inválido.')
+        }
       }
     }
   }
