@@ -438,6 +438,11 @@
           min: 0
         })
       },
+      isValidNumber() {
+        return validator.isInt(this.search.apartment.iptNumber.value, {
+          min: 0
+        })
+      },
       searchReserva() {
         this.clearErrorFields()
         if (!this.isValidStatus()) {
@@ -445,6 +450,9 @@
         }
         if (!this.isValidFloor()) {
           this.setError('iptFloor', 'Andar inválido.')
+        }
+        if (!this.isValidNumber()) {
+          this.setError('iptNumber', 'Número inválido.')
         }
       }
     }
