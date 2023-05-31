@@ -102,9 +102,9 @@
                     </label>
                   </div>
                 </div>
-                <div class="field is-grouped" v-if="search.client.type == 'nome'">
-                  <p class="control is-expanded has-icons-right">
-                    <input
+                <div class="field" v-if="search.client.type == 'nome'">
+                  <div class="control has-icons-right">
+                    <input 
                       class="input"
                       :class="{
                         'is-danger': search.client.iptName.hasError
@@ -116,15 +116,13 @@
                     <span class="icon is-small is-right" v-show="search.client.iptName.hasError">
                       <i class="fas fa-exclamation-triangle"></i>
                     </span>
-                  </p>
-                  <p class="control">
-                    <a class="button is-info">
-                      Pesquisar
-                    </a>
+                  </div>
+                  <p class="help is-danger" v-show="search.client.iptName.hasError">
+                    {{ search.client.iptName.error }}
                   </p>
                 </div>
-                <div class="field is-grouped" v-else-if="search.client.type == 'cpf'">
-                  <p class="control is-expanded has-icons-right">
+                <div class="field" v-else-if="search.client.type == 'cpf'">
+                  <div class="control has-icons-right">
                     <imask-input
                       class="input"
                       :class="{
@@ -139,15 +137,13 @@
                     <span class="icon is-small is-right" v-show="search.client.iptCPF.hasError">
                       <i class="fas fa-exclamation-triangle"></i>
                     </span>
-                  </p>
-                  <p class="control">
-                    <a class="button is-info">
-                      Pesquisar
-                    </a>
+                  </div>
+                  <p class="help is-danger" v-show="search.client.iptCPF.hasError">
+                    {{ search.client.iptCPF.error }}
                   </p>
                 </div>
-                <div class="field is-grouped" v-else>
-                  <p class="control is-expanded has-icons-right">
+                <div class="field" v-else>
+                  <div class="control has-icons-right">
                     <imask-input
                       class="input"
                       :class="{
@@ -160,22 +156,11 @@
                     <span class="icon is-small is-right" v-show="search.client.iptPassportNumber.hasError">
                       <i class="fas fa-exclamation-triangle"></i>
                     </span>
-                  </p>
-                  <p class="control">
-                    <a class="button is-info">
-                      Pesquisar
-                    </a>
+                  </div>
+                  <p class="help is-danger" v-show="search.client.iptPassportNumber.hasError">
+                    {{ search.client.iptPassportNumber.error }}
                   </p>
                 </div>
-                <p class="help" :class="{ 'is-danger': search.client.iptName.error }">
-                  {{ search.client.iptName.error }}
-                </p>
-                <p class="help" :class="{ 'is-danger': search.client.iptCPF.error }">
-                  {{ search.client.iptCPF.error }}
-                </p>
-                <p class="help" :class="{ 'is-danger': search.client.iptPassportNumber.error }">
-                  {{ search.client.iptPassportNumber.error }}
-                </p>
               </div>
             </div>
             <div class="buttons is-right">
