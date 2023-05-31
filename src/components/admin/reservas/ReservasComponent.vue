@@ -434,14 +434,18 @@
         return validator.isIn(id, ids)
       },
       isValidFloor() {
-        return validator.isInt(this.search.apartment.iptFloor.value, {
+        let isInt = validator.isInt(this.search.apartment.iptFloor.value, {
           min: 0
         })
+        let isEmpty = validator.isEmpty(this.search.apartment.iptFloor.value)
+        return isInt || isEmpty
       },
       isValidNumber() {
-        return validator.isInt(this.search.apartment.iptNumber.value, {
-          min: 0
+        let isInt = validator.isInt(this.search.apartment.iptNumber.value, {
+          min: 1
         })
+        let isEmpty = validator.isEmpty(this.search.apartment.iptNumber.value)
+        return isInt || isEmpty
       },
       searchReserva() {
         this.clearErrorFields()
