@@ -403,6 +403,19 @@
         this.search.client.iptCPF.value = ''
         this.search.client.iptPassportNumber.value = ''
       },
+      clearErrorFields() {
+        this.search.apartment.hasErrors = false
+        let fieldsSearch = Object.keys(this.search)
+        fieldsSearch.forEach(searchField => {
+          let fields = Object.keys(this.search[searchField])
+          fields.forEach(field => {
+            if (field.indexOf('ipt') >= 0) {
+              this.search[searchField][field].hasError = false
+              this.search[searchField][field].error = ''
+            }
+          })
+        })
+      },
       setError(field, msg) {
         this.search.hasErrors = true
         let fieldsSearch = Object.keys(this.search)
@@ -426,6 +439,7 @@
         })
       },
       searchReserva() {
+        this.clearErrorFields()
         if (!this.isValidStatus()) {
           this.setError('iptStatus', 'Status inválido.')
         }
