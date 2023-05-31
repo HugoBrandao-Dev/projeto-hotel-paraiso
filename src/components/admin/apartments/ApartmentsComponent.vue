@@ -138,7 +138,7 @@
 </template>
 
 <script>
-  import SearchFilterComponent from '../reservas/SearchFilterComponent'
+  import SearchFilterComponent from './SearchFilterComponent'
 
   export default {
     data() {
