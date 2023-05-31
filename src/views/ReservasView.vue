@@ -146,7 +146,7 @@
         this.forms.filter.ckbAnimal.value = false
       },
       clearErrorFields() {
-        this.forms.hasErrors = false
+        this.forms.filter.hasErrors = false
         let fields = Object.keys(this.forms.filter)
         fields.forEach(field => {
           if (field.indexOf('ipt') >= 0) {
@@ -180,6 +180,7 @@
         return isEmpty || isFloat
       },
       setError(field, msg) {
+        this.forms.filter.hasErrors = true
         this.forms.filter[field].hasError = true
         this.forms.filter[field].error = msg
       },
