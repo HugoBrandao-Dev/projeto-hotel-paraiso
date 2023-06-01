@@ -149,21 +149,26 @@
                         class="select"
                         :class="{
                           'is-loading': !countries.length,
-                          'is-danger': search.client.iptCountryCode.hasError
+                          'is-danger': search.client.iptCountry.hasError
                         }"
                       >
-                        <select>
-                          <option selected>Country</option>
-                          <option>Select dropdown</option>
-                          <option>With options</option>
+                        <select v-model="search.client.iptCountry.value">
+                          <option
+                            v-for="item in countries"
+                            :key="item.iso2"
+                            :value="item.iso2"
+                            :selected="search.client.iptCountry.value"
+                          >
+                            {{ item.name }}
+                          </option>
                         </select>
                       </div>
                       <div class="icon is-small is-left">
                         <i class="fas fa-globe"></i>
                       </div>
                     </div>
-                    <p class="help is-danger" v-show="search.client.iptCountryCode.hasError">
-                      {{ search.client.iptCountryCode.error }}
+                    <p class="help is-danger" v-show="search.client.iptCountry.hasError">
+                      {{ search.client.iptCountry.error }}
                     </p>
                   </div>
                   <div class="column">
@@ -326,6 +331,14 @@
   import validator from 'validator'
   import { IMaskComponent }  from 'vue-imask'
 
+  import axios from 'axios'
+
+  let axios_countriesStatesCities = axios.create({
+    headers: {
+      'X-CSCAPI-KEY': 'UlRPNjR3OGhQOGhiRmloR0FWaDNwSGY2VzZIWlRKRzBNZDN5WUdPdQ=='
+    }
+  })
+
   export default {
     data() {
       return {
@@ -404,7 +417,7 @@
               hasError: false,
               error: ''
             },
-            iptCountryCode: {
+            iptCountry: {
               value: '',
               hasError: false,
               error: ''
@@ -418,10 +431,29 @@
         }
       }
     },
+    created() {
+      this.setCountries()
+    },
     components: {
       'imask-input': IMaskComponent
     },
     methods: {
+      async setCountries() {
+        try {
+          let resCountries = await axios_countriesStatesCities.get('https://api.countrystatecity.in/v1/countries')
+
+          for (let item of resCountries.data) {
+            this.countries.push({
+              iso2: item.iso2,
+              name: item.name
+            })
+          }
+
+          this.search.client.iptCountry.value = this.countries[0].iso2
+        } catch (error) {
+          console.log(error)
+        }
+      },
       confirmDeletion() {
         if (confirm('Deseja deletar reserva?')) {
           alert('Reserva deletada com sucesso.')
@@ -521,6 +553,7 @@
         if (!this.isValidCPF()) {
           this.setError('iptCPF', 'Número do CPF inválido.')
         }
+        console.log(this.search.client.iptCountry.value)
       }
     }
   }
