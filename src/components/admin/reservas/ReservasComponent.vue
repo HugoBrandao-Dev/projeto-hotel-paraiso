@@ -22,8 +22,8 @@
                       <option 
                         v-for="item in statusList" 
                         :key="item.id"
-                        :selected="search.apartment.iptStatus.value"
                         :value="item.id"
+                        :selected="search.apartment.iptStatus.value"
                       >
                         {{ item.status }}
                       </option>
@@ -406,7 +406,7 @@
             }
           },
           client: {
-            type: 'passport-number',
+            type: 'nome',
             iptName: {
               value: '',
               hasError: false,
@@ -460,16 +460,21 @@
         }
       },
       clearFields() {
-        // Reset dos campos de apartamento.
-        this.search.apartment.iptStatus.value = 1
-        this.search.apartment.iptFloor.value = ''
-        this.search.apartment.iptNumber.value = ''
-
-        // Reset dos campos de cliente.
+        this.search.apartment.hasErrors = false
+        let fieldsSearch = Object.keys(this.search)
+        fieldsSearch.forEach(searchField => {
+          let fields = Object.keys(this.search[searchField])
+          fields.forEach(field => {
+            if (field.indexOf('ipt') >= 0) {
+              if (field == 'iptStatus') {
+                this.search[searchField][field].value = 1
+                return
+              }
+              this.search[searchField][field].value = ''
+            }
+          })
+        })
         this.search.client.type = 'nome'
-        this.search.client.iptName.value = ''
-        this.search.client.iptCPF.value = ''
-        this.search.client.iptPassportNumber.value = ''
       },
       clearErrorFields() {
         this.search.apartment.hasErrors = false
