@@ -39,7 +39,7 @@
         </div>
         <div class="buttons is-right">
           <button class="button is-ghost" @click="clearFields()">Limpar</button>
-          <button class="button is-info">Buscar</button>
+          <button class="button is-info" @click="applyFilters()">Buscar</button>
         </div>
       </div>
     </div>
@@ -52,6 +52,7 @@
       return {
         search: {
           type: 'apartamento',
+          hasErrors: false,
           iptFloor: {
             value: '',
             hasError: false,
@@ -69,6 +70,14 @@
       clearFields() {
         this.search.iptFloor.value = ''
         this.search.iptNumber.value = ''
+      },
+      setError(field, msg) {
+        this.search.hasErrors = true
+        this.search[field].hasError = true
+        this.search[field].error = msg
+      },
+      applyFilters() {
+        this.setError('iptFloor', 'Andar inválido.')
       }
     }
   }
