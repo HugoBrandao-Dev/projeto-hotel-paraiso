@@ -94,11 +94,21 @@
         })
         return isEmpty || isInt
       },
+      isValidNumber() {
+        let isEmpty = validator.isEmpty(this.search.iptNumber.value)
+        let isInt = validator.isInt(this.search.iptNumber.value, {
+          gt: 0
+        })
+        return isEmpty || isInt
+      },
       applyFilters() {
         this.clearErrorFields()
-        
+
         if (!this.isValidFloor()) {
           this.setError('iptFloor', 'Número do andar inválido.')
+        }
+        if (!this.isValidNumber()) {
+          this.setError('iptNumber', 'Número do apartamento inválido.')
         }
       }
     }
