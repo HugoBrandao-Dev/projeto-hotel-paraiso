@@ -539,6 +539,12 @@
       isValidCountry() {
         return validator.isISO31661Alpha2(this.search.client.iptCountry.value)
       },
+      isValidPassportNumber() {
+        let isEmpty = validator.isEmpty(this.search.client.iptPassportNumber.value)
+        let isPassportNumber = validator.isPassportNumber(this.search.client.iptPassportNumber.value, this.search.client.iptCountry.value)
+
+        return isEmpty || isPassportNumber
+      },
       searchReserva() {
         this.clearErrorFields()
         if (!this.isValidStatus()) {
@@ -558,6 +564,10 @@
         }
         if (!this.isValidCountry()) {
           this.setError('iptCountry', 'País inválido.')
+        } else {
+          if (!this.isValidPassportNumber()) {
+            this.setError('iptPassportNumber', 'Número do passaporte inválido.')
+          }
         }
       }
     }
