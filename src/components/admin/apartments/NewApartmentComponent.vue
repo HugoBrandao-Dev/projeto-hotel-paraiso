@@ -185,7 +185,7 @@
             </div>
           </div>
           <footer class="card-footer">
-            <a href="#" class="card-footer-item button is-success is-light">Salvar</a>
+            <a href="#" class="card-footer-item button is-success is-light" @click.prevent="saveApartment()">Salvar</a>
             <a href="#" class="card-footer-item button is-danger is-light">Cancelar</a>
           </footer>
         </div>
@@ -353,6 +353,7 @@
           }
         },
         form: {
+          hasErrors: false,
           iptPrice: {
             value: '',
             hasError: false,
@@ -431,6 +432,14 @@
       },
       closeRoomModal() {
         this.modals.rooms.active = false
+      },
+      setError(field, msg) {
+        this.form.hasErrors = true
+        this.form[field].hasError = true
+        this.form[field].error = msg
+      },
+      saveApartment() {
+        this.setError('iptPrice', 'Diária inválida.')
       }
     }
   }
