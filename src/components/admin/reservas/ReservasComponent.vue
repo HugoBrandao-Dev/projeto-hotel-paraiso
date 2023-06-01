@@ -536,6 +536,9 @@
 
         return isInt && isLength
       },
+      isValidCountry() {
+        return validator.isISO31661Alpha2(this.search.client.iptCountry.value)
+      },
       searchReserva() {
         this.clearErrorFields()
         if (!this.isValidStatus()) {
@@ -553,7 +556,9 @@
         if (!this.isValidCPF()) {
           this.setError('iptCPF', 'Número do CPF inválido.')
         }
-        console.log(this.search.client.iptCountry.value)
+        if (!this.isValidCountry()) {
+          this.setError('iptCountry', 'País inválido.')
+        }
       }
     }
   }
