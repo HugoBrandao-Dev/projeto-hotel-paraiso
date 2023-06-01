@@ -151,6 +151,7 @@
                       }"
                       type="text"
                       placeholder="0A0A0A0A0A"
+                      :mask="masks.passportNumber.custom"
                       v-model="search.client.iptPassportNumber.value"
                     />
                     <span class="icon is-small is-right" v-show="search.client.iptPassportNumber.hasError">
@@ -304,7 +305,11 @@
     data() {
       return {
         masks: {
-          cpf: '000.000.000-00'
+          cpf: '000.000.000-00',
+          passportNumber: {
+            custom: '*********',
+            maxLength: 9
+          }
         },
         reservas: [
           {
