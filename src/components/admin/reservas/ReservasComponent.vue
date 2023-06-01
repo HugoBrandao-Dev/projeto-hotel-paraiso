@@ -142,25 +142,41 @@
                     {{ search.client.iptCPF.error }}
                   </p>
                 </div>
-                <div class="field" v-else>
-                  <div class="control has-icons-right">
-                    <imask-input
-                      class="input"
-                      :class="{
-                        'is-danger': search.client.iptPassportNumber.hasError
-                      }"
-                      type="text"
-                      placeholder="0A0A0A0A0A"
-                      :mask="masks.passportNumber.custom"
-                      v-model="search.client.iptPassportNumber.value"
-                    />
-                    <span class="icon is-small is-right" v-show="search.client.iptPassportNumber.hasError">
-                      <i class="fas fa-exclamation-triangle"></i>
-                    </span>
+                <div class="field columns" v-else>
+                  <div class="column is-one-third">
+                    <div class="control has-icons-left">
+                      <div class="select" :class="{'is-loading': !countries.length}">
+                        <select>
+                          <option selected>Country</option>
+                          <option>Select dropdown</option>
+                          <option>With options</option>
+                        </select>
+                      </div>
+                      <div class="icon is-small is-left">
+                        <i class="fas fa-globe"></i>
+                      </div>
+                    </div>
                   </div>
-                  <p class="help is-danger" v-show="search.client.iptPassportNumber.hasError">
-                    {{ search.client.iptPassportNumber.error }}
-                  </p>
+                  <div class="column">
+                    <div class="control has-icons-right">
+                      <imask-input
+                        class="input"
+                        :class="{
+                          'is-danger': search.client.iptPassportNumber.hasError
+                        }"
+                        type="text"
+                        placeholder="0A0A0A0A0A"
+                        :mask="masks.passportNumber.custom"
+                        v-model="search.client.iptPassportNumber.value"
+                      />
+                      <span class="icon is-small is-right" v-show="search.client.iptPassportNumber.hasError">
+                        <i class="fas fa-exclamation-triangle"></i>
+                      </span>
+                    </div>
+                    <p class="help is-danger" v-show="search.client.iptPassportNumber.hasError">
+                      {{ search.client.iptPassportNumber.error }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -311,6 +327,7 @@
             maxLength: 9
           }
         },
+        countries: [],
         reservas: [
           {
             id: 1,
