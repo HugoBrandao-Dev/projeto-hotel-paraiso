@@ -145,7 +145,13 @@
                 <div class="field columns" v-else>
                   <div class="column is-one-third">
                     <div class="control has-icons-left">
-                      <div class="select" :class="{'is-loading': !countries.length}">
+                      <div 
+                        class="select"
+                        :class="{
+                          'is-loading': !countries.length,
+                          'is-danger': search.client.iptCountryCode.hasError
+                        }"
+                      >
                         <select>
                           <option selected>Country</option>
                           <option>Select dropdown</option>
@@ -156,6 +162,9 @@
                         <i class="fas fa-globe"></i>
                       </div>
                     </div>
+                    <p class="help is-danger" v-show="search.client.iptCountryCode.hasError">
+                      {{ search.client.iptCountryCode.error }}
+                    </p>
                   </div>
                   <div class="column">
                     <div class="control has-icons-right">
@@ -391,6 +400,11 @@
               error: ''
             },
             iptCPF: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptCountryCode: {
               value: '',
               hasError: false,
               error: ''
