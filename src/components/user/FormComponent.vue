@@ -642,14 +642,15 @@
         return validator.isISO31661Alpha2(this.form.iptCountry.value)
       },
       isValidCPF() {
-        let hasLengthRight = validator.isLength(this.form.iptCPF.value, {
+        let isInt = validator.isInt(this.search.client.iptCPF.value, {
+          allow_leading_zeroes: true
+        })
+        let isLength = validator.isLength(this.search.client.iptCPF.value, {
           min: 11,
           max: 11
         })
-        let isNumeric = validator.isNumeric(this.form.iptCPF.value, {
-          no_symbols: true
-        })
-        return hasLengthRight && isNumeric
+
+        return isInt && isLength
       },
       isValidPassportNumber() {
         let hasLengthRight = validator.isLength(this.form.iptPassportNumber.value, {
