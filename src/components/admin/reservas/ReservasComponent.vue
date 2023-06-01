@@ -457,6 +457,17 @@
         })
         return stringPT_BR || stringEN_US || isEmpty
       },
+      isValidCPF() {
+        let isInt = validator.isInt(this.search.client.iptCPF.value, {
+          allow_leading_zeroes: true
+        })
+        let isLength = validator.isLength(this.search.client.iptCPF.value, {
+          min: 11,
+          max: 11
+        })
+
+        return isInt && isLength
+      },
       searchReserva() {
         this.clearErrorFields()
         if (!this.isValidStatus()) {
@@ -470,6 +481,9 @@
         }
         if (!this.isValidName()) {
           this.setError('iptName', 'Nome inválido.')
+        }
+        if (!this.isValidCPF()) {
+          this.setError('iptCPF', 'Número do CPF inválido.')
         }
       }
     }
