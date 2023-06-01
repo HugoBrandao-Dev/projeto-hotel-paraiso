@@ -143,54 +143,54 @@
                   </p>
                 </div>
                 <div class="field columns" v-else>
-                  <div class="column is-one-third">
-                    <div class="control has-icons-left">
-                      <div 
-                        class="select"
-                        :class="{
-                          'is-loading': !countries.length,
-                          'is-danger': search.client.iptCountry.hasError
-                        }"
-                      >
-                        <select v-model="search.client.iptCountry.value">
-                          <option
-                            v-for="item in countries"
-                            :key="item.iso2"
-                            :value="item.iso2"
-                            :selected="search.client.iptCountry.value"
-                          >
-                            {{ item.name }}
-                          </option>
-                        </select>
+                    <div class="column is-full-mobile is-half-tablet">
+                      <div class="control has-icons-left">
+                        <div 
+                          class="select"
+                          :class="{
+                            'is-loading': !countries.length,
+                            'is-danger': search.client.iptCountry.hasError
+                          }"
+                        >
+                          <select v-model="search.client.iptCountry.value">
+                            <option
+                              v-for="item in countries"
+                              :key="item.iso2"
+                              :value="item.iso2"
+                              :selected="search.client.iptCountry.value"
+                            >
+                              {{ item.name }}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="icon is-small is-left">
+                          <i class="fas fa-globe"></i>
+                        </div>
                       </div>
-                      <div class="icon is-small is-left">
-                        <i class="fas fa-globe"></i>
+                      <p class="help is-danger" v-show="search.client.iptCountry.hasError">
+                        {{ search.client.iptCountry.error }}
+                      </p>
+                    </div>
+                    <div class="column is-full-mobile is-half-tablet">
+                      <div class="control has-icons-right">
+                        <imask-input
+                          class="input"
+                          :class="{
+                            'is-danger': search.client.iptPassportNumber.hasError
+                          }"
+                          type="text"
+                          placeholder="0A0A0A0A0A"
+                          :mask="masks.passportNumber.custom"
+                          v-model="search.client.iptPassportNumber.value"
+                        />
+                        <span class="icon is-small is-right" v-show="search.client.iptPassportNumber.hasError">
+                          <i class="fas fa-exclamation-triangle"></i>
+                        </span>
                       </div>
+                      <p class="help is-danger" v-show="search.client.iptPassportNumber.hasError">
+                        {{ search.client.iptPassportNumber.error }}
+                      </p>
                     </div>
-                    <p class="help is-danger" v-show="search.client.iptCountry.hasError">
-                      {{ search.client.iptCountry.error }}
-                    </p>
-                  </div>
-                  <div class="column">
-                    <div class="control has-icons-right">
-                      <imask-input
-                        class="input"
-                        :class="{
-                          'is-danger': search.client.iptPassportNumber.hasError
-                        }"
-                        type="text"
-                        placeholder="0A0A0A0A0A"
-                        :mask="masks.passportNumber.custom"
-                        v-model="search.client.iptPassportNumber.value"
-                      />
-                      <span class="icon is-small is-right" v-show="search.client.iptPassportNumber.hasError">
-                        <i class="fas fa-exclamation-triangle"></i>
-                      </span>
-                    </div>
-                    <p class="help is-danger" v-show="search.client.iptPassportNumber.hasError">
-                      {{ search.client.iptPassportNumber.error }}
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -406,7 +406,7 @@
             }
           },
           client: {
-            type: 'nome',
+            type: 'passport-number',
             iptName: {
               value: '',
               hasError: false,
