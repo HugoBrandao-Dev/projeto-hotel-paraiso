@@ -71,13 +71,22 @@
         this.search.iptFloor.value = ''
         this.search.iptNumber.value = ''
       },
+      clearErrorFields() {
+        let fields = Object.keys(this.search)
+        fields.forEach(field => {
+          if (field.indexOf('ipt') >= 0) {
+            this.search[field].hasError = false
+            this.search[field].error = ''
+          }
+        })
+      },
       setError(field, msg) {
         this.search.hasErrors = true
         this.search[field].hasError = true
         this.search[field].error = msg
       },
       applyFilters() {
-        this.setError('iptFloor', 'Andar inválido.')
+        this.clearErrorFields()
       }
     }
   }
