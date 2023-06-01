@@ -47,6 +47,8 @@
 </template>
 
 <script>
+  import validator from 'validator'
+
   export default {
     data() {
       return {
@@ -85,8 +87,19 @@
         this.search[field].hasError = true
         this.search[field].error = msg
       },
+      isValidFloor() {
+        let isEmpty = validator.isEmpty(this.search.iptFloor.value)
+        let isInt = validator.isInt(this.search.iptFloor.value, {
+          min: 0
+        })
+        return isEmpty || isInt
+      },
       applyFilters() {
         this.clearErrorFields()
+        
+        if (!this.isValidFloor()) {
+          this.setError('iptFloor', 'Número do andar inválido.')
+        }
       }
     }
   }
