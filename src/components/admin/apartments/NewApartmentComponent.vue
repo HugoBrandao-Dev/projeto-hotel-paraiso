@@ -27,15 +27,15 @@
                           <p class="control is-expanded">
                             <input 
                               type="number" class="input" 
-                              :class="{'is-danger': form.iptPrice.hasError}" v-model="form.iptPrice.value"
+                              :class="{'is-danger': forms.newApartment.iptPrice.hasError}" v-model="forms.newApartment.iptPrice.value"
                             />
                           </p>
                         </div>
                         <p 
                           class="help" 
-                          :class="{'is-danger': form.iptPrice.hasError}" 
+                          :class="{'is-danger': forms.newApartment.iptPrice.hasError}" 
                         >
-                          {{ form.iptPrice.error }}
+                          {{ forms.newApartment.iptPrice.error }}
                         </p>
                       </div>
                     </div>
@@ -69,13 +69,13 @@
                 <div class="control">
                   <div 
                     class="select" 
-                    :class="{'is-danger': form.iptStatus.hasError}"
+                    :class="{'is-danger': forms.newApartment.iptStatus.hasError}"
                   >
-                    <select v-model="form.iptStatus.value">
+                    <select v-model="forms.newApartment.iptStatus.value">
                       <option 
                         v-for="item in statusList" 
                         :key="item.id" 
-                        :selected="form.iptStatus.value"
+                        :selected="forms.newApartment.iptStatus.value"
                         :value="item.id"
                       >
                         {{ item.type }}
@@ -85,9 +85,9 @@
                 </div>
                   <p 
                     class="help" 
-                    :class="{'is-danger': form.iptStatus.hasError}"
+                    :class="{'is-danger': forms.newApartment.iptStatus.hasError}"
                   >
-                    {{ form.iptStatus.error }}
+                    {{ forms.newApartment.iptStatus.error }}
                   </p>
               </div>
               <div class="field column is-one-third">
@@ -96,15 +96,15 @@
                   <input 
                     type="number" 
                     class="input"
-                    :class="{'is-danger': form.iptFloor.hasError}"
-                    v-model="form.iptFloor.value"
+                    :class="{'is-danger': forms.newApartment.iptFloor.hasError}"
+                    v-model="forms.newApartment.iptFloor.value"
                   />
                 </div>
                 <p 
                   class="help" 
-                  :class="{'is-danger': form.iptFloor.hasError}"
+                  :class="{'is-danger': forms.newApartment.iptFloor.hasError}"
                 >
-                  {{ form.iptFloor.error }}
+                  {{ forms.newApartment.iptFloor.error }}
                 </p>
               </div>
               <div class="field column is-one-third">
@@ -113,15 +113,15 @@
                   <input 
                     type="number"
                     class="input"
-                    :class="{'is-danger': form.iptNumber.hasError}"
-                    v-model="form.iptNumber.value"
+                    :class="{'is-danger': forms.newApartment.iptNumber.hasError}"
+                    v-model="forms.newApartment.iptNumber.value"
                   />
                 </div>
                 <p 
                   class="help" 
-                  :class="{'is-danger': form.iptNumber.hasError}"
+                  :class="{'is-danger': forms.newApartment.iptNumber.hasError}"
                 >
-                  {{ form.iptNumber.error }}
+                  {{ forms.newApartment.iptNumber.error }}
                 </p>
               </div>
             </div>
@@ -166,7 +166,7 @@
                   </tr>
                 </tfoot>
                 <tbody>
-                  <tr v-for="room in rooms" :key="room.name">
+                  <tr v-for="room in forms.newApartment.rooms" :key="room.name">
                     <td>{{ room.amount }}</td>
                     <td>{{ room.name }}</td>
                     <td>
@@ -191,8 +191,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="modal" :class="isModalsRoomsActive"> -->
-    <div class="modal is-active">
+    <div class="modal" :class="isModalsRoomsActive">
       <div class="modal-background" @click="closeRoomModal()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -209,16 +208,16 @@
                 <div class="control">
                   <input 
                     class="input"
-                    :class="{'is-danger': form.iptRoomNumber.hasError}"
+                    :class="{'is-danger': forms.newRoom.iptRoomNumber.hasError}"
                     type="number"
-                    v-model="form.iptRoomNumber.value"
+                    v-model="forms.newRoom.iptRoomNumber.value"
                   />
                 </div>
                 <p 
                   class="help" 
-                  :class="{'is-danger': form.iptRoomNumber.hasError}" 
+                  :class="{'is-danger': forms.newRoom.iptRoomNumber.hasError}" 
                 >
-                  {{ form.iptRoomNumber.error }}
+                  {{ forms.newRoom.iptRoomNumber.error }}
                 </p>
               </div>
             </div>
@@ -231,13 +230,13 @@
               <div class="field-body">
                 <div class="field">
                   <div class="control">
-                    <div class="select" :class="{'is-danger': form.iptRoom.hasError}">
-                      <select :disabled="isComodoCustom" v-model="form.iptRoom.value">
+                    <div class="select" :class="{'is-danger': forms.newRoom.iptRoom.hasError}">
+                      <select :disabled="this.forms.newRoom.ckbCustomRoom" v-model="forms.newRoom.iptRoom.value">
                         <option 
                           v-for="item in roomsList"
                           :key="item.id"
                           :value="item.id"
-                          :selected="form.iptRoom.value"
+                          :selected="forms.newRoom.iptRoom.value"
                         >
                           {{ item.room }}
                         </option>
@@ -246,9 +245,9 @@
                   </div>
                   <p 
                     class="help" 
-                    :class="{'is-danger': form.iptRoom.hasError}" 
+                    :class="{'is-danger': forms.newRoom.iptRoom.hasError}" 
                   >
-                    {{ form.iptRoom.error }}
+                    {{ forms.newRoom.iptRoom.error }}
                   </p>
                 </div>
               </div>
@@ -258,7 +257,7 @@
                 <div class="field">
                   <div class="control">
                     <label class="checkbox">
-                      <input type="checkbox" v-model="isComodoCustom" :checked="form.iptNewRoom.hasError"> Não está listado
+                      <input type="checkbox" v-model="forms.newRoom.ckbCustomRoom" :checked="forms.newRoom.iptNewRoom.hasError"> Não está listado
                     </label>
                   </div>
                 </div>
@@ -274,19 +273,19 @@
                 <div class="control has-icons-right">
                   <input 
                     class="input"
-                    :class="{'is-danger': form.iptNewRoom.hasError}"
+                    :class="{'is-danger': forms.newRoom.iptNewRoom.hasError}"
                     type="text"
-                    v-model="form.iptNewRoom.value"
+                    v-model="forms.newRoom.iptNewRoom.value"
                   />
-                  <span class="icon is-small is-right" v-show="form.iptNewRoom.hasError">
+                  <span class="icon is-small is-right" v-show="forms.newRoom.iptNewRoom.hasError">
                     <i class="fas fa-exclamation-triangle"></i>
                   </span>
                 </div>
                 <p 
                   class="help" 
-                  :class="{'is-danger': form.iptNewRoom.hasError}" 
+                  :class="{'is-danger': forms.newRoom.iptNewRoom.hasError}" 
                 >
-                  {{ form.iptNewRoom.error }}
+                  {{ forms.newRoom.iptNewRoom.error }}
                 </p>
               </div>
             </div>
@@ -307,7 +306,6 @@
   export default {
     data() {
       return {
-        isComodoCustom: false,
         statusList: [
           {
             id: '1',
@@ -356,73 +354,79 @@
             active: false
           }
         },
-        form: {
-          hasErrors: false,
-          iptPrice: {
-            value: '',
-            hasError: false,
-            error: ''
+        forms: {
+          newApartment: {
+            hasErrors: false,
+            iptPrice: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptStatus: {
+              value: '1',
+              hasError: false,
+              error: ''
+            },
+            iptFloor: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptNumber: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            rooms: [
+              {
+                amount: 1,
+                name: 'Sala de estar'
+              },
+              {
+                amount: 1,
+                name: 'Cozinha'
+              },
+              {
+                amount: 2,
+                name: 'Quartos'
+              },
+              {
+                amount: 2,
+                name: 'Banheiros'
+              }
+            ]
           },
-          iptStatus: {
-            value: '1',
-            hasError: false,
-            error: ''
-          },
-          iptFloor: {
-            value: '',
-            hasError: false,
-            error: ''
-          },
-          iptNumber: {
-            value: '',
-            hasError: false,
-            error: ''
-          },
-          iptRoomNumber: {
-            value: '',
-            hasError: false,
-            error: ''
-          },
-          iptRoom: {
-            value: '1',
-            hasError: false,
-            error: ''
-          },
-          iptNewRoom: {
-            value: '',
-            hasError: false,
-            error: ''
+          newRoom: {
+            hasErrors: false,
+            ckbCustomRoom: false,
+            iptRoomNumber: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptRoom: {
+              value: '1',
+              hasError: false,
+              error: ''
+            },
+            iptNewRoom: {
+              value: '',
+              hasError: false,
+              error: ''
+            }
           }
-        },
-        rooms: [
-          {
-            amount: 1,
-            name: 'Sala de estar'
-          },
-          {
-            amount: 1,
-            name: 'Cozinha'
-          },
-          {
-            amount: 2,
-            name: 'Quartos'
-          },
-          {
-            amount: 2,
-            name: 'Banheiros'
-          }
-        ]
+        }
       }
     },
     computed: {
       isModalsRoomsActive() {
-        if (this.modals.rooms.active || this.form.iptRoomNumber.hasError || this.form.iptRoom.hasError || this.form.iptNewRoom.hasError) {
+        if (this.modals.rooms.active || this.forms.newRoom.iptRoomNumber.hasError || this.forms.newRoom.iptRoom.hasError || this.forms.newRoom.iptNewRoom.hasError) {
           return 'is-active'
         }
         return ''
       },
       isComodoCustomActive() {
-        return this.form.iptNewRoom.hasError || this.isComodoCustom
+        return this.forms.newRoom.iptNewRoom.hasError || this.forms.newRoom.ckbCustomRoom
       }
     },
     methods: {
@@ -438,19 +442,31 @@
         this.modals.rooms.active = false
       },
       clearErrorFields() {
-        let fields = Object.keys(this.form)
+        let formsList = Object.keys(this.forms)
 
-        fields.forEach(field => {
-          if (field.indexOf('ipt') >= 0) {
-            this.form[field].hasError = false
-            this.form[field].error = ''
-          }
+        formsList.forEach(form => {
+          let fields = Object.keys(this.forms[form])
+          fields.forEach(field => {
+            if (field.indexOf('ipt') >= 0) {
+              this.forms[form].hasErrors = false
+              this.forms[form][field].hasError = false
+              this.forms[form][field].error = ''
+            }
+          })
         })
       },
       setError(field, msg) {
-        this.form.hasErrors = true
-        this.form[field].hasError = true
-        this.form[field].error = msg
+        let formsList = Object.keys(this.forms)
+
+        formsList.forEach(form => {
+          let fields = Object.keys(this.forms[form])
+
+          if (fields.indexOf(field) >= 0) {
+            this.forms[form].hasErrors = true
+            this.forms[form][field].hasError = true
+            this.forms[form][field].error = msg
+          }
+        })
       },
       setErrorMessage(element, msg) {
         this.messages.hasErrors = true
@@ -458,23 +474,23 @@
         this.messages[element].error = msg
       },
       isValidRoomNumber() {
-        return validator.isInt(this.form.iptRoomNumber.value, {
+        return validator.isInt(this.forms.newRoom.iptRoomNumber.value, {
           gt: 0
         })
       },
       // Verifica se o cômodo do select está presente no array de cômodos.
       isValidRoom() {
         let ids = this.roomsList.map(room => room.id)
-        return validator.isIn(this.form.iptRoom.value, ids)
+        return validator.isIn(this.forms.newRoom.iptRoom.value, ids)
       },
       isValidNewRoom() {
         let roomNames = this.roomsList.map(item => item.room)
-        let isEmpty = validator.isEmpty(this.form.iptNewRoom.value)
-        let isIn = validator.isIn(this.form.iptNewRoom.value, roomNames)
-        let isAlphaPT_BR = validator.isAlpha(this.form.iptNewRoom.value, ['pt-BR'], {
+        let isEmpty = validator.isEmpty(this.forms.newRoom.iptNewRoom.value)
+        let isIn = validator.isIn(this.forms.newRoom.iptNewRoom.value, roomNames)
+        let isAlphaPT_BR = validator.isAlpha(this.forms.newRoom.iptNewRoom.value, ['pt-BR'], {
           ignore: ' \''
         })
-        let isAlphaEN_US = validator.isAlpha(this.form.iptNewRoom.value, ['en-US'], {
+        let isAlphaEN_US = validator.isAlpha(this.forms.newRoom.iptNewRoom.value, ['en-US'], {
           ignore: ' \''
         })
 
@@ -486,36 +502,39 @@
         if (!this.isValidRoomNumber()) {
           this.setError('iptRoomNumber', 'Quantidade de cômodo inválida.')
         }
-        if (!this.isValidRoom()) {
-          this.setError('iptRoom', 'Cômodo inválido.')
-        }
-        if (!this.isValidNewRoom()) {
-          this.setError('iptNewRoom', 'Nome inválido ou já existente (verifique a lista).')
+        if (this.forms.newRoom.ckbCustomRoom) {
+          if (!this.isValidNewRoom()) {
+            this.setError('iptNewRoom', 'Nome inválido ou já existente (verifique a lista).')
+          }
+        } else {
+          if (!this.isValidRoom()) {
+            this.setError('iptRoom', 'Cômodo inválido.')
+          }
         }
       },
       isValidPrice() {
-        return validator.isCurrency(this.form.iptPrice.value, {
+        return validator.isCurrency(this.forms.newApartment.iptPrice.value, {
           allow_negatives: false,
           digits_after_decimal: [2]
         })
       },
       isValidStatus() {
         let ids = this.statusList.map(status => status.id)
-        return validator.isIn(this.form.iptStatus.value, ids)
+        return validator.isIn(this.forms.newApartment.iptStatus.value, ids)
       },
       isValidFloor() {
-        return validator.isInt(this.form.iptFloor.value, {
+        return validator.isInt(this.forms.newApartment.iptFloor.value, {
           min: 0
         })
       },
       isValidNumber() {
-        return validator.isInt(this.form.iptNumber.value, {
+        return validator.isInt(this.forms.newApartment.iptNumber.value, {
           gt: 0
         })
       },
       // Verifica se tem cômodo(s) cadastrado(s) no apartamento.
       isValidRooms() {
-        return this.rooms.length
+        return this.forms.newApartment.rooms.length
       },
       saveApartment() {
         this.clearErrorFields()
@@ -536,7 +555,7 @@
           this.setErrorMessage('roomsRegistred', 'Nenhum cômodo cadastrado!')
         }
 
-        if (!this.form.hasErrors && !this.messages.hasErrors) {
+        if (!this.forms.newApartment.hasErrors && !this.messages.hasErrors) {
           alert('Apartamento registrado com sucesso.')
         }
       }
