@@ -462,11 +462,19 @@
           gt: 0
         })
       },
+      // Verifica se o cômodo do select está presente no array de cômodos.
+      isValidRoom() {
+        let ids = this.roomsList.map(room => room.id)
+        return validator.isIn(this.form.iptRoom.value, ids)
+      },
       addRoom() {
         this.clearErrorFields()
 
         if (!this.isValidRoomNumber()) {
           this.setError('iptRoomNumber', 'Quantidade de cômodo inválida.')
+        }
+        if (!this.isValidRoom()) {
+          this.setError('iptRoom', 'Cômodo inválido.')
         }
       },
       isValidPrice() {
