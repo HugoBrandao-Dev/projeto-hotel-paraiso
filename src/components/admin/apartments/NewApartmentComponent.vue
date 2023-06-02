@@ -191,7 +191,8 @@
         </div>
       </div>
     </div>
-    <div class="modal" :class="isModalsRoomsActive">
+    <!-- <div class="modal" :class="isModalsRoomsActive"> -->
+    <div class="modal is-active">
       <div class="modal-background" @click="closeRoomModal()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -292,7 +293,7 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success">Add</button>
+          <button class="button is-success" @click="addRoom()">Add</button>
           <button class="button is-danger" @click="closeRoomModal()">Cancelar</button>
         </footer>
       </div>
@@ -455,6 +456,18 @@
         this.messages.hasErrors = true
         this.messages[element].hasError = true
         this.messages[element].error = msg
+      },
+      isValidRoomNumber() {
+        return validator.isInt(this.form.iptRoomNumber.value, {
+          gt: 0
+        })
+      },
+      addRoom() {
+        this.clearErrorFields()
+
+        if (!this.isValidRoomNumber()) {
+          this.setError('iptRoomNumber', 'Quantidade de cômodo inválida.')
+        }
       },
       isValidPrice() {
         return validator.isCurrency(this.form.iptPrice.value, {
