@@ -344,6 +344,7 @@
           }
         ],
         messages: {
+          hasErrors: false,
           roomsRegistred: {
             hasError: false,
             error: ''
@@ -435,7 +436,7 @@
       closeRoomModal() {
         this.modals.rooms.active = false
       },
-      clearErroFields() {
+      clearErrorFields() {
         let fields = Object.keys(this.form)
 
         fields.forEach(field => {
@@ -449,6 +450,11 @@
         this.form.hasErrors = true
         this.form[field].hasError = true
         this.form[field].error = msg
+      },
+      setErrorMessage(element, msg) {
+        this.messages.hasErrors = true
+        this.messages[element].hasError = true
+        this.messages[element].error = msg
       },
       isValidPrice() {
         return validator.isCurrency(this.form.iptPrice.value, {
@@ -471,7 +477,7 @@
         })
       },
       saveApartment() {
-        this.clearErroFields()
+        this.clearErrorFields()
 
         if (!this.isValidPrice()) {
           this.setError('iptPrice', 'Preço da diária inválido.')
@@ -484,6 +490,11 @@
         }
         if(!this.isValidNumber()) {
           this.setError('iptNumber', 'Número de apartamento inválido.')
+        }
+        this.setErrorMessage('roomsRegistred', 'Nenhum cômodo cadastrado!')
+
+        if (!this.form.hasErrors && !this.messages.hasErrors) {
+          alert('Apartamento registrado com sucesso.')
         }
       }
     }
