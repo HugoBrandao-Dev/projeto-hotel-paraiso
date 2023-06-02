@@ -452,6 +452,7 @@
       },
       isValidPrice() {
         return validator.isCurrency(this.form.iptPrice.value, {
+          allow_negatives: false,
           digits_after_decimal: [2]
         })
       },
