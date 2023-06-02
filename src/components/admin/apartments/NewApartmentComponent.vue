@@ -465,6 +465,11 @@
           min: 0
         })
       },
+      isValidNumber() {
+        return validator.isInt(this.form.iptNumber.value, {
+          gt: 0
+        })
+      },
       saveApartment() {
         this.clearErroFields()
 
@@ -476,6 +481,9 @@
         }
         if (!this.isValidFloor()) {
           this.setError('iptFloor', 'Número de andar inválido.')
+        }
+        if(!this.isValidNumber()) {
+          this.setError('iptNumber', 'Número de apartamento inválido.')
         }
       }
     }
