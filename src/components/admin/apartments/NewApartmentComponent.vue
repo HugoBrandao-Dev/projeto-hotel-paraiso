@@ -467,6 +467,19 @@
         let ids = this.roomsList.map(room => room.id)
         return validator.isIn(this.form.iptRoom.value, ids)
       },
+      isValidNewRoom() {
+        let roomNames = this.roomsList.map(item => item.room)
+        let isEmpty = validator.isEmpty(this.form.iptNewRoom.value)
+        let isIn = validator.isIn(this.form.iptNewRoom.value, roomNames)
+        let isAlphaPT_BR = validator.isAlpha(this.form.iptNewRoom.value, ['pt-BR'], {
+          ignore: ' \''
+        })
+        let isAlphaEN_US = validator.isAlpha(this.form.iptNewRoom.value, ['en-US'], {
+          ignore: ' \''
+        })
+
+        return !isEmpty && !isIn && (isAlphaPT_BR || isAlphaEN_US)
+      },
       addRoom() {
         this.clearErrorFields()
 
@@ -475,6 +488,9 @@
         }
         if (!this.isValidRoom()) {
           this.setError('iptRoom', 'Cômodo inválido.')
+        }
+        if (!this.isValidNewRoom()) {
+          this.setError('iptNewRoom', 'Nome inválido ou já existente (verifique a lista).')
         }
       },
       isValidPrice() {
