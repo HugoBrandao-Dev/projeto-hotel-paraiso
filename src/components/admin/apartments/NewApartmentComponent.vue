@@ -456,11 +456,18 @@
           digits_after_decimal: [2]
         })
       },
+      isValidStatus() {
+        let ids = this.statusList.map(status => status.id)
+        return validator.isIn(this.form.iptStatus.value, ids)
+      },
       saveApartment() {
         this.clearErroFields()
 
         if (!this.isValidPrice()) {
           this.setError('iptPrice', 'Preço da diária inválido.')
+        }
+        if (!this.isValidStatus()) {
+          this.setError('iptStatus', 'Status inválido.')
         }
       }
     }
