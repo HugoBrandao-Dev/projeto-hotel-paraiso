@@ -409,7 +409,7 @@
           {
             amount: 2,
             name: 'Banheiros'
-          },
+          }
         ]
       }
     },
@@ -476,6 +476,10 @@
           gt: 0
         })
       },
+      // Verifica se tem cômodo(s) cadastrado(s) no apartamento.
+      isValidRooms() {
+        return this.rooms.length
+      },
       saveApartment() {
         this.clearErrorFields()
 
@@ -488,10 +492,12 @@
         if (!this.isValidFloor()) {
           this.setError('iptFloor', 'Número de andar inválido.')
         }
-        if(!this.isValidNumber()) {
+        if (!this.isValidNumber()) {
           this.setError('iptNumber', 'Número de apartamento inválido.')
         }
-        this.setErrorMessage('roomsRegistred', 'Nenhum cômodo cadastrado!')
+        if (!this.isValidRooms()) {
+          this.setErrorMessage('roomsRegistred', 'Nenhum cômodo cadastrado!')
+        }
 
         if (!this.form.hasErrors && !this.messages.hasErrors) {
           alert('Apartamento registrado com sucesso.')
