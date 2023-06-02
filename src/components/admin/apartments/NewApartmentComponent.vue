@@ -301,43 +301,45 @@
 </template>
 
 <script>
+  import validator from 'validator'
+
   export default {
     data() {
       return {
         isComodoCustom: false,
         statusList: [
           {
-            id: 1,
+            id: '1',
             type: 'Livre'
           },
           {
-            id: 2,
+            id: '2',
             type: 'Reservado'
           },
           {
-            id: 3,
+            id: '3',
             type: 'Ocupado'
           },
           {
-            id: 4,
+            id: '4',
             type: 'Indisponível'
           }
         ],
         roomsList: [
           {
-            id: 1,
+            id: '1',
             room: 'Sala de estar'
           },
           {
-            id: 2,
+            id: '2',
             room: 'Cozinha'
           },
           {
-            id: 3,
+            id: '3',
             room: 'Banheiro'
           },
           {
-            id: 4,
+            id: '4',
             room: 'Quarto'
           }
         ],
@@ -438,8 +440,15 @@
         this.form[field].hasError = true
         this.form[field].error = msg
       },
+      isValidPrice() {
+        return validator.isCurrency(this.form.iptPrice.value, {
+          digits_after_decimal: [2]
+        })
+      },
       saveApartment() {
-        this.setError('iptPrice', 'Diária inválida.')
+        if (!this.isValidPrice()) {
+          this.setError('iptPrice', 'Preço da diária inválido.')
+        }
       }
     }
   }
