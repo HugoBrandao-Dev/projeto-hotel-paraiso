@@ -460,6 +460,11 @@
         let ids = this.statusList.map(status => status.id)
         return validator.isIn(this.form.iptStatus.value, ids)
       },
+      isValidFloor() {
+        return validator.isInt(this.form.iptFloor.value, {
+          min: 0
+        })
+      },
       saveApartment() {
         this.clearErroFields()
 
@@ -468,6 +473,9 @@
         }
         if (!this.isValidStatus()) {
           this.setError('iptStatus', 'Status inválido.')
+        }
+        if (!this.isValidFloor()) {
+          this.setError('iptFloor', 'Número de andar inválido.')
         }
       }
     }
