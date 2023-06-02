@@ -435,6 +435,16 @@
       closeRoomModal() {
         this.modals.rooms.active = false
       },
+      clearErroFields() {
+        let fields = Object.keys(this.form)
+
+        fields.forEach(field => {
+          if (field.indexOf('ipt') >= 0) {
+            this.form[field].hasError = false
+            this.form[field].error = ''
+          }
+        })
+      },
       setError(field, msg) {
         this.form.hasErrors = true
         this.form[field].hasError = true
@@ -446,6 +456,8 @@
         })
       },
       saveApartment() {
+        this.clearErroFields()
+
         if (!this.isValidPrice()) {
           this.setError('iptPrice', 'Preço da diária inválido.')
         }
