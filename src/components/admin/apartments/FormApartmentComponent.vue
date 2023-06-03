@@ -189,7 +189,7 @@
         </div>
       </div>
     </div>
-    <div class="modal" :class="isModalsRoomsActive">
+    <div class="modal" :class="{'is-active': modals.rooms.active}">
       <div class="modal-background" @click="closeRoomModal()"></div>
       <div class="modal-card">
         <header class="modal-card-head">
@@ -409,7 +409,7 @@
     },
     computed: {
       isModalsRoomsActive() {
-        if (this.modals.rooms.active || this.forms.newRoom.iptRoomNumber.hasError || this.forms.newRoom.iptRoom.hasError || this.forms.newRoom.iptNewRoom.hasError) {
+        if (this.modals.rooms.active && this.forms.newRoom.hasErrors) {
           return 'is-active'
         }
         return ''
