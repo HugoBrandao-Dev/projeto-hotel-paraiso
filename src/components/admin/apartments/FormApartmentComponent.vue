@@ -509,6 +509,15 @@
             this.setError('iptRoom', 'Cômodo inválido.')
           }
         }
+
+        if (!this.forms.newRoom.hasErrors) {
+          if (!this.forms.newRoom.ckbCustomRoom) {
+            this.forms.newApartment.rooms.push({
+              amount: parseInt(this.forms.newRoom.iptRoomNumber.value),
+              name: this.forms.newRoom.iptRoom.value
+            })
+          }
+        }
       },
       isValidPrice() {
         return validator.isCurrency(this.forms.newApartment.iptPrice.value, {
