@@ -159,7 +159,10 @@
                   </tr>
                   <tr>
                     <td class="has-text-centered" colspan="3">
-                      <strong>Total de cômodos: <span class="has-text-success is-size-5">6</span></strong>
+                      <strong>
+                        Total de cômodos: 
+                        <span class="has-text-success is-size-5">{{ calcTotalRooms }}</span>
+                      </strong>
                     </td>
                   </tr>
                 </tfoot>
@@ -416,6 +419,13 @@
       },
       isComodoCustomActive() {
         return this.forms.newRoom.iptNewRoom.hasError || this.forms.newRoom.ckbCustomRoom
+      },
+      calcTotalRooms() {
+        if (this.forms.newApartment.rooms.length) {
+          let amounts = this.forms.newApartment.rooms.map(room => room.amount)
+          return amounts.reduce((now, next) => now + next)
+        }
+        return 0
       }
     },
     methods: {
