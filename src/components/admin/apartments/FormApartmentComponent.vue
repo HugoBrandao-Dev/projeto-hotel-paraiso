@@ -376,26 +376,7 @@
               error: ''
             },
             rooms: [
-              {
-                id: '1',
-                amount: 1,
-                room: 'Sala de estar'
-              },
-              {
-                id: '2',
-                amount: 1,
-                room: 'Cozinha'
-              },
-              {
-                id: '3',
-                amount: 2,
-                room: 'Banheiro'
-              },
-              {
-                id: '4',
-                amount: 2,
-                room: 'Quarto'
-              }
+              
             ]
           },
           newRoom: {
@@ -480,10 +461,17 @@
           gt: 0
         })
       },
-      // Verifica se o cômodo do select está presente no array de cômodos.
       isValidRoom() {
         let ids = this.roomsList.map(room => room.id)
-        return validator.isIn(this.forms.newRoom.iptRoom.value, ids)
+        let idsRegistredRooms = this.forms.newApartment.rooms.map(room => room.id)
+
+        // Verifica se o cômodo do select está presente no array de cômodos disponíveis.
+        let isSelectable = validator.isIn(this.forms.newRoom.iptRoom.value, ids)
+
+        // Verifica se o cômodo já está registrado.
+        let isAlreadyRegistred = validator.isIn(this.forms.newRoom.iptRoom.value, idsRegistredRooms)
+
+        return isSelectable && !isAlreadyRegistred
       },
       isValidNewRoom() {
         let roomNames = this.roomsList.map(item => item.room)
@@ -510,15 +498,17 @@
           }
         } else {
           if (!this.isValidRoom()) {
-            this.setError('iptRoom', 'Cômodo inválido.')
+            this.setError('iptRoom', 'Cômodo inválido ou já registrado.')
           }
         }
 
         if (!this.forms.newRoom.hasErrors) {
           if (!this.forms.newRoom.ckbCustomRoom) {
+            let roomObj = this.roomsList.find(item => item.id == this.forms.newRoom.iptRoom.value)
             this.forms.newApartment.rooms.push({
+              id: this.forms.newRoom.iptRoom.value,
               amount: parseInt(this.forms.newRoom.iptRoomNumber.value),
-              name: this.forms.newRoom.iptRoom.value
+              room: roomObj.room
             })
           }
         }
