@@ -164,9 +164,9 @@
                   </tr>
                 </tfoot>
                 <tbody>
-                  <tr v-for="room in forms.newApartment.rooms" :key="room.name">
+                  <tr v-for="room in forms.newApartment.rooms" :key="room.room">
                     <td>{{ room.amount }}</td>
-                    <td>{{ room.name }}</td>
+                    <td>{{ room.room }}</td>
                     <td>
                       <form @submit.prevent="confirmDeletion()">
                         <input type="hidden">
@@ -377,20 +377,24 @@
             },
             rooms: [
               {
+                id: '1',
                 amount: 1,
-                name: 'Sala de estar'
+                room: 'Sala de estar'
               },
               {
+                id: '2',
                 amount: 1,
-                name: 'Cozinha'
+                room: 'Cozinha'
               },
               {
+                id: '3',
                 amount: 2,
-                name: 'Quartos'
+                room: 'Banheiro'
               },
               {
+                id: '4',
                 amount: 2,
-                name: 'Banheiros'
+                room: 'Quarto'
               }
             ]
           },
