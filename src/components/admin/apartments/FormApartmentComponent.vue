@@ -197,6 +197,11 @@
           <button class="delete" aria-label="close" @click="closeRoomModal()"></button>
         </header>
         <section class="modal-card-body">
+          <article class="message is-success" v-show="messages.roomInserted.show">
+            <div class="message-body">
+              Cômodo inserido com sucesso!
+            </div>
+          </article>
           <div class="field is-horizontal">
             <div class="field-label is-normal">
               <label class="label">Quantidade:</label>
@@ -345,6 +350,9 @@
           roomsRegistred: {
             hasError: false,
             error: ''
+          },
+          roomInserted: {
+            show: false
           }
         },
         modals: {
@@ -375,9 +383,7 @@
               hasError: false,
               error: ''
             },
-            rooms: [
-              
-            ]
+            rooms: []
           },
           newRoom: {
             hasErrors: false,
@@ -505,12 +511,15 @@
         if (!this.forms.newRoom.hasErrors) {
           if (!this.forms.newRoom.ckbCustomRoom) {
             let roomObj = this.roomsList.find(item => item.id == this.forms.newRoom.iptRoom.value)
+            this.messages.roomInserted.show = true
             this.forms.newApartment.rooms.push({
               id: this.forms.newRoom.iptRoom.value,
               amount: parseInt(this.forms.newRoom.iptRoomNumber.value),
               room: roomObj.room
             })
           }
+        } else {
+          this.messages.roomInserted.show = false
         }
       },
       isValidPrice() {
