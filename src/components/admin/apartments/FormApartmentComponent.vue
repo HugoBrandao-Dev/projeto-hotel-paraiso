@@ -171,7 +171,7 @@
                     <td>{{ room.amount }}</td>
                     <td>{{ room.room }}</td>
                     <td>
-                      <form @submit.prevent="confirmDeletion()">
+                      <form @submit.prevent="confirmDeletion(room.id)">
                         <input type="hidden">
                         <button type="submit" class="button is-danger is-small" title="Deletar cômodo.">
                           <span class="icon is-small">
@@ -429,9 +429,10 @@
       }
     },
     methods: {
-      confirmDeletion() {
+      confirmDeletion(id) {
+        let indexId = this.forms.newApartment.rooms.findIndex(room => room.id == id)
         if (confirm('Deseja realmente excluir o cômodo?')) {
-          alert('Excluido com sucesso.')
+          this.forms.newApartment.rooms.splice(indexId, 1)
         }
       },
       openRoomModal() {
