@@ -46,7 +46,8 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 ### Outra(s)
 * Vue-router: Ferramenta para criação de rotas para as seções do site;
 * Vue-imask: Pacote para utilização de máscaras nos campos do input;
-* Axios: Cliente HTTP, para consumo de API, como a do IBGE, que permite fazer buscas por endereços (através do CEP), UFs e etc.
+* Axios: Cliente HTTP, para consumo de API, como a do IBGE, que permite fazer buscas por endereços (através do CEP), UFs e etc;
+* ValidatorJS: Biblioteca para validação dos campos dos formulários e filtros de buscas.
 
 ## Observações
 
