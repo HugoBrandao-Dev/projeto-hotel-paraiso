@@ -2,10 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import SobreView from '../views/SobreView.vue'
-import ReservasView from '../views/ReservasView.vue'
+import ApartamentosView from '../views/ApartamentosView.vue'
 import ContatoView from '../views/ContatoView.vue'
 import CadastroView from '../views/CadastroView.vue'
-import ReservaView from '../views/ReservaView.vue'
+import ApartamentoView from '../views/ApartamentoView.vue'
 
 // Rotas do usuário (logado).
 import UserView from '../views/user/UserView.vue'
@@ -18,12 +18,12 @@ import ReservaComponent from '../components/user/ReservaComponent'
 
 import AdminView from '../views/admin/AdminView.vue'
 
-// Rotas do Admin para o usuários
+// Rotas do Admin para o usuário
 import UsersComponent from '../components/admin/users/UsersComponent'
 import InfoComponent from '../components/admin/users/InfoComponent'
 import EditComponent from '../components/admin/users/EditComponent'
 
-// Rotas do Admin para o reservas
+// Rotas do Admin para a reserva
 import AdminReservasComponent from '../components/admin/reservas/ReservasComponent'
 import AdminReservaComponent from '../components/admin/reservas/ReservaComponent'
 import AdminReservaEditComponent from '../components/admin/reservas/EditComponent'
@@ -49,14 +49,14 @@ const routes = [
     component: SobreView
   },
   {
-    path: '/reservas',
-    name: 'Reservas',
-    component: ReservasView
+    path: '/apartamentos',
+    name: 'Apartamentos',
+    component: ApartamentosView
   },
   {
-    path: '/reserva/:id',
-    name: 'Reserva',
-    component: ReservaView
+    path: '/apartamentos/:id',
+    name: 'Apartamento',
+    component: ApartamentoView
   },
   {
     path: '/contato',

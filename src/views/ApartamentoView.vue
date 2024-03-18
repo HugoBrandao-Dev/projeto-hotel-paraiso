@@ -1,6 +1,6 @@
 <template>
   <article id="reserva" class="content-article">
-    <h1>Reserva</h1>
+    <h1>Apartamento</h1>
     <hr>
     <div class="columns">
       <section class="column is-half">
@@ -15,7 +15,7 @@
       <section class="column">
         <div class="card">
           <div class="card-content">
-            <p class="title">Reserva #{{ this.$route.params.id }}</p>
+            <p class="title">Apartamento #{{ this.$route.params.id }}</p>
             <div class="field">
               <label class="label">Andar:</label>
               <div class="control">
@@ -23,7 +23,7 @@
               </div>
             </div>
             <div class="field">
-              <label class="label">Nº do apartamento:</label>
+              <label class="label">Nº:</label>
               <div class="control">
                 22
               </div>
@@ -51,13 +51,13 @@
               <div class="field column is-half">
                 <label class="label">Início da estadia:</label>
                 <div class="control">
-                  <input id="iptMinDate" type="datetime-local" class="input">
+                  <input id="iptMinDate" type="date" class="input">
                 </div>
               </div>
               <div class="field column">
                 <label class="label">Fim da estadia:</label>
                 <div class="control">
-                  <input id="iptMaxDate" type="datetime-local" class="input">
+                  <input id="iptMaxDate" type="date" class="input">
                 </div>
               </div>
             </div>

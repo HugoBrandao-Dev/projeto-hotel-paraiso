@@ -138,12 +138,16 @@
               router: '/sobre'
             },
             {
-              name: 'Reservas',
-              router: '/reservas'
+              name: 'Apartamentos',
+              router: '/apartamentos'
             },
             {
               name: 'Contato',
               router: '/contato'
+            },
+            {
+              name: 'Minhas reservas',
+              router: '/user/reservas'
             }
           ],
           admin: [
