@@ -1,25 +1,47 @@
 <template>
   <fieldset>
     <div class="field">
-      <label class="label">Nome:</label>
-      <div class="control" :class="{ 'has-icons-right': form.iptName.hasError }">
-        <input 
-          class="input"
-          :class="{
-            'is-normal': !form.iptName.hasError,
-            'is-danger': form.iptName.hasError
-          }"
-          type="text"
-          placeholder="Nome completo"
-          v-model="form.iptName.value"
-        />
-        <span class="icon is-small is-right" v-show="form.iptName.hasError">
-          <i class="fas fa-exclamation-triangle"></i>
-        </span>
+
+      <div class="columns">
+        <div class="field column is-two-third">
+          <label class="label">Nome:</label>
+          <div class="control" :class="{ 'has-icons-right': form.iptName.hasError }">
+            <input 
+              class="input"
+              :class="{
+                'is-normal': !form.iptName.hasError,
+                'is-danger': form.iptName.hasError
+              }"
+              type="text"
+              placeholder="Nome completo"
+              v-model="form.iptName.value"
+            />
+            <span class="icon is-small is-right" v-show="form.iptName.hasError">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+          </div>
+          <p class="help" :class="{ 'is-danger': form.iptName.hasError }">
+            {{ form.iptName.error }}
+          </p>
+        </div>
+        <div class="field column is-one-third">
+          <label class="label">Data de nascimento:</label>
+          <div class="control">
+            <input 
+              class="input"
+              :class="{
+                'is-normal': !form.iptBirthDate.hasError,
+                'is-danger': form.iptBirthDate.hasError
+              }"
+              type="date"
+              v-model="form.iptBirthDate.value"
+            />
+          </div>
+          <p class="help" :class="{'is-danger': form.iptBirthDate.hasError}">
+            {{ form.iptBirthDate.error }}
+          </p>
+        </div>
       </div>
-      <p class="help" :class="{ 'is-danger': form.iptName.hasError }">
-        {{ form.iptName.error }}
-      </p>
     </div>
 
     <div class="field">
@@ -481,6 +503,11 @@
             hasError: false,
             error: ''
           },
+          iptBirthDate: {
+            value: '',
+            hasError: false,
+            error: ''
+          },
           iptEmail: {
             value: '',
             hasError: false,
@@ -632,6 +659,9 @@
 
         return itsValidPT_BR || itsValidEN_US
       },
+      isValidBirthDate() {
+        return validator.isDate(this.form.iptBirthDate.value)
+      },
       isValidEmail() {
         return validator.isEmail(this.form.iptEmail.value)
       },
@@ -703,6 +733,9 @@
         this.form.iptName.hasError = false
         this.form.iptName.error = ''
 
+        this.form.iptBirthDate.hasError = false
+        this.form.iptBirthDate.error = ''
+
         this.form.iptEmail.hasError = false
         this.form.iptEmail.error = ''
 
@@ -750,6 +783,11 @@
         if (!this.isValidName()) {
           this.setError('iptName', 'Nome inválido.')
         }
+
+        if (!this.isValidBirthDate()) {
+          this.setError('iptBirthDate', 'Data de nascimento inválida.')
+        }
+
         if (!this.isValidEmail()) {
           this.setError('iptEmail', 'Email inválido.')
         }
