@@ -1,7 +1,23 @@
 <template>
   <fieldset>
     <div class="field">
-
+      <div class="modal" :class="{'is-active': windows.registredWithSuccess.active}">
+        <div class="modal-background" @click.stop.prevent="closeRegistredWithSuccess()"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Cadastrado</p>
+            <button class="delete" @click.stop.prevent="closeRegistredWithSuccess()" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            O usuário foi cadastrado com sucesso.
+          </section>
+          <footer class="modal-card-foot">
+            <div class="buttons">
+              <button class="button is-success" @click.stop.prevent="closeRegistredWithSuccess()">OK</button>
+            </div>
+          </footer>
+        </div>
+      </div>
       <div class="columns">
         <div class="field column is-two-third">
           <label class="label">Nome:</label>
@@ -594,6 +610,9 @@
         windows: {
           termsConditions: {
             active: false
+          },
+          registredWithSuccess: {
+            active: false
           }
         }
       }
@@ -673,15 +692,18 @@
         return validator.isISO31661Alpha2(this.form.iptCountry.value)
       },
       isValidCPF() {
-        let isInt = validator.isInt(this.form.iptCPF.value, {
-          allow_leading_zeroes: true
-        })
-        let isLength = validator.isLength(this.form.iptCPF.value, {
-          min: 11,
-          max: 11
-        })
+        if (this.form.iptCPF.value && !this.form.iptPassportNumber.value) {
+          let isInt = validator.isInt(this.form.iptCPF.value, {
+            allow_leading_zeroes: true
+          })
+          let isLength = validator.isLength(this.form.iptCPF.value, {
+            min: 11,
+            max: 11
+          })
+          return isInt && isLength
+        }
 
-        return isInt && isLength
+        return true
       },
       isValidPassportNumber() {
         let hasLengthRight = validator.isLength(this.form.iptPassportNumber.value, {
@@ -875,7 +897,9 @@
           }
 
           axios.post(Endpoints.POST_USER(), user)
-            .then(res => console.log(res))
+            .then(() => {
+              this.openRegistredWithSuccess()
+            })
             .catch(error => console.error(error.response.data.RestException))
         }
       },
@@ -943,6 +967,12 @@
       },
       closeTermsConditions() {
         this.windows.termsConditions.active = false
+      },
+      openRegistredWithSuccess() {
+        this.windows.registredWithSuccess.active = true
+      },
+      closeRegistredWithSuccess() {
+        this.windows.registredWithSuccess.active = false
       }
     }
   }
