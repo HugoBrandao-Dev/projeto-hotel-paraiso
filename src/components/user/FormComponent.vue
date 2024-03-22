@@ -177,7 +177,7 @@
           {{ form.iptState.error }}
         </p>
       </div>
-      <div class="field column">
+      <div class="field column is-one-third">
         <label class="label">Cidade/City:</label>
         <div class="control">
           <div
@@ -282,7 +282,7 @@
           <div class="field has-addons">
             <p class="control">
               <a class="button is-static">
-                +{{ form.phoneCode }}
+                +{{ form.iptPhoneCode }}
               </a>
             </p>
             <p class="control is-expanded">
@@ -379,45 +379,45 @@
 
       <div class="field column is-one-third">
         <label class="label">Nº da residência:</label>
-        <div class="control" :class="{ 'has-icons-right': form.iptNumber.hasError }">
+        <div class="control" :class="{ 'has-icons-right': form.iptHouseNumber.hasError }">
           <input 
             class="input"
             :class="{
-              'is-normal': !form.iptNumber.hasError,
-              'is-danger': form.iptNumber.hasError
+              'is-normal': !form.iptHouseNumber.hasError,
+              'is-danger': form.iptHouseNumber.hasError
             }"
             type="text"
             placeholder="00000"
-            v-model="form.iptNumber.value"
+            v-model="form.iptHouseNumber.value"
           />
-          <span class="icon is-small is-right" v-show="form.iptNumber.hasError">
+          <span class="icon is-small is-right" v-show="form.iptHouseNumber.hasError">
             <i class="fas fa-exclamation-triangle"></i>
           </span>
         </div>
-        <p class="help" :class="{ 'is-danger': form.iptNumber.hasError }">
-          {{ form.iptNumber.error }}
+        <p class="help" :class="{ 'is-danger': form.iptHouseNumber.hasError }">
+          {{ form.iptHouseNumber.error }}
         </p>
       </div>
     </div>
 
     <div class="field">
       <label class="label">Informações adicionais:</label>
-      <div class="control" :class="{ 'has-icons-right': form.iptAddInformation.hasError }">
+      <div class="control" :class="{ 'has-icons-right': form.iptAdditionalInformation.hasError }">
         <textarea 
           class="textarea" 
           :class="{
-            'is-danger': form.iptAddInformation.hasError
+            'is-danger': form.iptAdditionalInformation.hasError
           }"
           placeholder="Deseja nos informar de mais alguma coisa?" 
           rows="10"
-          v-model="form.iptAddInformation.value"
+          v-model="form.iptAdditionalInformation.value"
         ></textarea>
-        <span class="icon is-small is-right" v-show="form.iptAddInformation.hasError">
+        <span class="icon is-small is-right" v-show="form.iptAdditionalInformation.hasError">
           <i class="fas fa-exclamation-triangle"></i>
         </span>
       </div>
-      <p class="help" :class="{ 'is-danger': form.iptAddInformation.hasError }">
-        {{ form.iptAddInformation.error }}
+      <p class="help" :class="{ 'is-danger': form.iptAdditionalInformation.hasError }">
+        {{ form.iptAdditionalInformation.error }}
       </p>
     </div>
 
@@ -541,7 +541,7 @@
             hasError: false,
             error: ''
           },
-          phoneCode: '',
+          iptPhoneCode: '',
           iptState: {
             value: '',
             hasError: false,
@@ -582,12 +582,12 @@
             hasError: false,
             error: ''
           },
-          iptNumber: {
+          iptHouseNumber: {
             value: '',
             hasError: false,
             error: ''
           },
-          iptAddInformation: {
+          iptAdditionalInformation: {
             value: '',
             hasError: false,
             error: ''
@@ -737,7 +737,7 @@
         return itsValidPT_BR || itsValidEN_US
       },
       isValidNumber() {
-        return validator.isNumeric(this.form.iptNumber.value, {
+        return validator.isNumeric(this.form.iptHouseNumber.value, {
           no_symbols: true
         })
       },
@@ -753,7 +753,7 @@
         return isLength && isNumeric
       },
       isValidAddInformation() {
-        return validator.isAlphanumeric(this.form.iptAddInformation.value, ['en-US'], {
+        return validator.isAlphanumeric(this.form.iptAdditionalInformation.value, ['en-US'], {
           ignore: ' \n\',.:$-()'
         })
       },
@@ -804,11 +804,11 @@
         this.form.iptRoad.hasError = false
         this.form.iptRoad.error = ''
 
-        this.form.iptNumber.hasError = false
-        this.form.iptNumber.error = ''
+        this.form.iptHouseNumber.hasError = false
+        this.form.iptHouseNumber.error = ''
 
-        this.form.iptAddInformation.hasError = false
-        this.form.iptAddInformation.error = ''
+        this.form.iptAdditionalInformation.hasError = false
+        this.form.iptAdditionalInformation.error = ''
 
         this.form.ckbTermsConditions.hasError = false
         this.form.ckbTermsConditions.error = ''
@@ -877,7 +877,7 @@
             name: this.form.iptName.value,
             email: this.form.iptEmail.value,
             password: this.form.iptPassword.value1,
-            phoneCode: this.form.phoneCode,
+            phoneCode: this.form.iptPhoneCode,
             phoneNumber: this.form.iptPhoneNumber.value,
             birthDate: this.form.iptBirthDate.value,
             country: this.form.iptCountry.value,
@@ -886,8 +886,8 @@
             city: this.form.iptCity.value,
             neighborhood: this.form.iptNeighborhood.value,
             road: this.form.iptRoad.value,
-            houseNumber: this.form.iptNumber.value,
-            information: this.form.iptAddInformation.value
+            houseNumber: this.form.iptHouseNumber.value,
+            information: this.form.iptAdditionalInformation.value
           }
 
           if (this.form.iptCPF.value) {
@@ -933,7 +933,7 @@
           let resStates = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }/states`)
           let resCountry = await axios_countriesStatesCities.get(`https://api.countrystatecity.in/v1/countries/${ this.form.iptCountry.value }`)
 
-          this.form.phoneCode = resCountry.data.phonecode
+          this.form.iptPhoneCode = resCountry.data.phonecode
 
           for (let item of resStates.data) {
             this.states.push({
