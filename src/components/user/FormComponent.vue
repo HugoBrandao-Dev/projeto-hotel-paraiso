@@ -483,6 +483,7 @@
   import axios from 'axios'
   import validator from 'validator'
   import { IMaskComponent }  from 'vue-imask'
+  import Endpoints from '../../tools/EndpointsConfig'
 
   let axios_countriesStatesCities = axios.create({
     headers: {
@@ -672,10 +673,10 @@
         return validator.isISO31661Alpha2(this.form.iptCountry.value)
       },
       isValidCPF() {
-        let isInt = validator.isInt(this.search.client.iptCPF.value, {
+        let isInt = validator.isInt(this.form.iptCPF.value, {
           allow_leading_zeroes: true
         })
-        let isLength = validator.isLength(this.search.client.iptCPF.value, {
+        let isLength = validator.isLength(this.form.iptCPF.value, {
           min: 11,
           max: 11
         })
@@ -692,14 +693,26 @@
         return hasLengthRight && isAlphanumeric
       },
       isValidNeighborhood() {
-        return validator.isAlphanumeric(this.form.iptNeighborhood.value, [navigator.language], {
+        let itsValidPT_BR = validator.isAlphanumeric(this.form.iptNeighborhood.value, ['pt-BR'], {
           ignore: ' \':,.'
         })
+
+        let itsValidEN_US = validator.isAlphanumeric(this.form.iptNeighborhood.value, ['en-US'], {
+          ignore: ' \':,.'
+        })
+
+        return itsValidPT_BR || itsValidEN_US
       },
       isValidRoad() {
-        return validator.isAlphanumeric(this.form.iptRoad.value, [navigator.language], {
+        let itsValidPT_BR = validator.isAlphanumeric(this.form.iptRoad.value, ['pt-BR'], {
           ignore: ' \':,.'
         })
+
+        let itsValidEN_US = validator.isAlphanumeric(this.form.iptRoad.value, ['en-US'], {
+          ignore: ' \':,.'
+        })
+
+        return itsValidPT_BR || itsValidEN_US
       },
       isValidNumber() {
         return validator.isNumeric(this.form.iptNumber.value, {
@@ -780,6 +793,7 @@
       },
       registerUser() {
         this.clearErrorFields()
+
         if (!this.isValidName()) {
           this.setError('iptName', 'Nome inválido.')
         }
@@ -837,7 +851,32 @@
         }
 
         if (!this.form.hasErrors) {
-          console.log('Cadastrado com sucesso.')
+          let user = {
+            name: this.form.iptName.value,
+            email: this.form.iptEmail.value,
+            password: this.form.iptPassword.value1,
+            phoneCode: this.form.phoneCode,
+            phoneNumber: this.form.iptPhoneNumber.value,
+            birthDate: this.form.iptBirthDate.value,
+            country: this.form.iptCountry.value,
+            cep: this.form.iptCEP.value,
+            state: this.form.iptState.value,
+            city: this.form.iptCity.value,
+            neighborhood: this.form.iptNeighborhood.value,
+            road: this.form.iptRoad.value,
+            houseNumber: this.form.iptNumber.value,
+            information: this.form.iptAddInformation.value
+          }
+
+          if (this.form.iptCPF.value) {
+            user.cpf = this.form.iptCPF.value
+          } else if (this.form.iptPassportNumber.value) {
+            user.passportNumber = this.form.iptPassportNumber.value
+          }
+
+          axios.post(Endpoints.POST_USER(), user)
+            .then(res => console.log(res))
+            .catch(error => console.error(error.response.data.RestException))
         }
       },
       showValues() {
