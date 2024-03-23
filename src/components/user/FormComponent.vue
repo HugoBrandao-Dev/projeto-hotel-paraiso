@@ -530,6 +530,7 @@
             hasError: false,
             error: ''
           },
+          // Tem dois valores porque um é da senha e outro é a sua repetição, para comparação.
           iptPassword: {
             value1: '',
             value2: '',
@@ -813,6 +814,27 @@
         this.form.ckbTermsConditions.hasError = false
         this.form.ckbTermsConditions.error = ''
       },
+      clearFields() {
+        this.form.hasErrors = false
+        this.form.iptName.value = ''
+        this.form.iptBirthDate.value = ''
+        this.form.iptEmail.value = ''
+        this.form.iptPassword.value1 = ''
+        this.form.iptPassword.value2 = ''
+        this.form.iptCountry.value = ''
+        this.form.iptPhoneCode = ''
+        this.form.iptState.value = ''
+        this.form.iptCity.value = ''
+        this.form.iptCPF.value = ''
+        this.form.iptPassportNumber.value = ''
+        this.form.iptPhoneNumber.value = ''
+        this.form.iptCEP.value = ''
+        this.form.iptNeighborhood.value = ''
+        this.form.iptRoad.value = ''
+        this.form.iptHouseNumber.value = ''
+        this.form.iptAdditionalInformation.value = ''
+        this.form.ckbTermsConditions.value = false
+      },
       registerUser() {
         this.clearErrorFields()
 
@@ -899,6 +921,7 @@
           axios.post(Endpoints.POST_USER(), user)
             .then(() => {
               this.openRegistredWithSuccess()
+              this.clearFields()
             })
             .catch(error => console.error(error.response.data.RestException))
         }
