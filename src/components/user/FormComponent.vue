@@ -18,9 +18,10 @@
           </footer>
         </div>
       </div>
+      <p class="my-3"><span class="has-text-weight-bold has-text-danger">*</span> São obrigatórios</p>
       <div class="columns">
         <div class="field column is-two-third">
-          <label class="label">Nome:</label>
+          <label class="label">Nome:<span v-show="this.type == 'register'" class="has-text-danger">*</span></label>
           <div class="control" :class="{ 'has-icons-right': form.iptName.hasError }">
             <input 
               class="input"
@@ -41,7 +42,7 @@
           </p>
         </div>
         <div class="field column is-one-third">
-          <label class="label">Data de nascimento:</label>
+          <label class="label">Data de nascimento:<span v-show="this.type == 'register'" class="has-text-danger">*</span></label>
           <div class="control">
             <input 
               class="input"
@@ -61,7 +62,7 @@
     </div>
 
     <div class="field">
-      <label class="label">Email:</label>
+      <label class="label">Email:<span v-show="this.type == 'register'" class="has-text-danger">*</span></label>
       <div class="control" :class="{ 'has-icons-right': form.iptEmail.hasError }">
         <input 
           class="input"
@@ -84,7 +85,7 @@
 
     <div class="box columns mt-2">
       <div class="field column is-half">
-        <label class="label">Senha:</label>
+        <label class="label">Senha:<span v-show="this.type == 'register'" class="has-text-danger">*</span></label>
         <div class="control" :class="{ 'has-icons-right': form.iptPassword.hasError }">
           <input 
             type="password" 
@@ -104,7 +105,7 @@
         </p>
       </div>
       <div class="field column">
-        <label class="label">Repita sua senha:</label>
+        <label class="label">Repita sua senha:<span v-show="this.type == 'register'" class="has-text-danger">*</span></label>
         <div class="control" :class="{ 'has-icons-right': form.iptPassword.hasError }">
           <input 
             type="password" 
@@ -124,7 +125,7 @@
 
     <div class="columns">
       <div class="field column is-one-third">
-        <label class="label">País/Country:</label>
+        <label class="label">País/Country:<span v-show="this.type == 'register'" class="has-text-danger">*</span></label>
         <p class="control has-icons-left">
           <span 
             class="select" 
@@ -152,7 +153,7 @@
         </p>
       </div>
       <div class="field column is-one-third">
-        <label class="label">Estado/State:</label>
+        <label class="label">Estado/State:<span v-show="this.type == 'register'" class="has-text-danger">*</span></label>
         <div class="control">
           <div 
             class="select"
@@ -178,7 +179,7 @@
         </p>
       </div>
       <div class="field column is-one-third">
-        <label class="label">Cidade/City:</label>
+        <label class="label">Cidade/City:<span v-show="this.type == 'register'" class="has-text-danger">*</span></label>
         <div class="control">
           <div
             class="select"
@@ -208,7 +209,7 @@
     <div class="columns">
       <div class="field column is-half">
         <label class="label">
-          CPF:
+          CPF:<span v-show="this.type == 'register'" class="has-text-danger">*</span>
           <span 
             v-show="!disablePassportNumber"
             class="icon has-text-info"
@@ -241,7 +242,7 @@
       </div>
       <div class="field column is-half">
         <label class="label">
-          Passport Number:
+          Passport Number:<span v-show="this.type == 'register'" class="has-text-danger">*</span>
           <span 
             v-show="disablePassportNumber"
             class="icon has-text-info"
@@ -426,6 +427,7 @@
         <label class="checkbox">
           <input type="checkbox" v-model="form.ckbTermsConditions.value">
           Eu aceito os <a @click.stop.prevent="openTermsConditions()">Termos e Condições.</a>
+          <span class="has-text-weight-bold has-text-danger">*</span>
         </label>
         <span class="icon is-small is-right ml-2" v-show="form.ckbTermsConditions.hasError">
           <i class="fas fa-exclamation-triangle"></i>
