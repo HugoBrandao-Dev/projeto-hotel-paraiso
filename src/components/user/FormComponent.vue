@@ -707,40 +707,52 @@
         return true
       },
       isValidPassportNumber() {
-        let hasLengthRight = validator.isLength(this.form.iptPassportNumber.value, {
-          min: 8,
-          max: 9
-        })
-        let isAlphanumeric = validator.isAlphanumeric(this.form.iptPassportNumber.value, ['en-US'])
+        if (!this.form.iptCPF.value && this.form.iptPassportNumber.value) {
+          let hasLengthRight = validator.isLength(this.form.iptPassportNumber.value, {
+            min: 8,
+            max: 9
+          })
+          let isAlphanumeric = validator.isAlphanumeric(this.form.iptPassportNumber.value, ['en-US'])
 
-        return hasLengthRight && isAlphanumeric
+          return hasLengthRight && isAlphanumeric
+        }
+        return true
       },
       isValidNeighborhood() {
-        let itsValidPT_BR = validator.isAlphanumeric(this.form.iptNeighborhood.value, ['pt-BR'], {
-          ignore: ' \':,.'
-        })
+        if (this.form.iptNeighborhood.value) {
+          let itsValidPT_BR = validator.isAlphanumeric(this.form.iptNeighborhood.value, ['pt-BR'], {
+            ignore: ' \':,.'
+          })
 
-        let itsValidEN_US = validator.isAlphanumeric(this.form.iptNeighborhood.value, ['en-US'], {
-          ignore: ' \':,.'
-        })
+          let itsValidEN_US = validator.isAlphanumeric(this.form.iptNeighborhood.value, ['en-US'], {
+            ignore: ' \':,.'
+          })
 
-        return itsValidPT_BR || itsValidEN_US
+          return itsValidPT_BR || itsValidEN_US
+        }
+        return true
       },
       isValidRoad() {
-        let itsValidPT_BR = validator.isAlphanumeric(this.form.iptRoad.value, ['pt-BR'], {
-          ignore: ' \':,.'
-        })
+        if (this.form.iptRoad.value) {
+          let itsValidPT_BR = validator.isAlphanumeric(this.form.iptRoad.value, ['pt-BR'], {
+            ignore: ' \':,.'
+          })
 
-        let itsValidEN_US = validator.isAlphanumeric(this.form.iptRoad.value, ['en-US'], {
-          ignore: ' \':,.'
-        })
+          let itsValidEN_US = validator.isAlphanumeric(this.form.iptRoad.value, ['en-US'], {
+            ignore: ' \':,.'
+          })
 
-        return itsValidPT_BR || itsValidEN_US
+          return itsValidPT_BR || itsValidEN_US
+        }
+        return true
       },
-      isValidNumber() {
-        return validator.isNumeric(this.form.iptHouseNumber.value, {
-          no_symbols: true
-        })
+      isValidHouseNumber() {
+        if (this.form.iptHouseNumber.value) {
+          return validator.isNumeric(this.form.iptHouseNumber.value, {
+            no_symbols: true
+          })
+        }
+        return true
       },
       isValidCEP() {
         let isLength = validator.isLength(this.form.iptCEP.value, {
@@ -753,10 +765,13 @@
 
         return isLength && isNumeric
       },
-      isValidAddInformation() {
-        return validator.isAlphanumeric(this.form.iptAdditionalInformation.value, ['en-US'], {
-          ignore: ' \n\',.:$-()'
-        })
+      isValidAdditionalInformation() {
+        if (this.form.iptAdditionalInformation.value) {
+          return validator.isAlphanumeric(this.form.iptAdditionalInformation.value, ['en-US'], {
+            ignore: ' \n\',.:$-()'
+          })
+        }
+        return true
       },
       setError(field, msg) {
         this.form.hasErrors = true
@@ -884,11 +899,11 @@
         if (!this.isValidRoad()) {
           this.setError('iptRoad', 'Nome da rua inválido.')
         }
-        if (!this.isValidNumber()) {
-          this.setError('iptNumber', 'Número da casa inválido.')
+        if (!this.isValidHouseNumber()) {
+          this.setError('iptHouseNumber', 'Número da casa inválido.')
         }
-        if (!this.isValidAddInformation()) {
-          this.setError('iptAddInformation', 'Texto inválido.')
+        if (!this.isValidAdditionalInformation()) {
+          this.setError('iptAdditionalInformation', 'Texto inválido.')
         }
         if (!this.form.ckbTermsConditions.value) {
           this.setError('ckbTermsConditions', 'Aceite nossos termos e condições.')
