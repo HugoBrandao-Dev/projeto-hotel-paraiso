@@ -111,7 +111,7 @@
           </form>
         </section>
         <footer class="modal-card-foot">
-          <button id="btn-access" class="button">Entrar</button>
+          <button id="btn-access" class="button" @click="login()">Entrar</button>
           <a id="btn-cadastrar" class="button" href="/cadastro">Cadastrar</a>
         </footer>
       </div>
@@ -119,6 +119,8 @@
   </header>
 </template>
 <script>
+  import validator from 'validator'
+
   export default {
     data() {
       return {
@@ -165,6 +167,7 @@
         },
         forms: {
           login: {
+            hasErrors: false,
             iptEmail: {
               value: '',
               hasError: false,
@@ -180,11 +183,57 @@
       }
     },
     methods: {
+      isValidEmail() {
+        return validator.isEmail(this.forms.login.iptEmail.value)
+      },
+      isValidPassword() {
+        return validator.isStrongPassword(this.forms.login.iptPassword.value)
+      },
+      setError(field, msg) {
+        this.forms.login.hasErrors = true
+        this.forms.login[field].hasError = true
+        this.forms.login[field].error = msg
+      },
+      clearErrorFields() {
+        this.forms.login.hasErrors = false
+
+        this.forms.login.iptEmail.hasError = false
+        this.forms.login.iptEmail.error = ''
+
+        this.forms.login.iptPassword.hasError = false
+        this.forms.login.iptPassword.error = ''
+      },
+      clearFields() {
+        this.forms.login.hasErrors = false
+        this.forms.login.iptEmail.value = ''
+        this.forms.login.iptPassword.value = ''
+      },
       openLoginModal() {
         this.modals.login.active = true
       },
       closeLoginModal() {
+        this.clearFields()
+        this.clearErrorFields()
         this.modals.login.active = false
+      },
+      login() {
+        this.clearErrorFields()
+
+        if (!this.isValidEmail()) {
+          this.setError('iptEmail', 'Email inválido.')
+        }
+
+        if (!this.isValidPassword()) {
+          this.setError('iptPassword', 'Senha inválida.')
+        }
+
+        if (!this.forms.login.hasErrors) {
+          console.info('Login com sucesso!!')
+
+          this.clearFields()
+        } else {
+          console.error('Formulário inválido.')
+        }
       }
     }
   }
