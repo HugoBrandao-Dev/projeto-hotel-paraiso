@@ -276,7 +276,7 @@
     </div>
     
     <div class="field">
-      <label class="label">Telefone:</label>
+      <label class="label">Telefone:<span v-show="this.type == 'register'" class="has-text-danger">*</span></label>
       <div class="field-label"></div>
       <div class="field-body">
         <div class="field is-expanded">
@@ -940,7 +940,11 @@
               this.openRegistredWithSuccess()
               this.clearFields()
             })
-            .catch(error => console.error(error.response.data.RestException))
+            .catch(error => {
+              error.response.data.RestException.ErrorFields.map(item => {
+                this.setError(item.field, item.hasError.error)
+              })
+            })
         }
       },
       showValues() {
