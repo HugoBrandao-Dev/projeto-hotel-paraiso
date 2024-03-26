@@ -24,6 +24,8 @@
             {{ item.name }}
           </a>
 
+          <a v-if="this.isLogged && this.isClient" class="navbar-item" href="/user/reservas">Minhas reservas</a>
+
           <div class="navbar-item has-dropdown is-hoverable" v-if="this.isLogged && !this.isClient">
             <a class="navbar-link">
               Administração
@@ -47,12 +49,22 @@
           
           <div class="navbar-item">
             <button
+              v-if="!this.isLogged"
               id="btn-login" 
               type="button" 
               class="navbar-item button" 
               @click="openLoginModal()"
             >
               Login
+            </button>
+            <button
+              v-else
+              id="btn-logout" 
+              type="button" 
+              class="navbar-item button is-danger" 
+              @click="logout()"
+            >
+              Sair
             </button>
           </div>
         </div>
@@ -125,20 +137,7 @@
 
   export default {
     mounted() {
-      let token = localStorage.getItem('token_hotel_paraiso') || ''
-
-      if (token) {
-        let axiosConfig = {
-          headers: {
-            Authorization: `Bearer ${ token }`
-          }
-        }
-        axios.post(Endpoints.POST_VALIDATE(), {}, axiosConfig)
-          .then(res => {
-            this.isLogged = true
-            this.isClient = res.data.isClient
-          })
-      }
+      this.validateToken()
     },
     data() {
       return {
@@ -166,10 +165,6 @@
             {
               name: 'Contato',
               router: '/contato'
-            },
-            {
-              name: 'Minhas reservas',
-              router: '/user/reservas'
             }
           ],
           admin: [
@@ -236,6 +231,25 @@
         this.clearErrorFields()
         this.modals.login.active = false
       },
+      validateToken() {
+        let token = localStorage.getItem('token_hotel_paraiso') || ''
+
+        if (token) {
+          let axiosConfig = {
+            headers: {
+              Authorization: `Bearer ${ token }`
+            }
+          }
+          axios.post(Endpoints.POST_VALIDATE(), {}, axiosConfig)
+            .then(res => {
+              this.isLogged = true
+              this.isClient = res.data.isClient
+            })
+            .catch(() => {
+              localStorage.removeItem('token_hotel_paraiso')
+            })
+        }
+      },
       login() {
         this.clearErrorFields()
 
@@ -259,7 +273,7 @@
               localStorage.setItem('token_hotel_paraiso', res.data.token)
               this.clearFields()
               this.closeLoginModal()
-              location.reload()
+              this.validateToken()
             })
             .catch(error => {
               error.response.data.RestException.ErrorFields.map(item => {
@@ -269,6 +283,11 @@
         } else {
           console.error('Formulário inválido.')
         }
+      },
+      logout() {
+        localStorage.removeItem('token_hotel_paraiso')
+        this.isLogged = false
+        this.isClient = false
       }
     }
   }
