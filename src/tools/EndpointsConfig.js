@@ -8,6 +8,10 @@ class BackEnd {
   static POST_USER() {
     return `${ this.baseURL }/users`
   }
+
+  static POST_LOGIN() {
+    return `${ this.baseURL }/login`
+  }
 }
 
 module.exports = BackEnd

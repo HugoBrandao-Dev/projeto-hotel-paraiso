@@ -24,29 +24,29 @@
             {{ item.name }}
           </a>
 
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            Administração
-          </a>
-          <div class="navbar-dropdown is-boxed">
-            <a v-for="item in routes.admin"
-              :key="item.router" 
-              :href="item.router"
-              class="navbar-item" 
-            >
-              <i :class="item.iconClass" aria-hidden="true"></i>
-              <span>{{ item.name }}</span>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              Administração
             </a>
-            <hr class="dropdown-divider">
-            <a href="/admin/apartments" class="dropdown-item">
-              <i class="fas fa-tools mr-2" aria-hidden="true"></i>
-              <span>Apartamentos</span>
-            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a v-for="item in routes.admin"
+                :key="item.router" 
+                :href="item.router"
+                class="navbar-item" 
+              >
+                <i :class="item.iconClass" aria-hidden="true"></i>
+                <span>{{ item.name }}</span>
+              </a>
+              <hr class="dropdown-divider">
+              <a href="/admin/apartments" class="dropdown-item">
+                <i class="fas fa-tools mr-2" aria-hidden="true"></i>
+                <span>Apartamentos</span>
+              </a>
+            </div>
           </div>
-        </div>
           
           <div class="navbar-item">
-            <button 
+            <button
               id="btn-login" 
               type="button" 
               class="navbar-item button" 
@@ -120,10 +120,14 @@
 </template>
 <script>
   import validator from 'validator'
+  import axios from 'axios'
+  import Endpoints from '../../tools/EndpointsConfig'
 
   export default {
     data() {
       return {
+        isLogged: false,
+        isClient: false,
         modals: {
           login: {
             active: false
@@ -228,9 +232,23 @@
         }
 
         if (!this.forms.login.hasErrors) {
-          console.info('Login com sucesso!!')
 
-          this.clearFields()
+          const login = {
+            email: this.forms.login.iptEmail.value,
+            password: this.forms.login.iptPassword.value
+          }
+
+          axios.post(Endpoints.POST_LOGIN(), login)
+            .then(res => {
+              localStorage.setItem('token_hotel_paraiso', res.data.token)
+              this.clearFields()
+              this.closeLoginModal()
+            })
+            .catch(error => {
+              error.response.data.RestException.ErrorFields.map(item => {
+                this.setError(item.field, item.hasError.error)
+              })
+            })
         } else {
           console.error('Formulário inválido.')
         }
