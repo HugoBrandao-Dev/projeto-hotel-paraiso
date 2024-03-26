@@ -24,7 +24,7 @@
             {{ item.name }}
           </a>
 
-          <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-item has-dropdown is-hoverable" v-if="this.isLogged && !this.isClient">
             <a class="navbar-link">
               Administração
             </a>
@@ -124,6 +124,22 @@
   import Endpoints from '../../tools/EndpointsConfig'
 
   export default {
+    mounted() {
+      let token = localStorage.getItem('token_hotel_paraiso') || ''
+
+      if (token) {
+        let axiosConfig = {
+          headers: {
+            Authorization: `Bearer ${ token }`
+          }
+        }
+        axios.post(Endpoints.POST_VALIDATE(), {}, axiosConfig)
+          .then(res => {
+            this.isLogged = true
+            this.isClient = res.data.isClient
+          })
+      }
+    },
     data() {
       return {
         isLogged: false,
@@ -243,6 +259,7 @@
               localStorage.setItem('token_hotel_paraiso', res.data.token)
               this.clearFields()
               this.closeLoginModal()
+              location.reload()
             })
             .catch(error => {
               error.response.data.RestException.ErrorFields.map(item => {

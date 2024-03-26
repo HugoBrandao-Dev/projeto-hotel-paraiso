@@ -12,6 +12,10 @@ class BackEnd {
   static POST_LOGIN() {
     return `${ this.baseURL }/login`
   }
+
+  static POST_VALIDATE() {
+    return `${ this.baseURL }/validate`
+  }
 }
 
 module.exports = BackEnd
