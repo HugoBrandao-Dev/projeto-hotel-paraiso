@@ -8,52 +8,49 @@
       <div class="content">
         <div class="field">
           <label class="label">Nome:</label>
-          <div class="control">Tobias de Oliveira</div>
+          <div class="control is-capitalized">{{ this.user.name }}</div>
         </div>
         <div class="field">
           <label class="label">Email:</label>
-          <div class="control">tobias@gmail.com</div>
+          <div class="control">{{ this.user.email }}</div>
         </div>
-        <div class="field">
+        <div class="field" v-show="this.user.cpf">
           <label class="label">CPF:</label>
-          <div class="control">000.000.000-00</div>
+          <div class="control">{{ this.user.cpf }}</div>
+        </div>
+        <div class="field" v-show="this.user.passportNumber">
+          <label class="label">Número do Passaporte / Passport Number:</label>
+          <div class="control">{{ this.user.passportNumber }}</div>
         </div>
         <div class="field">
           <label class="label">Telefone:</label>
-          <div class="control">+55 (00) 00000-0000</div>
+          <div class="control">{{ this.user.phoneCode }} {{ this.user.phoneNumber }}</div>
         </div>
-        <div class="field">
+        <div class="field" v-show="this.user.address.cep">
           <label class="label">CEP:</label>
-          <div class="control">00000-00</div>
+          <div class="control">{{ this.user.address.cep }}</div>
         </div>
-
-        
-        <div class="field">
+        <div class="field" v-show="this.user.address.state">
           <label class="label">Cidade:</label>
-          <div class="control">São Paulo / SP</div>
+          <div class="control">{{ this.user.address.city }} / {{ this.user.address.state }}</div>
         </div>
 
-        <div class="field">
+        <div class="field" v-show="this.user.address.neighborhood">
           <label class="label">Bairro:</label>
-          <div class="control">O nome do bairro.</div>
+          <div class="control">{{ this.user.address.neighborhood }}</div>
         </div>
-        <div class="field">
+        <div class="field" v-show="this.user.address.road">
           <label class="label">Rua:</label>
-          <div class="control">O nome da rua.</div>
+          <div class="control">{{ this.user.address.road }}</div>
         </div>
-        <div class="field">
+        <div class="field" v-show="this.user.address.houseNumber">
           <label class="label">Nº da residência:</label>
-          <div class="control">00000</div>
+          <div class="control">{{ this.user.address.houseNumber }}</div>
         </div>
-        <div class="field">
+        <div class="field" v-show="this.user.address.information">
           <label class="label">Informações adicionais:</label>
           <div class="control">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>{{ this.user.address.information }}</p>
           </div>
         </div>
       </div>
@@ -78,9 +75,51 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import Endpoints from '../../tools/EndpointsConfig'
+
   export default {
+    created() {
+      const token = localStorage.getItem('token_hotel_paraiso')
+      this.axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${ token }`
+        }
+      }
+
+      axios.post(Endpoints.POST_VALIDATE(), {}, this.axiosConfig)
+        .then(resValidate => {
+          const self_user_link = resValidate.data._links.find(el => el.rel == 'self_user').href
+          axios.get(self_user_link, this.axiosConfig)
+            .then(resFind => {
+              this.user = resFind.data
+            })
+        })
+    },
     data() {
       return {
+        axiosConfig: {},
+        user: {
+          _id: '',
+          name: '',
+          email: '',
+          phoneCode: '',
+          phoneNumber: '',
+          birthDate: '',
+          cpf: '',
+          passportNumber: '',
+          address: {
+            country: '',
+            cep: '',
+            state: '',
+            city: '',
+            neighborhood: '',
+            road: '',
+            houseNumber: '',
+            information: ''
+          },
+          _links: []
+        },
         modal: {
           deleteAccount: {
             active: false
