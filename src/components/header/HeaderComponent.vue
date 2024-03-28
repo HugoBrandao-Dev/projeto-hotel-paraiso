@@ -24,9 +24,9 @@
             {{ item.name }}
           </a>
 
-          <a v-if="this.isLogged && this.isClient" class="navbar-item" href="/user/reservas">Minhas reservas</a>
+          <a v-if="this.userAccount.isLogged && this.userAccount.isClient" class="navbar-item" href="/user/reservas">Minhas reservas</a>
 
-          <div class="navbar-item has-dropdown is-hoverable" v-if="this.isLogged && !this.isClient">
+          <div class="navbar-item has-dropdown is-hoverable" v-if="this.userAccount.isLogged && !this.userAccount.isClient">
             <a class="navbar-link">
               Administração
             </a>
@@ -49,7 +49,7 @@
           
           <div class="navbar-item">
             <button
-              v-if="!this.isLogged"
+              v-if="!this.userAccount.isLogged"
               id="btn-login" 
               type="button" 
               class="navbar-item button" 
@@ -134,15 +134,21 @@
   import validator from 'validator'
   import axios from 'axios'
   import Endpoints from '../../tools/EndpointsConfig'
+  import EventBus from '../../EventBus'
 
   export default {
-    mounted() {
-      this.validateToken()
+    created() {
+      EventBus.$on('userAccount', userAccount => {
+        this.userAccount = userAccount
+      })
     },
     data() {
       return {
-        isLogged: false,
-        isClient: false,
+        userAccount: {
+          isLogged: false,
+          isClient: false,
+          _links: []
+        },
         modals: {
           login: {
             active: false
@@ -231,25 +237,6 @@
         this.clearErrorFields()
         this.modals.login.active = false
       },
-      validateToken() {
-        let token = localStorage.getItem('token_hotel_paraiso') || ''
-
-        if (token) {
-          let axiosConfig = {
-            headers: {
-              Authorization: `Bearer ${ token }`
-            }
-          }
-          axios.post(Endpoints.POST_VALIDATE(), {}, axiosConfig)
-            .then(res => {
-              this.isLogged = true
-              this.isClient = res.data.isClient
-            })
-            .catch(() => {
-              localStorage.removeItem('token_hotel_paraiso')
-            })
-        }
-      },
       login() {
         this.clearErrorFields()
 
@@ -273,7 +260,7 @@
               localStorage.setItem('token_hotel_paraiso', res.data.token)
               this.clearFields()
               this.closeLoginModal()
-              this.validateToken()
+              this.$emit('validateToken')
             })
             .catch(error => {
               error.response.data.RestException.ErrorFields.map(item => {
@@ -286,8 +273,8 @@
       },
       logout() {
         localStorage.removeItem('token_hotel_paraiso')
-        this.isLogged = false
-        this.isClient = false
+        this.userAccount.isLogged = false
+        this.userAccount.isClient = false
       }
     }
   }

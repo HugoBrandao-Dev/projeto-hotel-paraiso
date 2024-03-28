@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HeaderComponent />
+    <HeaderComponent @validateToken="validateToken()" />
     <main>
       <router-view />
     </main>
@@ -10,6 +10,10 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import EventBus from './EventBus'
+  import Endpoints from './tools/EndpointsConfig'
+
   // Components
   import HeaderComponent from './components/header/HeaderComponent'
   import NewsletterComponent from './components/newsletter/NewsletterComponent'
@@ -24,6 +28,16 @@
     created() {
       this.configDataTargets()
       this.configDropdowns()
+      this.validateToken()
+    },
+    data() {
+      return {
+        userAccount: {
+          isLogged: false,
+          isClient: false,
+          _links: []
+        }
+      }
     },
     methods: {
       /*
@@ -66,7 +80,32 @@
           });
 
         });
-      }
+      },
+      async validateToken() {
+        try {
+          let token = localStorage.getItem('token_hotel_paraiso') || ''
+
+          if (token) {
+            let axiosConfig = {
+              headers: {
+                Authorization: `Bearer ${ token }`
+              }
+            }
+
+            try {
+              const responseValidate = await axios.post(Endpoints.POST_VALIDATE(), {}, axiosConfig)
+              this.userAccount.isLogged = true
+              this.userAccount.isClient = responseValidate.data.isClient
+              this.userAccount._links = responseValidate.data._links
+              EventBus.$emit('userAccount', this.userAccount)
+            } catch (errorResponseValidate) {
+              localStorage.removeItem('token_hotel_paraiso')
+            }
+          }
+        } catch (error) {
+          console.error(error)
+        }
+      },
     }
   }
 </script>

@@ -76,25 +76,26 @@
 
 <script>
   import axios from 'axios'
-  import Endpoints from '../../tools/EndpointsConfig'
+  // import Endpoints from '../../tools/EndpointsConfig'
+  import EventBus from '../../EventBus'
 
   export default {
     created() {
-      const token = localStorage.getItem('token_hotel_paraiso')
-      this.axiosConfig = {
-        headers: {
-          Authorization: `Bearer ${ token }`
+      EventBus.$on('userAccount', userAccount => {
+        let self_user_link = userAccount._links.find(link => link.rel == 'self_user').href
+        
+        let token = localStorage.getItem('token_hotel_paraiso') || ''
+        let axiosConfig = {
+          headers: {
+            Authorization: `Bearer ${ token }`
+          }
         }
-      }
 
-      axios.post(Endpoints.POST_VALIDATE(), {}, this.axiosConfig)
-        .then(resValidate => {
-          const self_user_link = resValidate.data._links.find(el => el.rel == 'self_user').href
-          axios.get(self_user_link, this.axiosConfig)
-            .then(resFind => {
-              this.user = resFind.data
-            })
-        })
+        axios.get(self_user_link, axiosConfig)
+          .then(res => {
+            this.user = res.data
+          })
+      })
     },
     data() {
       return {
