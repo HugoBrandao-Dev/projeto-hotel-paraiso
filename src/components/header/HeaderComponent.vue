@@ -24,7 +24,7 @@
             {{ item.name }}
           </a>
 
-          <a v-if="this.userAccount.isLogged && this.userAccount.isClient" class="navbar-item" href="/user/reservas">Minhas reservas</a>
+          <a v-if="this.userAccount.isLogged && this.userAccount.isClient" class="navbar-item" href="/user/account">Minha conta</a>
 
           <div class="navbar-item has-dropdown is-hoverable" v-if="this.userAccount.isLogged && !this.userAccount.isClient">
             <a class="navbar-link">

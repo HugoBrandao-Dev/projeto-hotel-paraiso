@@ -440,9 +440,22 @@
 
     <div class="field is-grouped is-grouped-centered">
       <p class="control">
-        <a class="button" :class="buttonValue.class" @click="registerUser()">
-          {{ buttonValue.value }}
-        </a>
+        <button 
+          v-if="type == 'register'"
+          type="submit" 
+          class="button" 
+          :class="{'is-primary': type == 'register'}"
+          @click.prevent="registerUser()">
+          Cadastrar
+        </button>
+        <button 
+          v-else
+          type="submit" 
+          class="button" 
+          :class="{'is-link': type == 'update'}"
+          @click.prevent="updateUser()">
+          Atualizar
+        </button>
       </p>
     </div>
     <div class="modal" :class="{'is-active': windows.termsConditions.active}">
@@ -502,6 +515,7 @@
   import validator from 'validator'
   import { IMaskComponent }  from 'vue-imask'
   import Endpoints from '../../tools/EndpointsConfig'
+  import EventBus from '../../EventBus'
 
   let axios_countriesStatesCities = axios.create({
     headers: {
@@ -510,8 +524,18 @@
   })
   
   export default {
+    created() {
+      this.setCountries()
+      EventBus.$on('userAccount', userAccount => {
+        this.userAccount = userAccount
+      })
+    },
+    props: {
+      type: String
+    },
     data() {
       return {
+        userAccount: {},
         countries: [],
         states: [],
         cities: [],
@@ -623,12 +647,6 @@
     components: {
       'imask-input': IMaskComponent
     },
-    created() {
-      this.setCountries()
-    },
-    props: {
-      type: String
-    },
     computed: {
       disablePassportNumber() {
         return this.form.iptCountry.value == 'BR'
@@ -645,12 +663,6 @@
       },
       loadingCities() {
         return this.form.iptState.value && !this.cities.length
-      },
-      buttonValue() {
-        if (this.type == 'update') {
-          return { value: 'Atualizar', class: 'is-link' }
-        }
-        return { value: 'Cadastrar', class: 'is-primary' }
       }
     },
     watch: {
@@ -673,50 +685,68 @@
     },
     methods: {
       isValidName() {
-        let itsValidPT_BR = validator.isAlpha(this.form.iptName.value, ['pt-BR'], {
-          ignore: ' \''
-        })
-        let itsValidEN_US = validator.isAlpha(this.form.iptName.value, ['en-US'], {
-          ignore: ' \''
-        })
+        if (this.form.iptName.value || this.type == 'register') {
+          let itsValidPT_BR = validator.isAlpha(this.form.iptName.value, ['pt-BR'], {
+            ignore: ' \''
+          })
+          let itsValidEN_US = validator.isAlpha(this.form.iptName.value, ['en-US'], {
+            ignore: ' \''
+          })
 
-        return itsValidPT_BR || itsValidEN_US
+          return itsValidPT_BR || itsValidEN_US
+        }
+        return true
       },
       isValidBirthDate() {
-        return validator.isDate(this.form.iptBirthDate.value)
+        if (this.form.iptBirthDate.value || this.type == 'register') {
+          return validator.isDate(this.form.iptBirthDate.value)
+        }
+        return true
       },
       isValidEmail() {
-        return validator.isEmail(this.form.iptEmail.value)
+        if (this.form.iptEmail.value || this.type == 'register') {
+          return validator.isEmail(this.form.iptEmail.value)
+        }
+        return true
       },
       isValidPassword() {
-        return validator.isStrongPassword(this.form.iptPassword.value1)
+        if (this.form.iptPassword.value1 || this.type == 'register') {
+          return validator.isStrongPassword(this.form.iptPassword.value1)
+        }
+        return true
       },
       isValidCountry() {
-        return validator.isISO31661Alpha2(this.form.iptCountry.value)
+        if (this.form.iptCountry.value || this.type == 'register') {
+          return validator.isISO31661Alpha2(this.form.iptCountry.value)
+        }
+        return true
       },
       isValidCPF() {
-        if (this.form.iptCPF.value && !this.form.iptPassportNumber.value) {
-          let isInt = validator.isInt(this.form.iptCPF.value, {
-            allow_leading_zeroes: true
-          })
-          let isLength = validator.isLength(this.form.iptCPF.value, {
-            min: 11,
-            max: 11
-          })
-          return isInt && isLength
+        if (this.form.iptCPF.value) {
+          if (this.form.iptCPF.value && !this.form.iptPassportNumber.value) {
+            let isInt = validator.isInt(this.form.iptCPF.value, {
+              allow_leading_zeroes: true
+            })
+            let isLength = validator.isLength(this.form.iptCPF.value, {
+              min: 11,
+              max: 11
+            })
+            return isInt && isLength
+          }
         }
-
         return true
       },
       isValidPassportNumber() {
-        if (!this.form.iptCPF.value && this.form.iptPassportNumber.value) {
-          let hasLengthRight = validator.isLength(this.form.iptPassportNumber.value, {
-            min: 8,
-            max: 9
-          })
-          let isAlphanumeric = validator.isAlphanumeric(this.form.iptPassportNumber.value, ['en-US'])
+        if (this.form.iptPassportNumber.value) {
+          if (!this.form.iptCPF.value && this.form.iptPassportNumber.value) {
+            let hasLengthRight = validator.isLength(this.form.iptPassportNumber.value, {
+              min: 8,
+              max: 9
+            })
+            let isAlphanumeric = validator.isAlphanumeric(this.form.iptPassportNumber.value, ['en-US'])
 
-          return hasLengthRight && isAlphanumeric
+            return hasLengthRight && isAlphanumeric
+          }
         }
         return true
       },
@@ -757,15 +787,18 @@
         return true
       },
       isValidCEP() {
-        let isLength = validator.isLength(this.form.iptCEP.value, {
-          min: 8,
-          max: 8
-        })
-        let isNumeric = validator.isNumeric(this.form.iptCEP.value, {
-          no_symbols: true
-        })
+        if (this.form.iptCEP.value) {
+          let isLength = validator.isLength(this.form.iptCEP.value, {
+            min: 8,
+            max: 8
+          })
+          let isNumeric = validator.isNumeric(this.form.iptCEP.value, {
+            no_symbols: true
+          })
 
-        return isLength && isNumeric
+          return isLength && isNumeric
+        }
+        return true
       },
       isValidAdditionalInformation() {
         if (this.form.iptAdditionalInformation.value) {
@@ -944,6 +977,119 @@
               error.response.data.RestException.ErrorFields.map(item => {
                 this.setError(item.field, item.hasError.error)
               })
+            })
+        }
+      },
+      updateUser() {
+        this.clearErrorFields()
+        let user = {}
+
+        if (!this.isValidName()) {
+          this.setError('iptName', 'Nome inválido.')
+        } else {
+          user.name = this.form.iptName.value
+        }
+
+        if (!this.isValidBirthDate()) {
+          this.setError('iptBirthDate', 'Data de nascimento inválida.')
+        } else {
+          user.birthDate = this.form.iptBirthDate.value
+        }
+
+        if (!this.isValidEmail()) {
+          this.setError('iptEmail', 'Email inválido.')
+        } else {
+          user.email = this.form.iptEmail.value
+        }
+
+        // Verifica se as senhas são diferentes
+        if (this.form.iptPassword.value1 !== this.form.iptPassword.value2) {
+          this.setError('iptPassword', 'As senhas não conferem.')
+
+        // Verifica se a senha é fraca.
+        } else if (!this.isValidPassword()) {
+          this.setError('iptPassword', 'As senhas são muito fracas.')
+        } else {
+          user.password = this.form.iptPassword.value1
+        }
+
+        if (!this.isValidCountry()) {
+          this.setError('iptCountry', 'O país é inválido.')
+        } else {
+
+          // Valida o CEP ou Passport Number, a depender da nacionalidade do Cliente.
+          if (this.form.iptCountry.value === 'BR') {
+            if (!this.isValidCEP() && !this.disableCEP) {
+              this.setError('iptCEP', 'CEP inválido.')
+            } else {
+              user.cep = this.form.iptCEP.value
+            }
+          } else {
+            if (!this.isValidPassportNumber()) {
+              this.setError('iptPassportNumber', 'Invalid Passport Number.')
+            } else {
+              user.passportNumber = this.form.iptPassportNumber.value
+            }
+          }
+        }
+
+        if (!this.isValidCPF()) {
+          this.setError('iptCPF', 'Número de CPF inválido.')
+        } else {
+          user.cpf = this.form.iptCPF.value
+        }
+
+        if (!this.isValidNeighborhood()) {
+          this.setError('iptNeighborhood', 'Nome do bairro inválido.')
+        } else {
+          user.neighborhood = this.form.iptNeighborhood.value
+        }
+
+        if (!this.isValidRoad()) {
+          this.setError('iptRoad', 'Nome da rua inválido.')
+        } else {
+          user.road = this.form.iptRoad.value
+        }
+
+        if (!this.isValidHouseNumber()) {
+          this.setError('iptHouseNumber', 'Número da casa inválido.')
+        } else {
+          user.houseNumber = this.form.iptHouseNumber.value
+        }
+
+        if (!this.isValidAdditionalInformation()) {
+          this.setError('iptAdditionalInformation', 'Texto inválido.')
+        } else {
+          user.information = this.form.iptAdditionalInformation.value
+        }
+
+        if (!this.form.ckbTermsConditions.value) {
+          this.setError('ckbTermsConditions', 'Aceite nossos termos e condições.')
+        }
+
+        if (!this.form.hasErrors) {
+
+          if (this.form.iptCPF.value) {
+            user.cpf = this.form.iptCPF.value
+          } else if (this.form.iptPassportNumber.value) {
+            user.passportNumber = this.form.iptPassportNumber.value
+          }
+
+          const token = localStorage.getItem('token_hotel_paraiso')
+          const axiosConfig = {
+            headers: {
+              Authorization: `Bearer ${ token }`
+            }
+          }
+          const edit_user_link = this.userAccount._links.find(item => item.rel == 'edit_user').href
+
+          axios.put(edit_user_link, user, axiosConfig)
+            .then(() => {
+              this.openRegistredWithSuccess()
+              this.clearFields()
+            })
+            .catch(error => {
+              console.error(error.response.data.RestException)
             })
         }
       },
