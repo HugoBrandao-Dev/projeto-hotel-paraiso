@@ -75,52 +75,13 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  // import Endpoints from '../../tools/EndpointsConfig'
-  import EventBus from '../../EventBus'
-
   export default {
-    created() {
-      EventBus.$on('userAccount', userAccount => {
-        let self_user_link = userAccount._links.find(link => link.rel == 'self_user').href
-        
-        let token = localStorage.getItem('token_hotel_paraiso') || ''
-        let axiosConfig = {
-          headers: {
-            Authorization: `Bearer ${ token }`
-          }
-        }
-
-        axios.get(self_user_link, axiosConfig)
-          .then(res => {
-            this.user = res.data
-          })
-      })
+    props: {
+      user: Object
     },
     data() {
       return {
         axiosConfig: {},
-        user: {
-          _id: '',
-          name: '',
-          email: '',
-          phoneCode: '',
-          phoneNumber: '',
-          birthDate: '',
-          cpf: '',
-          passportNumber: '',
-          address: {
-            country: '',
-            cep: '',
-            state: '',
-            city: '',
-            neighborhood: '',
-            road: '',
-            houseNumber: '',
-            information: ''
-          },
-          _links: []
-        },
         modal: {
           deleteAccount: {
             active: false

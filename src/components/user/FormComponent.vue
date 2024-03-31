@@ -515,7 +515,6 @@
   import validator from 'validator'
   import { IMaskComponent }  from 'vue-imask'
   import Endpoints from '../../tools/EndpointsConfig'
-  import EventBus from '../../EventBus'
 
   let axios_countriesStatesCities = axios.create({
     headers: {
@@ -526,16 +525,17 @@
   export default {
     created() {
       this.setCountries()
-      EventBus.$on('userAccount', userAccount => {
-        this.userAccount = userAccount
-      })
     },
     props: {
       type: String
     },
     data() {
       return {
-        userAccount: {},
+        userAccount: {
+          isLogged: false,
+          isClient: false,
+          _links: []
+        },
         countries: [],
         states: [],
         cities: [],
@@ -1075,22 +1075,9 @@
             user.passportNumber = this.form.iptPassportNumber.value
           }
 
-          const token = localStorage.getItem('token_hotel_paraiso')
-          const axiosConfig = {
-            headers: {
-              Authorization: `Bearer ${ token }`
-            }
-          }
-          const edit_user_link = this.userAccount._links.find(item => item.rel == 'edit_user').href
-
-          axios.put(edit_user_link, user, axiosConfig)
-            .then(() => {
-              this.openRegistredWithSuccess()
-              this.clearFields()
-            })
-            .catch(error => {
-              console.error(error.response.data.RestException)
-            })
+          this.openRegistredWithSuccess()
+          this.clearFields()
+          this.$emit('updateUser', user)
         }
       },
       showValues() {

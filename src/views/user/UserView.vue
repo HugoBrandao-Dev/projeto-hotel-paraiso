@@ -17,15 +17,52 @@
         </div>
       </aside>
       <div class="column">
-        <router-view />
+        <router-view :user="user" @updateUserInfos="updateUserInfos()" />
       </div>
     </div>
   </article>
 </template>
 
 <script>
-  export default {
+  import EventBus from '@/EventBus'
+  import axios from 'axios'
 
+  export default {
+    created() {
+      EventBus.$on('userAccount', userAccount => {
+        this.user._links = userAccount._links
+        this.updateUserInfos()
+      })
+    },
+    data() {
+      return {
+        asdf: null,
+        user: {
+          address: {},
+          _links: []
+        }
+      }
+    },
+    methods: {
+
+      // Método que atualiza as informações a serem renderizadas.
+      updateUserInfos() {
+        const axiosConfig = {
+          headers: {
+            Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+          }
+        }
+
+        let self_user_link = this.user._links.find(el => el.rel == 'self_user').href
+        axios.get(self_user_link, axiosConfig)
+          .then(res => {
+            this.user = res.data
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      }
+    }
   }
 </script>
 

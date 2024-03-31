@@ -10,7 +10,7 @@
     </header>
     <div class="card-content">
       <form id="form-cadastro" class="container is-max-desktop">
-        <FormComponent :type="'update'" />
+        <FormComponent :type="'update'" @updateUser="updateUser($event)" />
       </form>
     </div>
   </div>
@@ -19,8 +19,15 @@
 <script>
   // Componentes
   import FormComponent from './FormComponent'
+  import axios from 'axios'
 
   export default {
+    components: {
+      FormComponent
+    },
+    props: {
+      user: Object
+    },
     data() {
       return {
         masks: {
@@ -35,8 +42,25 @@
         }
       }
     },
-    components: {
-      FormComponent
+    methods: {
+      updateUser(data) {
+        const token = localStorage.getItem('token_hotel_paraiso')
+        const axiosConfig = {
+          headers: {
+            Authorization: `Bearer ${ token }`
+          }
+        }
+
+        const edit_user_link = this.user._links.find(item => item.rel == 'edit_user').href
+
+        axios.put(edit_user_link, data, axiosConfig)
+          .then(() => {
+            this.$emit('updateUserInfos')
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      }
     }
   }
 </script>
