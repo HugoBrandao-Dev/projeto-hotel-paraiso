@@ -85,14 +85,14 @@
         </div>
       </aside>
       <div class="lista-reservas column columns is-flex is-flex-wrap-wrap">
-        <div v-for="cont in 7" :key="cont" class="tile is-parent column is-one-third">
+        <div v-for="apartment in apartments" :key="apartment._id" class="tile is-parent column is-one-third">
           <article class="tile is-child box">
             <figure class="image is-16by9">
               <img src="../assets/reservas/reserva.png">
             </figure>
-            <p class="title is-6 mt-2">Diária: R$200,00</p>
+            <p class="title is-6 mt-2">Diária: {{ apartment.daily_price | formatPrice }}</p>
               <router-link 
-                :to="{ name: 'Apartamento', params: { id: cont } }"
+                :to="{ name: 'Apartamento', params: { id: apartment._id } }"
                 class="button is-info is-light"
               >
                 Acessar
@@ -106,11 +106,32 @@
 
 <script>
   import validator from 'validator'
+  import axios from 'axios'
+  import Endpoints from '@/tools/EndpointsConfig'
 
   export default {
+    created() {
+      axios.get(Endpoints.GET_APARTMENTS())
+        .then(res => {
+          this.apartments = res.data.apartments
+          this.apartments.map(el => {
+
+            // Seta os valores de quantidade de cômodos que o usuário poderá selecionar no filtro.
+            let quantities = el.rooms.map(room => room.quantity)
+            let sum = quantities.reduce((a, b) => a + b)
+            if (!this.roomsList.includes(sum)) {
+              this.roomsList.push(sum)
+            }
+          })
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
     data() {
       return {
-        roomsList: [10,8,6,4],
+        roomsList: [],
+        apartments: [],
         forms: {
           hasErrors: false,
           filter: {
@@ -136,6 +157,11 @@
             }
           }
         }
+      }
+    },
+    filters: {
+      formatPrice(price) {
+        return price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
       }
     },
     methods: {
