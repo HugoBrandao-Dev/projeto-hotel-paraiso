@@ -66,7 +66,7 @@
           <p>Deseja realmente deletar sua conta?</p>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-primary">Sim</button>
+          <button class="button is-primary" @click="deleteAccount()">Sim</button>
           <button class="button is-danger" @click="closeDeleteAccountModal()">Não</button>
         </footer>
       </div>
@@ -75,13 +75,14 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     props: {
       user: Object
     },
     data() {
       return {
-        axiosConfig: {},
         modal: {
           deleteAccount: {
             active: false
@@ -90,6 +91,27 @@
       }
     },
     methods: {
+      deleteAccount() {
+        const delete_user_link = this.user._links.find(el => el.rel == 'delete_user').href
+        
+        const axiosConfig = {
+          headers: {
+            Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+          }
+        }
+
+        axios.delete(delete_user_link, axiosConfig)
+          .then(() => {
+            localStorage.removeItem('token_hotel_paraiso')
+
+            // Faz com que a o usuário seja redirecionado e a página atualizada.
+            this.$router.push('/')
+              .then(() => this.$router.go(0))
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      },
       openDeleteAccountModal() {
         this.modal.deleteAccount.active = true
       },
