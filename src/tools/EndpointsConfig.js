@@ -24,6 +24,11 @@ class BackEnd {
   static GET_APARTMENTS() {
     return `${ this.baseURL }/apartments`
   }
+
+  // Endpoint de busca de apartamento pelo ID.
+  static GET_APARTMENT(id) {
+    return `${ this.baseURL }/apartments/${ id }`
+  }
 }
 
 module.exports = BackEnd

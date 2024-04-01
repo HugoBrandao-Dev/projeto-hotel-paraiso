@@ -19,34 +19,21 @@
             <div class="field">
               <label class="label">Andar:</label>
               <div class="control">
-                6º
+                {{ apartment.floor }}º
               </div>
             </div>
             <div class="field">
               <label class="label">Nº:</label>
               <div class="control">
-                22
+                {{ apartment.number }}
               </div>
             </div>
-            <p class="is-size-4">6 Cômodos:</p>
-            <p class="is-size-5 ml-3">1 Sala(s) de estar.
-              <span class="tag is-info is-light is-rounded"><i class="fas fa-info"></i></span>
+            <p class="is-size-4">{{ apartment.totalRooms }} Cômodos:</p>
+
+            <p class="is-size-5 ml-3" v-for="room in apartment.rooms" :key="room.room">
+              {{ room.quantity }} - {{ room.room }} 
             </p>
-            <p class="is-size-5 ml-3">3 Quarto(s).
-              <span class="tag is-info is-light is-rounded"><i class="fas fa-info"></i></span>
-            </p>
-            <p class="is-size-5 ml-3">2 Banheiro(s).
-              <span class="tag is-info is-light is-rounded"><i class="fas fa-info"></i></span>
-            </p>
-            <p class="is-size-5 ml-3">1 Cozinha(s).
-              <span class="tag is-info is-light is-rounded"><i class="fas fa-info"></i></span>
-            </p>
-            <p class="is-size-5 ml-3">1 Pet room(s).
-              <span class="tag is-info is-light is-rounded"><i class="fas fa-info"></i></span>
-            </p>
-            <p class="is-size-5 ml-3">1 Play room(s).
-              <span class="tag is-info is-light is-rounded"><i class="fas fa-info"></i></span>
-            </p>
+            
             <div class="columns mt-3">
               <div class="field column is-half">
                 <label class="label">Início da estadia:</label>
@@ -77,10 +64,29 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import Endpoints from '@/tools/EndpointsConfig'
+
   export default {
+    created() {
+      axios.get(Endpoints.GET_APARTMENT(this.$route.params.id))
+        .then(res => {
+          this.apartment = res.data
+          let quantitiesRooms = this.apartment.rooms.map(el => el.quantity)
+          this.apartment.totalRooms = quantitiesRooms.reduce((a, b) => a + b)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
     mounted() {
       let iptMinDate = document.getElementById('iptMinDate')
       iptMinDate.value = this.defineMinDateTime()
+    },
+    data() {
+      return {
+        apartment: {}
+      }
     },
     methods: {
       // Define o dia e hora mínima para a reserva.
