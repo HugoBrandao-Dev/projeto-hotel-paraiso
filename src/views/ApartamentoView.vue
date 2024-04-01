@@ -38,19 +38,41 @@
               <div class="field column is-half">
                 <label class="label">Início da estadia:</label>
                 <div class="control">
-                  <input id="iptMinDate" type="date" class="input">
+                  <input 
+                    id="iptStartDate"
+                    type="date" 
+                    class="input"
+                    :class="{
+                      'is-normal': !forms.reserve.iptStartDate.hasError,
+                      'is-danger': forms.reserve.iptStartDate.hasError
+                    }"
+                    v-model="forms.reserve.iptStartDate.value">
                 </div>
+                <p class="help" :class="{ 'is-danger': forms.reserve.iptStartDate.hasError }">
+                  {{ forms.reserve.iptStartDate.error }}
+                </p>
               </div>
               <div class="field column">
                 <label class="label">Fim da estadia:</label>
                 <div class="control">
-                  <input id="iptMaxDate" type="date" class="input">
+                  <input 
+                    id="iptEndDate"
+                    type="date" 
+                    class="input"
+                    :class="{
+                      'is-normal': !forms.reserve.iptEndDate.hasError,
+                      'is-danger': forms.reserve.iptEndDate.hasError
+                    }"
+                    v-model="forms.reserve.iptEndDate.value">
                 </div>
+                <p class="help" :class="{ 'is-danger': forms.reserve.iptEndDate.hasError }">
+                  {{ forms.reserve.iptEndDate.error }}
+                </p>
               </div>
             </div>
           </div>
           <footer class="card-footer">
-            <button class="button is-success is-light card-footer-item">
+            <button type="submit" class="button is-success is-light card-footer-item" @click.prevent="registerReservation()">
               Reservar
             </button>
             <button class="button is-info is is-light card-footer-item">
@@ -66,6 +88,7 @@
 <script>
   import axios from 'axios'
   import Endpoints from '@/tools/EndpointsConfig'
+  import validator from 'validator'
 
   export default {
     created() {
@@ -79,13 +102,24 @@
           console.error(error)
         })
     },
-    mounted() {
-      let iptMinDate = document.getElementById('iptMinDate')
-      iptMinDate.value = this.defineMinDateTime()
-    },
     data() {
       return {
-        apartment: {}
+        apartment: {},
+        forms: {
+          reserve: {
+            hasErrors: false,
+            iptStartDate: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptEndDate: {
+              value: '',
+              hasError: false,
+              error: ''
+            }
+          }
+        }
       }
     },
     methods: {
@@ -110,6 +144,53 @@
         let ano = myData.getFullYear()
 
         return `${ ano }-${ mes }-${ dia }`
+      },
+      isValidStartDate() {
+        return validator.isDate(this.forms.reserve.iptStartDate.value)
+      },
+      isValidEndDate() {
+        return validator.isDate(this.forms.reserve.iptEndDate.value)
+      },
+      setError(field, msg) {
+        this.forms.reserve.hasErrors = true
+        this.forms.reserve[field].hasError = true
+        this.forms.reserve[field].error = msg
+      },
+      clearErrorFields() {
+        this.forms.reserve.hasErrors = false
+
+        this.forms.reserve.iptStartDate.hasError = false
+        this.forms.reserve.iptStartDate.error = ''
+
+        this.forms.reserve.iptEndDate.hasError = false
+        this.forms.reserve.iptEndDate.error = ''
+      },
+      clearFields() {
+        this.forms.reserve.hasErrors = false
+        this.forms.reserve.iptStartDate.value = ''
+        this.forms.reserve.iptEndDate.value = ''
+      },
+      registerReservation() {
+        this.clearErrorFields()
+
+        if (!localStorage.getItem('token_hotel_paraiso')) {
+          alert('Faça o login para reservar.')
+        } else {
+
+          if (!this.isValidStartDate()) {
+            this.setError('iptStartDate', 'Informe a data de início da reserva.')
+          }
+
+          if (!this.isValidEndDate()) {
+            this.setError('iptEndDate', 'Informe a data de fim da reserva.')
+          }
+
+          if (this.forms.reserve.hasErrors) {
+            console.error('Error no formulário')
+          } else {
+            console.log('Reserva feita com sucesso.')
+          }
+        }
       }
     }
   }
