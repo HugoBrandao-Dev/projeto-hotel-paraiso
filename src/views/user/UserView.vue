@@ -36,7 +36,6 @@
     },
     data() {
       return {
-        asdf: null,
         user: {
           address: {},
           _links: []

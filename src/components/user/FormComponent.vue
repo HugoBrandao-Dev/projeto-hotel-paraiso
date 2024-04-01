@@ -2,18 +2,21 @@
   <fieldset>
     <div class="field">
       <div class="modal" :class="{'is-active': windows.registredWithSuccess.active}">
-        <div class="modal-background" @click.stop.prevent="closeRegistredWithSuccess()"></div>
+        <div class="modal-background" @click.stop.prevent="closeSuccessfulModal()"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Cadastrado</p>
-            <button class="delete" @click.stop.prevent="closeRegistredWithSuccess()" aria-label="close"></button>
+            <p class="modal-card-title">{{ type == 'register' ? 'Cadastrado' : 'Atualizado' }}</p>
+            <button class="delete" @click.stop.prevent="closeSuccessfulModal()" aria-label="close"></button>
           </header>
-          <section class="modal-card-body">
+          <section class="modal-card-body" v-if="type == 'register'">
             O usuário foi cadastrado com sucesso.
+          </section>
+          <section class="modal-card-body" v-else>
+            Suas informações foram atualizadas com sucesso.
           </section>
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button class="button is-success" @click.stop.prevent="closeRegistredWithSuccess()">OK</button>
+              <button class="button is-success" @click.stop.prevent="closeSuccessfulModal()">OK</button>
             </div>
           </footer>
         </div>
@@ -970,7 +973,7 @@
 
           axios.post(Endpoints.POST_USER(), user)
             .then(() => {
-              this.openRegistredWithSuccess()
+              this.openSuccessfulModal()
               this.clearFields()
             })
             .catch(error => {
@@ -1075,7 +1078,7 @@
             user.passportNumber = this.form.iptPassportNumber.value
           }
 
-          this.openRegistredWithSuccess()
+          this.openSuccessfulModal()
           this.clearFields()
           this.$emit('updateUser', user)
         }
@@ -1145,10 +1148,10 @@
       closeTermsConditions() {
         this.windows.termsConditions.active = false
       },
-      openRegistredWithSuccess() {
+      openSuccessfulModal() {
         this.windows.registredWithSuccess.active = true
       },
-      closeRegistredWithSuccess() {
+      closeSuccessfulModal() {
         this.windows.registredWithSuccess.active = false
       }
     }
