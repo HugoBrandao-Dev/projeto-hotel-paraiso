@@ -92,23 +92,18 @@
         let mes = myData.getMonth() + 1
 
         // Adiciona um '0' caso o mês seja menor que 10
+        if (dia < 10) {
+          dia = '0' + dia
+        }
+
+        // Adiciona um '0' caso o mês seja menor que 10
         if (mes < 10) {
           mes = '0' + mes
         }
 
         let ano = myData.getFullYear()
 
-        // HORA
-        let min = myData.getMinutes()
-        if (min < 10) {
-          min = '0' + min
-        }
-        let hour = myData.getHours()
-        if (hour < 10) {
-          hour = '0' + hour
-        }
-
-        return `${ ano }-${ mes }-${ dia }T${ hour }:${ min }`
+        return `${ ano }-${ mes }-${ dia }`
       }
     }
   }

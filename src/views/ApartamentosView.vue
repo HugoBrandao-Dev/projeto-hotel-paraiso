@@ -92,7 +92,7 @@
             </figure>
             <p class="title is-6 mt-2">Diária: R$200,00</p>
               <router-link 
-                :to="{ name: 'Reserva', params: { id: cont } }"
+                :to="{ name: 'Apartamento', params: { id: cont } }"
                 class="button is-info is-light"
               >
                 Acessar
