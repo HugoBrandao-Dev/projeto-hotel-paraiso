@@ -3,7 +3,7 @@
     <h1>Apartamentos</h1>
     <hr>
     <div class="columns">
-      <aside class="column is-one-third is-align-self-flex-start">
+      <aside class="column is-one-third">
         <div class="card">
           <div class="card-content">
             <p class="title">Filtros</p>
@@ -84,7 +84,7 @@
           </footer>
         </div>
       </aside>
-      <div class="lista-reservas column columns is-flex is-flex-wrap-wrap">
+      <div class="lista-reservas column columns is-flex is-flex-wrap-wrap is-align-self-flex-start">
         <div v-for="apartment in apartments" :key="apartment._id" class="tile is-parent column is-one-third">
           <article class="tile is-child box">
             <figure class="image is-16by9">
@@ -111,30 +111,15 @@
 
   export default {
     created() {
-      axios.get(Endpoints.GET_APARTMENTS())
-        .then(res => {
-          this.apartments = res.data.apartments
-          this.apartments.map(el => {
-
-            // Seta os valores de quantidade de cômodos que o usuário poderá selecionar no filtro.
-            let quantities = el.rooms.map(room => room.quantity)
-            let sum = quantities.reduce((a, b) => a + b)
-            if (!this.roomsList.includes(sum)) {
-              this.roomsList.push(sum)
-            }
-          })
-        })
-        .catch(error => {
-          console.error(error)
-        })
+      this.getApartments()
     },
     data() {
       return {
         roomsList: [],
         apartments: [],
         forms: {
-          hasErrors: false,
           filter: {
+            hasErrors: false,
             iptRooms: {
               value: '',
               hasError: false,
@@ -165,11 +150,33 @@
       }
     },
     methods: {
+      getApartments(queryString = '') {
+        let url = queryString ? 
+        `${Endpoints.GET_APARTMENTS()}?${queryString}` : 
+        Endpoints.GET_APARTMENTS()
+        axios.get(url)
+          .then(res => {
+            this.apartments = res.data.apartments
+            this.apartments.map(el => {
+
+              // Seta os valores de quantidade de cômodos que o usuário poderá selecionar no filtro.
+              let quantities = el.rooms.map(room => room.quantity)
+              let sum = quantities.reduce((a, b) => a + b)
+              if (!this.roomsList.includes(sum)) {
+                this.roomsList.push(sum)
+              }
+            })
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      },
       clearFields() {
         this.forms.filter.iptRooms.value = ''
         this.forms.filter.iptLowerDailyRate.value = ''
         this.forms.filter.iptHighestDailyRate.value = ''
         this.forms.filter.ckbAnimal.value = false
+        this.getApartments()
       },
       clearErrorFields() {
         this.forms.filter.hasErrors = false
@@ -182,10 +189,13 @@
         })
       },
       isValidRooms() {
-        let rooms = (this.forms.filter.iptRooms.value).toString()
-        let isInsideRoomsList = validator.isIn(rooms, this.roomsList)
+        if (this.forms.filter.iptRooms.value) {
+          let rooms = (this.forms.filter.iptRooms.value).toString()
+          let isInsideRoomsList = validator.isIn(rooms, this.roomsList)
 
-        return isInsideRoomsList
+          return isInsideRoomsList
+        }
+        return true
       },
       isValidLowerDailyRate() {
         let isEmpty = validator.isEmpty(this.forms.filter.iptLowerDailyRate.value)
@@ -212,26 +222,62 @@
       },
       applyFilters() {
         this.clearErrorFields()
+        let queryString = ''
 
-        if (!this.isValidRooms()) {
-          this.setError('iptRooms', 'Quantidade de cômodos inválida.')
+        if (this.forms.filter.iptRooms.value) {
+          if (!this.isValidRooms()) {
+            this.setError('iptRooms', 'Quantidade de cômodos inválida.')
+          } else {
+            queryString = queryString.concat(`rooms=${this.forms.filter.iptRooms.value}`)
+          }
         }
-        if (!this.isValidLowerDailyRate()) {
-          this.setError('iptLowerDailyRate', 'Diária mínima inválida.')
+
+        if (this.forms.filter.iptLowerDailyRate.value) {
+          if (!this.isValidLowerDailyRate()) {
+            this.setError('iptLowerDailyRate', 'Diária mínima inválida.')
+          } else {
+            let minValue = this.forms.filter.iptLowerDailyRate.value
+            let stringResult = null
+            if (queryString)
+              stringResult = `&lowest_daily_price=${ minValue }`
+            else
+              stringResult = `lowest_daily_price=${ minValue }`
+            queryString = queryString.concat(stringResult)
+          }
         }
 
-        let minValue = this.forms.filter.iptLowerDailyRate.value
-        let maxValue = this.forms.filter.iptHighestDailyRate.value
-        if (!this.isValidHighestDailyRate()) {
-          this.setError('iptHighestDailyRate', 'Diária máxima inválida.')
+        if (this.forms.filter.iptHighestDailyRate.value) {
+          if (!this.isValidHighestDailyRate()) {
+            this.setError('iptHighestDailyRate', 'Diária máxima inválida.')
 
-        // Verifica se a Diária máxima é menor que a Diária mínima.
-        } else if (maxValue <= minValue) {
-          this.setError('iptHighestDailyRate', 'Deve ser maior que a mínima.')
+          } else {
+            let maxValue = parseFloat(this.forms.filter.iptHighestDailyRate.value)
+
+            // Verifica se a Diária máxima, caso informada, é menor que a Diária mínima.
+            if (maxValue <= parseFloat(this.forms.filter.iptLowerDailyRate.value)) {
+              this.setError('iptHighestDailyRate', 'Deve ser maior que a mínima.')
+            } else {
+              let stringResult = null
+              if (queryString)
+                stringResult = `&highest_daily_price=${ maxValue }`
+              else
+                stringResult = `highest_daily_price=${ maxValue }`
+              queryString = queryString.concat(stringResult)
+            }
+          }
+        }
+
+        if (this.forms.filter.ckbAnimal.value === true) {
+          let stringResult = null
+          if (queryString)
+            stringResult = `&accepts_animals=1`
+          else
+            stringResult = `accepts_animals=1`
+          queryString = queryString.concat(stringResult)
         }
 
         if (!this.forms.filter.hasErrors) {
-          console.log('Filtrado com sucesso.')
+          this.getApartments(queryString)
         }
       }
     }
