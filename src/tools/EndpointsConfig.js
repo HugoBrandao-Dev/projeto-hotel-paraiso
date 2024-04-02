@@ -34,6 +34,11 @@ class BackEnd {
   static POST_RESERVE() {
     return `${ this.baseURL }/reserves`
   }
+
+  // Endpoint de listagem de reservas.
+  static GET_RESERVES() {
+    return `${ this.baseURL }/reserves`
+  }
 }
 
 module.exports = BackEnd
