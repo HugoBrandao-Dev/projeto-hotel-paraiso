@@ -17,6 +17,12 @@
           <div class="card-content">
             <p class="title">Apartamento #{{ this.$route.params.id }}</p>
             <div class="field">
+              <label class="label">Diária:</label>
+              <div class="control">
+                <span class="has-text-success">{{ apartment.daily_price | formatPrice }}</span>
+              </div>
+            </div>
+            <div class="field">
               <label class="label">Andar:</label>
               <div class="control">
                 {{ apartment.floor }}º
@@ -122,6 +128,13 @@
         }
       }
     },
+    filters: {
+      formatPrice(price) {
+        if (price) {
+          return price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+        }
+      }
+    },
     methods: {
       // Define o dia e hora mínima para a reserva.
       defineMinDateTime() {
@@ -177,18 +190,33 @@
           alert('Faça o login para reservar.')
         } else {
 
-          if (!this.isValidStartDate()) {
-            this.setError('iptStartDate', 'Informe a data de início da reserva.')
-          }
+          let reserve = {}
 
-          if (!this.isValidEndDate()) {
+          reserve.apartment_id = this.$route.params.id
+
+          if (!this.isValidStartDate())
+            this.setError('iptStartDate', 'Informe a data de início da reserva.')
+          else
+            reserve.start = this.forms.reserve.iptStartDate.value
+
+          if (!this.isValidEndDate())
             this.setError('iptEndDate', 'Informe a data de fim da reserva.')
-          }
+          else
+            reserve.end = this.forms.reserve.iptEndDate.value
 
           if (this.forms.reserve.hasErrors) {
             console.error('Error no formulário')
           } else {
-            console.log('Reserva feita com sucesso.')
+
+            const axiosConfig = {
+              headers: {
+                Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+              }
+            }
+
+            axios.post(Endpoints.POST_RESERVE(), reserve, axiosConfig)
+              .then(() => { alert('Reserva feita com sucesso!!') })
+              .catch(error => { console.error(error) })
           }
         }
       }

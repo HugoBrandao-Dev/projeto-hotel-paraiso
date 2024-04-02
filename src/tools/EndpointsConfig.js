@@ -29,6 +29,11 @@ class BackEnd {
   static GET_APARTMENT(id) {
     return `${ this.baseURL }/apartments/${ id }`
   }
+
+  // Endpoint de cadastro de uma reserva.
+  static POST_RESERVE() {
+    return `${ this.baseURL }/reserves`
+  }
 }
 
 module.exports = BackEnd
