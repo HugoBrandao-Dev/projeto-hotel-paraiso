@@ -13,7 +13,7 @@
         <img src="../../assets/reservas/reserva.png" alt="Placeholder image">
       </figure>
     </div>
-    <div class="card-content">
+    <div class="card-content" v-if="apartment && reserve.reserve">
       <div class="content">
         <article class="message is-info">
           <div class="message-header">
@@ -23,13 +23,13 @@
             <div class="field">
               <label class="label">Início da estadia:</label>
               <div class="control">
-                {{ reserve.start | formatDate }}
+                {{ reserve.reserve.start | formatDate }}
               </div>
             </div>
             <div class="field">
               <label class="label">Fim da estadia:</label>
               <div class="control">
-                {{ reserve.end | formatDate }}
+                {{ reserve.reserve.end | formatDate }}
               </div>
             </div>
             <div class="field">
@@ -64,10 +64,10 @@
             Solicitante:
           </div>
           <div class="message-body">
-            <div class="field" v-if="reserve.CLIENT_ID">
+            <div class="field">
               <label class="label">Nome:</label>
               <div class="control">
-                {{ reserve.CLIENT_ID[0].name }}
+                {{ reserve.reserve.CLIENT_ID[0].name }}
               </div>
             </div>
             <div class="field" v-if="user.cpf">
@@ -127,19 +127,39 @@
             <div class="field column is-half">
               <label class="label">Início da estadia:</label>
               <div class="control">
-                <input id="iptMinDate" class="input" type="datetime-local">
+                <input 
+                  class="input"
+                  :class="{
+                      'is-normal': !forms.reserve.iptStartDate.hasError,
+                      'is-danger': forms.reserve.iptStartDate.hasError
+                    }"
+                  type="date" 
+                  v-model="forms.reserve.iptStartDate.value">
               </div>
+              <p class="help" :class="{ 'is-danger': forms.reserve.iptStartDate.hasError }">
+                {{ forms.reserve.iptStartDate.error }}
+              </p>
             </div>
             <div class="field column">
               <label class="label">Fim da estadia:</label>
               <div class="control">
-                <input id="iptMaxDate" class="input" type="datetime-local">
+                <input 
+                  class="input"
+                  :class="{
+                      'is-normal': !forms.reserve.iptEndDate.hasError,
+                      'is-danger': forms.reserve.iptEndDate.hasError
+                    }"
+                  type="date" 
+                  v-model="forms.reserve.iptEndDate.value">
               </div>
+              <p class="help" :class="{ 'is-danger': forms.reserve.iptEndDate.hasError }">
+                {{ forms.reserve.iptEndDate.error }}
+              </p>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success">Salvar mudança</button>
+          <button type="submit" class="button is-success" @click.prevent="updateReservation()">Salvar mudança</button>
           <button class="button is-danger" @click="closeModalEstadia()">Cancelar</button>
         </footer>
       </div>
@@ -149,6 +169,7 @@
 
 <script>
   import axios from 'axios'
+  import validator from 'validator'
   import Endpoints from '@/tools/EndpointsConfig'
 
   export default {
@@ -166,6 +187,21 @@
         modals: {
           modificarEstadia: {
             active: false
+          }
+        },
+        forms: {
+          reserve: {
+            hasErrors: false,
+            iptStartDate: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptEndDate: {
+              value: '',
+              hasError: false,
+              error: ''
+            }
           }
         }
       }
@@ -191,7 +227,7 @@
           }
 
           const responseReserve = await axios.get(Endpoints.GET_RESERVE(this.$route.params.id), axiosConfig)
-          this.reserve = responseReserve.data.reserve
+          this.reserve = responseReserve.data
 
           const responseApartment = await axios.get(Endpoints.GET_APARTMENT(this.$route.params.id), axiosConfig)
           this.apartment = responseApartment.data
@@ -207,32 +243,66 @@
       closeModalEstadia() {
         this.modals.modificarEstadia.active = false
       },
-      // Define o dia e hora mínima para a reserva.
-      defineMinDateTime() {
-        let myData = new Date()
+      isValidStartDate() {
+        return validator.isDate(this.forms.reserve.iptStartDate.value)
+      },
+      isValidEndDate() {
+        return validator.isDate(this.forms.reserve.iptEndDate.value)
+      },
+      setError(field, msg) {
+        this.forms.reserve.hasErrors = true
+        this.forms.reserve[field].hasError = true
+        this.forms.reserve[field].error = msg
+      },
+      clearErrorFields() {
+        this.forms.reserve.hasErrors = false
 
-        // DATA
-        let dia = myData.getDate()
-        let mes = myData.getMonth() + 1
+        this.forms.reserve.iptStartDate.hasError = false
+        this.forms.reserve.iptStartDate.error = ''
 
-        // Adiciona um '0' caso o mês seja menor que 10
-        if (mes < 10) {
-          mes = '0' + mes
+        this.forms.reserve.iptEndDate.hasError = false
+        this.forms.reserve.iptEndDate.error = ''
+      },
+      clearFields() {
+        this.forms.reserve.hasErrors = false
+        this.forms.reserve.iptStartDate.value = ''
+        this.forms.reserve.iptEndDate.value = ''
+      },
+      updateReservation() {
+        this.clearErrorFields()
+
+        let reserveInfos = {}
+
+        reserveInfos.apartment_id = this.$route.params.id
+        if (!this.isValidStartDate())
+          this.setError('iptStartDate', 'Informe a data de início da reserva.')
+        else
+          reserveInfos.start = this.forms.reserve.iptStartDate.value
+
+        if (!this.isValidEndDate())
+          this.setError('iptEndDate', 'Informe a data de fim da reserva.')
+        else
+          reserveInfos.end = this.forms.reserve.iptEndDate.value
+
+        if (this.forms.reserve.hasErrors) {
+          console.error('Error no formulário')
+        } else {
+          const axiosConfig = {
+            headers: {
+              Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+            }
+          }
+
+          const edit_reserve_link = this.reserve._links.find(el => el.rel == 'edit_reserve').href
+
+          axios.put(edit_reserve_link, reserveInfos, axiosConfig)
+            .then(() => { 
+              if (alert('Reserva atualizada')) {
+                this.getInfos()
+              }
+            })
+            .catch(error => { console.error(error) })
         }
-
-        let ano = myData.getFullYear()
-
-        // HORA
-        let min = myData.getMinutes()
-        if (min < 10) {
-          min = '0' + min
-        }
-        let hour = myData.getHours()
-        if (hour < 10) {
-          hour = '0' + hour
-        }
-
-        return `${ ano }-${ mes }-${ dia }T${ hour }:${ min }`
       }
     }
   }
