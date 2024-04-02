@@ -6,7 +6,7 @@
       </p>
     </header>
 
-    <!-- Criar carousel das imagens do local -->
+    <!-- Criar carousel das imagens do apartamento -->
 
     <div class="card-image">
       <figure class="image is-4by3">
@@ -23,13 +23,13 @@
             <div class="field">
               <label class="label">Início da estadia:</label>
               <div class="control">
-                00-00-0000
+                {{ reserve.start | formatDate }}
               </div>
             </div>
             <div class="field">
               <label class="label">Fim da estadia:</label>
               <div class="control">
-                00-00-0000
+                {{ reserve.end | formatDate }}
               </div>
             </div>
             <div class="field">
@@ -47,20 +47,14 @@
             <div class="field">
               <label class="label">Forma de pagamento:</label>
               <div class="control">
-                5 x R$ 100,00 no Cartão de Crédito
+                5 x {{ apartment.daily_price | formatPrice }} no Cartão de Crédito
               </div>
             </div>
             <br>
             <div class="field">
-              <label class="label">Estadia solicitada em:</label>
-              <div class="control">
-                <time datetime="2016-1-1 11:09">11:09 PM - 1 Jan 2016</time>
-              </div>
-            </div>
-            <div class="field">
               <label class="label">Valor da diária:</label>
               <div class="control">
-                R$ 100,00
+                {{ apartment.daily_price | formatPrice }}
               </div>
             </div>
           </div>
@@ -70,16 +64,22 @@
             Solicitante:
           </div>
           <div class="message-body">
-            <div class="field">
+            <div class="field" v-if="reserve.CLIENT_ID">
               <label class="label">Nome:</label>
               <div class="control">
-                Tobias de Oliveira
+                {{ reserve.CLIENT_ID[0].name }}
               </div>
             </div>
-            <div class="field">
+            <div class="field" v-if="user.cpf">
               <label class="label">CPF:</label>
               <div class="control">
-                000.000.000-00
+                {{ user.cpf }}
+              </div>
+            </div>
+            <div class="field" v-else>
+              <label class="label">Número de Passaport / Passport Number:</label>
+              <div class="control">
+                {{ user.passportNumber }}
               </div>
             </div>
           </div>
@@ -93,21 +93,19 @@
             <div class="field">
               <label class="label">Andar:</label>
               <div class="control">
-                6º
+                {{ apartment.floor }}º
               </div>
             </div>
             <div class="field">
               <label class="label">Nº do apartamento:</label>
               <div class="control">
-                22
+                {{ apartment.number }}
               </div>
             </div>
-            <ul><span class="is-size-4">6 cômodos</span>
-              <li>1 sala de estar.</li>
-              <li>2 quartos.</li>
-              <li>1 banheiro.</li>
-              <li>1 play room.</li>
-              <li>1 cozinha.</li>
+            <ul><span class="is-size-4">{{ totalRooms }} cômodos</span>
+              <li v-for="room in apartment.rooms" :key="room.room">
+                {{ room.quantity }} - {{ room.room }}
+              </li>
             </ul>
           </div>
         </article>
@@ -150,9 +148,21 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import Endpoints from '@/tools/EndpointsConfig'
+
   export default {
+    created() {
+      this.getInfos()
+    },
+    props: {
+      user: Object
+    },
     data() {
       return {
+        apartment: {},
+        reserve: {},
+        totalRooms: 0,
         modals: {
           modificarEstadia: {
             active: false
@@ -160,11 +170,37 @@
         }
       }
     },
-    mounted() {
-      let iptMinDate = document.getElementById('iptMinDate')
-      iptMinDate.value = this.defineMinDateTime()
+    filters: {
+      formatPrice(price) {
+        if (price)
+          return price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+      },
+      formatDate(date) {
+        if (date) {
+          return new Date(date).toLocaleDateString()
+        }
+      }
     },
     methods: {
+      async getInfos() {
+        try {
+          const axiosConfig = {
+            headers: {
+              Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+            }
+          }
+
+          const responseReserve = await axios.get(Endpoints.GET_RESERVE(this.$route.params.id), axiosConfig)
+          this.reserve = responseReserve.data.reserve
+
+          const responseApartment = await axios.get(Endpoints.GET_APARTMENT(this.$route.params.id), axiosConfig)
+          this.apartment = responseApartment.data
+          let quantities = this.apartment.rooms.map(el => el.quantity)
+          this.totalRooms = quantities.reduce((a, b) => a + b)
+        } catch (error) {
+          console.error(error)
+        }
+      },
       openModalEstadia() {
         this.modals.modificarEstadia.active = true
       },

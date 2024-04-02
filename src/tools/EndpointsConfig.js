@@ -39,6 +39,10 @@ class BackEnd {
   static GET_RESERVES() {
     return `${ this.baseURL }/reserves`
   }
+
+  static GET_RESERVE(id) {
+    return `${ this.baseURL }/reserves/${ id }`
+  }
 }
 
 module.exports = BackEnd
