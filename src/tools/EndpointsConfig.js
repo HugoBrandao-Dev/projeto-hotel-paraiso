@@ -22,6 +22,11 @@ class BackEnd {
     return `${ this.baseURL }/users/${ id }`
   }
 
+  // Endpoint de atualização das informações do usuário.
+  static PUT_USER(id) {
+    return `${ this.baseURL }/users/${ id }`
+  }
+
   // Endpoint de login.
   static POST_LOGIN() {
     return `${ this.baseURL }/login`
