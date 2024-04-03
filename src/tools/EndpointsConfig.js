@@ -17,6 +17,11 @@ class BackEnd {
     return `${ this.baseURL }/users`
   }
 
+  // Endpoint de busca de apartamento pelo ID.
+  static GET_USER(id) {
+    return `${ this.baseURL }/users/${ id }`
+  }
+
   // Endpoint de login.
   static POST_LOGIN() {
     return `${ this.baseURL }/login`

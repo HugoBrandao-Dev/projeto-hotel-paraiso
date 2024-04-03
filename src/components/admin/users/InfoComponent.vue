@@ -4,70 +4,101 @@
     <hr>
     <div class="card">
       <div class="card-content">
+
         <div class="field">
           <label class="label">Nome:</label>
-          <div class="control">Tobias de Oliveira</div>
+          <div class="control is-capitalized">{{ user.name }}</div>
         </div>
+
         <div class="field">
           <label class="label">Email:</label>
-          <div class="control">tobias@gmail.com</div>
+          <div class="control">{{ user.email }}</div>
         </div>
-        <div class="field">
+
+        <div class="field" v-if="user.cpf">
           <label class="label">CPF:</label>
-          <div class="control">000.000.000-00</div>
+          <div class="control">{{ user.cpf }}</div>
         </div>
+
+        <div class="field" v-else>
+          <label class="label">Número do passaporte:</label>
+          <div class="control">{{ user.passportNumber }}</div>
+        </div>
+
         <div class="field">
           <label class="label">Telefone:</label>
-          <div class="control">+55 (00) 00000-0000</div>
-        </div>
-        <div class="field">
-          <label class="label">CEP:</label>
-          <div class="control">00000-00</div>
+          <div class="control">{{ user.phoneCode }} {{ user.phoneNumber }}</div>
         </div>
 
-        <div class="field">
-          <label class="label">País:</label>
-          <div class="control">Brasil</div>
-        </div>
-
-        <div class="field">
-          <label class="label">Cidade:</label>
-          <div class="control">São Paulo / SP</div>
-        </div>
-
-        <div class="field">
-          <label class="label">Bairro:</label>
-          <div class="control">O nome do bairro.</div>
-        </div>
-        <div class="field">
-          <label class="label">Rua:</label>
-          <div class="control">O nome da rua.</div>
-        </div>
-        <div class="field">
-          <label class="label">Nº da residência:</label>
-          <div class="control">00000</div>
-        </div>
-        <div class="field">
-          <label class="label">Informações adicionais:</label>
-          <div class="control">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <div v-if="user.address">
+          
+          <div class="field" v-show="user.address.cep">
+            <label class="label">CEP:</label>
+            <div class="control">{{ user.address.cep }}</div>
           </div>
+
+          <div class="field">
+            <label class="label">País:</label>
+            <div class="control">{{ user.address.country }}</div>
+          </div>
+
+          <div class="field">
+            <label class="label">Cidade:</label>
+            <div class="control">{{ user.address.city }} / {{ user.address.state }}</div>
+          </div>
+
+          <div class="field" v-show="user.address.neighborhood">
+            <label class="label">Bairro:</label>
+            <div class="control">{{ user.address.neighborhood }}</div>
+          </div>
+
+          <div class="field" v-show="user.address.road">
+            <label class="label">Rua:</label>
+            <div class="control">{{ user.address.road }}</div>
+          </div>
+
+          <div class="field" v-show="user.address.houseNumber">
+            <label class="label">Nº da residência:</label>
+            <div class="control">{{ user.address.houseNumber }}</div>
+          </div>
+
+          <div class="field" v-show="user.address.information">
+            <label class="label">Informações adicionais:</label>
+            <div class="control">
+              <p>{{ user.address.information }}</p>
+            </div>
+          </div>
+
         </div>
+
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import axios from 'axios'
+  import Endpoints from '@/tools/EndpointsConfig'
+
   export default {
+    created() {
+      const axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+        }
+      }
+
+      axios.get(Endpoints.GET_USER(this.$route.params.id), axiosConfig)
+        .then(res => {
+          this.user = res.data
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
     data() {
       return {
-
+        user: {}
       }
     }
   }
