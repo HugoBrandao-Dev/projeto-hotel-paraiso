@@ -216,7 +216,11 @@
 
             axios.post(Endpoints.POST_RESERVE(), reserve, axiosConfig)
               .then(() => { alert('Reserva feita com sucesso!!') })
-              .catch(error => { console.error(error) })
+              .catch(error => {
+                error.response.data.RestException.ErrorFields.map(el => {
+                  this.setError(el.field, el.hasError.error)
+                })
+              })
           }
         }
       }
