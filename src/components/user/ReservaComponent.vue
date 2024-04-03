@@ -113,7 +113,7 @@
     </div>
     <footer class="card-footer">
       <button class="button is-primary is-light card-footer-item" @click="openModalEstadia()">Modificar estadia</button>
-      <button class="button is-danger is-light card-footer-item" @click="closeModalEstadia()">Cancelar estadia</button>
+      <button class="button is-danger is-light card-footer-item" @click="cancelReservation()">Cancelar estadia</button>
     </footer>
     <div class="modal" :class="{'is-active': modals.modificarEstadia.active}">
       <div class="modal-background" @click="closeModalEstadia()"></div>
@@ -184,6 +184,11 @@
         apartment: {},
         reserve: {},
         totalRooms: 0,
+        axiosConfig: {
+          headers: {
+            Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+          }
+        },
         modals: {
           modificarEstadia: {
             active: false
@@ -288,15 +293,9 @@
           if (this.forms.reserve.hasErrors) {
             console.error('Error no formulário.')
           } else {
-            const axiosConfig = {
-              headers: {
-                Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
-              }
-            }
-
             const edit_reserve_link = this.reserve._links.find(el => el.rel == 'edit_reserve').href
 
-            await axios.put(edit_reserve_link, reserveInfos, axiosConfig)
+            await axios.put(edit_reserve_link, reserveInfos, this.axiosConfig)
             await this.getInfos()
             alert('Reserva atualizada com sucesso.')
           }
@@ -304,6 +303,18 @@
           errorUpdateReservation.response.data.RestException.ErrorFields.map(el => {
             this.setError(el.field, el.hasError.error)
           })
+        }
+      },
+      async cancelReservation() {
+        try {
+          let toCancel = confirm('Deseja realmente cancelar a reserva')
+          if (toCancel) {
+            const delete_user_link = this.reserve._links.find(el => el.rel == 'delete_reserve').href
+            await axios.delete(delete_user_link, this.axiosConfig)
+            this.$router.push('/user/reservas')
+          }
+        } catch (error) {
+          console.error(error)
         }
       }
     }
