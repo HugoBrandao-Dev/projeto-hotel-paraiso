@@ -16,7 +16,7 @@
             </label>
             <label class="radio">
               <input type="radio" name="tipo-pesquisa" value="passport-number" v-model="search.type">
-                Passport Number
+                Número do Passaporte
             </label>
           </div>
         </div>
@@ -37,9 +37,9 @@
             </span>
           </p>
           <p class="control">
-            <a class="button is-info">
+            <button class="button is-info" @click="searchUser()">
               Pesquisar
-            </a>
+            </button>
           </p>
         </div>
         <div class="field is-grouped" v-else-if="search.type == 'cpf'">
@@ -61,9 +61,9 @@
             </span>
           </p>
           <p class="control">
-            <a class="button is-info">
+            <button class="button is-info" @click="searchUser()">
               Pesquisar
-            </a>
+            </button>
           </p>
         </div>
         <div class="field is-grouped" v-else>
@@ -83,9 +83,9 @@
             </span>
           </p>
           <p class="control">
-            <a class="button is-info">
+            <button class="button is-info" @click="searchUser()">
               Pesquisar
-            </a>
+            </button>
           </p>
         </div>
         <p class="help" :class="{ 'is-danger': search.iptName.error }">
@@ -103,6 +103,7 @@
 </template>
 
 <script>
+  import validator from 'validator'
   import { IMaskComponent }  from 'vue-imask'
 
   export default {
@@ -113,6 +114,7 @@
         },
         search: {
           type: 'nome',
+          hasErrors: false,
           iptName: {
             value: '',
             hasError: false,
@@ -133,6 +135,99 @@
     },
     components: {
       'imask-input': IMaskComponent
+    },
+    methods: {
+      isValidName() {
+        if (this.search.iptName.value || this.type == 'register') {
+          let itsValidPT_BR = validator.isAlpha(this.search.iptName.value, ['pt-BR'], {
+            ignore: ' \''
+          })
+          let itsValidEN_US = validator.isAlpha(this.search.iptName.value, ['en-US'], {
+            ignore: ' \''
+          })
+
+          return itsValidPT_BR || itsValidEN_US
+        }
+        return true
+      },
+      isValidCPF() {
+        if (this.search.iptCPF.value) {
+          if (this.search.iptCPF.value && !this.search.iptPassportNumber.value) {
+            let isInt = validator.isInt(this.search.iptCPF.value, {
+              allow_leading_zeroes: true
+            })
+            let isLength = validator.isLength(this.search.iptCPF.value, {
+              min: 11,
+              max: 11
+            })
+            return isInt && isLength
+          }
+        }
+        return true
+      },
+      isValidPassportNumber() {
+        if (this.search.iptPassportNumber.value) {
+          if (!this.search.iptCPF.value && this.search.iptPassportNumber.value) {
+            let hasLengthRight = validator.isLength(this.search.iptPassportNumber.value, {
+              min: 8,
+              max: 9
+            })
+            let isAlphanumeric = validator.isAlphanumeric(this.search.iptPassportNumber.value, ['en-US'])
+
+            return hasLengthRight && isAlphanumeric
+          }
+        }
+        return true
+      },
+      setError(field, msg) {
+        this.search.hasErrors = true
+        this.search[field].hasError = true
+        this.search[field].error = msg
+      },
+      clearErrorFields() {
+        this.search.hasErrors = false
+
+        this.search.iptName.hasError = false
+        this.search.iptName.error = ''
+
+        this.search.iptCPF.hasError = false
+        this.search.iptCPF.error = ''
+
+        this.search.iptPassportNumber.hasError = false
+        this.search.iptPassportNumber.error = ''
+      },
+      searchUser() {
+        this.clearErrorFields()
+        let searchInfo = {}
+
+        if (!this.isValidName()) {
+          this.setError('iptName', 'Nome inválido.')
+        }
+
+        if (!this.isValidCPF()) {
+          this.setError('iptCPF', 'Número de CPF inválido.')
+        }
+
+        if (!this.isValidPassportNumber()) {
+          this.setError('iptPassportNumber', 'Número de Passaporte inválido.')
+        }
+
+        if (this.search.hasErrors) {
+          switch (this.search.type) {
+            case 'nome':
+              searchInfo.name = this.search.iptName.value
+              break
+            case 'cpf':
+              searchInfo.cpf = this.search.iptCPF.value
+              break
+            default:
+              searchInfo.passportNumber = this.search.iptPassportNumber.value
+          }
+
+          console.info(searchInfo)
+        }
+
+      }
     }
   }
 </script>
