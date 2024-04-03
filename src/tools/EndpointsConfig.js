@@ -5,8 +5,15 @@
 class BackEnd {
   static baseURL = 'http://localhost:4000'
 
+  /* ################# ROTAS PARA USUÁRIO ################# */
+
   // Endpoint de cadastro de usuário.
   static POST_USER() {
+    return `${ this.baseURL }/users`
+  }
+
+  // Endpoint de listagem de usuários.
+  static GET_USERS() {
     return `${ this.baseURL }/users`
   }
 
@@ -20,6 +27,8 @@ class BackEnd {
     return `${ this.baseURL }/validate`
   }
 
+  /* ################# ROTAS PARA APARTAMENTOS ################# */
+
   // Endpoint de listagem de apartamentos.
   static GET_APARTMENTS() {
     return `${ this.baseURL }/apartments`
@@ -29,6 +38,8 @@ class BackEnd {
   static GET_APARTMENT(id) {
     return `${ this.baseURL }/apartments/${ id }`
   }
+
+  /* ################# ROTAS PARA RESERVAS ################# */
 
   // Endpoint de cadastro de uma reserva.
   static POST_RESERVE() {
@@ -40,6 +51,7 @@ class BackEnd {
     return `${ this.baseURL }/reserves`
   }
 
+  // Endpoint de busca de uma reserva pelo ID.
   static GET_RESERVE(id) {
     return `${ this.baseURL }/reserves/${ id }`
   }

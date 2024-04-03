@@ -11,9 +11,9 @@
       <thead>
         <tr>
           <th><abbr title="Nome do usuário.">Nome</abbr></th>
-          <th><abbr title="CPF do usuário.">CPF</abbr></th>
+          <th><abbr title="CPF ou Número do passaporte do usuário.">CPF / NP</abbr></th>
           <th class="is-hidden-mobile"><abbr title="Telefone de contato do usuário.">Telefone</abbr></th>
-          <th class="is-hidden-mobile"><abbr title="Reservas ativas do usuário.">Reservas Ativas</abbr></th>
+          <th class="is-hidden-mobile"><abbr title="Cargo/Função do usuário.">Função</abbr></th>
 
           <th><abbr title="Opções de ação.">Ações</abbr></th>
         </tr>
@@ -21,35 +21,36 @@
       <tfoot>
         <tr>
           <th><abbr title="Nome do usuário.">Nome</abbr></th>
-          <th><abbr title="CPF do usuário.">CPF</abbr></th>
+          <th><abbr title="CPF ou Número do passaporte do usuário.">CPF / NP</abbr></th>
           <th class="is-hidden-mobile"><abbr title="Telefone de contato do usuário.">Telefone</abbr></th>
-          <th class="is-hidden-mobile"><abbr title="Reservas ativas do usuário.">Reservas Ativas</abbr></th>
+          <th class="is-hidden-mobile"><abbr title="Cargo/Função do usuário.">Função</abbr></th>
           <th><abbr title="Opções de ação.">Ações</abbr></th>
         </tr>
       </tfoot>
       <tbody>
-        <tr v-for="user in users" :key="user.cpf">
-          <td>{{ user.nome }}</td>
-          <td>{{ user.cpf }}</td>
-          <td class="is-hidden-mobile">{{ user.telefone }}</td>
-          <td class="is-hidden-mobile">{{ user.reservas_ativas }}</td>
+        <tr v-for="user in users" :key="user._id">
+          <td class="is-capitalized">{{ user.name }}</td>
+          <td v-if="user.cpf">{{ user.cpf }}</td>
+          <td v-else>{{ user.passportNumber }}</td>
+          <td class="is-hidden-mobile">{{ user.phoneCode }} {{ user.phoneNumber }}</td>
+          <td class="is-hidden-mobile">{{ user.role | formatRole }}</td>
           <td>
             <div class="dropdown is-right is-hidden-desktop">
               <div class="dropdown-trigger">
-                <button class="button" aria-haspopup="true" :aria-controls="user.cpf">
+                <button class="button" aria-haspopup="true" :aria-controls="user._id">
                   <span>
                     <i class="fas fa-ellipsis-v"></i>
                   </span>
                 </button>
               </div>
-              <div class="dropdown-menu" :id="user.cpf" role="menu">
+              <div class="dropdown-menu" :id="user._id" role="menu">
                 <div class="dropdown-content">
                   <div class="dropdown-item">
                     <div class="buttons">
                       <router-link :to="{
                         name: 'UserInfo',
                         params: {
-                          id: user.id
+                          id: user._id
                         }
                       }" class="button is-small is-info" title="Informação completa.">
                         <span class="icon is-small">
@@ -59,7 +60,7 @@
                       <router-link :to="{
                         name: 'UserEdit',
                         params: {
-                          id: user.id
+                          id: user._id
                         }
                       }" class="button is-small is-warning" title="Editar usuário.">
                         <span class="icon is-small">
@@ -67,7 +68,7 @@
                         </span>
                       </router-link>
                       <form @submit.prevent="confirmDeletion()">
-                        <input type="hidden" :value="user.id">
+                        <input type="hidden" :value="user._id">
                         <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                           <span class="icon is-small">
                             <i class="fas fa-trash-alt"></i>
@@ -83,7 +84,7 @@
               <router-link :to="{
                 name: 'UserInfo',
                 params: {
-                  id: user.id
+                  id: user._id
                 }
               }" class="button is-small is-info" title="Informação completa.">
                 <span class="icon is-small">
@@ -93,7 +94,7 @@
               <router-link :to="{
                 name: 'UserEdit',
                 params: {
-                  id: user.id
+                  id: user._id
                 }
               }" class="button is-small is-warning" title="Editar usuário.">
                 <span class="icon is-small">
@@ -101,7 +102,7 @@
                 </span>
               </router-link>
               <form @submit.prevent="confirmDeletion()">
-                <input type="hidden" :value="user.id">
+                <input type="hidden" :value="user._id">
                 <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                   <span class="icon is-small">
                     <i class="fas fa-trash-alt"></i>
@@ -117,21 +118,49 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import SearchFilterComponent from './SearchFilterComponent'
+  import Endpoints from '@/tools/EndpointsConfig'
 
   export default {
+    created() {
+      const axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+        }
+      }
+
+      axios.get(Endpoints.GET_USERS(), axiosConfig)
+        .then(res => {
+          this.users = res.data.users
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
     data() {
       return {
-        users: [
-          { id: 1, nome: 'Tobias de Oliveira', cpf: '11111111111', telefone: '55119111111111', reservas_ativas: '2' },
-          { id: 2, nome: 'Dinorá de Oliveira', cpf: '22222222222', telefone: '55119222222222', reservas_ativas: '3' },
-          { id: 3, nome: 'Josias Cruz', cpf: '33333333333', telefone: '55119333333333', reservas_ativas: '1' },
-          { id: 4, nome: 'Doralice Cruz', cpf: '44444444444', telefone: '55119444444444', reservas_ativas: '1' }
-        ]
+        users: []
       }
     },
     components: {
       SearchFilterComponent
+    },
+    filters: {
+      formatRole(role) {
+        if (role || role == 0) {
+          switch (role) {
+            case 0:
+              return 'Cliente'
+            case 1:
+              return 'Funcionário'
+            case 2:
+              return 'Gerente'
+            case 4:
+              return 'Admin'
+          }
+        }
+      }
     },
     methods: {
       confirmDeletion() {
