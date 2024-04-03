@@ -67,7 +67,7 @@
                           <i class="fas fa-edit"></i>
                         </span>
                       </router-link>
-                      <form @submit.prevent="confirmDeletion()">
+                      <form @submit.prevent="confirmDeletion($event)">
                         <input type="hidden" :value="user._id">
                         <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                           <span class="icon is-small">
@@ -101,8 +101,7 @@
                   <i class="fas fa-edit"></i>
                 </span>
               </router-link>
-              <form @submit.prevent="confirmDeletion()">
-                <input type="hidden" :value="user._id">
+              <form @submit.prevent="confirmDeletion(`${ user._links.find(el => el.rel == 'delete_user').href }`)">
                 <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                   <span class="icon is-small">
                     <i class="fas fa-trash-alt"></i>
@@ -124,23 +123,31 @@
 
   export default {
     created() {
-      const axiosConfig = {
-        headers: {
-          Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
-        }
-      }
-
-      axios.get(Endpoints.GET_USERS(), axiosConfig)
-        .then(res => {
-          this.users = res.data.users
-        })
-        .catch(error => {
-          console.error(error)
-        })
+      this.getUsers()
     },
     data() {
       return {
-        users: []
+        axiosConfig: {
+          headers: {
+            Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+          }
+        },
+        users: [],
+        forms: {
+          search: {
+            hasErrors: false,
+            iptName: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptPassportNumber: {
+              value: '',
+              hasError: false,
+              error: ''
+            }
+          }
+        }
       }
     },
     components: {
@@ -163,9 +170,24 @@
       }
     },
     methods: {
-      confirmDeletion() {
-        if (confirm('Deseja realmente deletar o usuário?')) {
-          alert('Usuário deletado com sucesso.')
+      getUsers() {
+        axios.get(Endpoints.GET_USERS(), this.axiosConfig)
+          .then(res => {
+            this.users = res.data.users
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      },
+      confirmDeletion(delete_user_link) {
+        if (confirm(`Deseja realmente deletar o usuário?`)) {
+          axios.delete(delete_user_link, this.axiosConfig)
+            .then(() => {
+              this.getUsers()
+            })
+            .catch(error => {
+              console.error(error)
+            })
         }
       }
     }

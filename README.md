@@ -63,10 +63,11 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 * Colocar icones para cômodos que são descritos na informação da reserva que o usuário está visualizando;
 * Colocar opções de compartilhamento da página da reserva que o usuário está visualizando;
 * Exibir informações quando o usuário passar o mouse ou clicar no ícone de informação de cada cômodo;
-* Colocar uma máscara dinâmica para o número de telefone.
+* Colocar uma máscara dinâmica para o número de telefone;
+* Corrigir dropdown dos botões de ação (para tela touch), na listagem de usuários.
 
-### Reservas
-* Criar modals de sucesso na criação, atualização e deleção de uma reserva.
+### Usuários, Apartamento e Reservas
+* Criar modals de sucesso na criação, atualização e deleção onde faltam.
 
 ### Estado/Cidade
 * Implementar métodos de validação do estado e da cidade, no componente/formulário de cadastro de um novo cliente.
