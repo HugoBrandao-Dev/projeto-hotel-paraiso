@@ -65,6 +65,9 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 * Exibir informações quando o usuário passar o mouse ou clicar no ícone de informação de cada cômodo;
 * Colocar uma máscara dinâmica para o número de telefone.
 
+### Reservas
+* Criar modals de sucesso na criação, atualização e deleção de uma reserva.
+
 ### Estado/Cidade
 * Implementar métodos de validação do estado e da cidade, no componente/formulário de cadastro de um novo cliente.
 

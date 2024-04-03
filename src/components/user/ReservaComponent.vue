@@ -268,40 +268,42 @@
         this.forms.reserve.iptStartDate.value = ''
         this.forms.reserve.iptEndDate.value = ''
       },
-      updateReservation() {
-        this.clearErrorFields()
+      async updateReservation() {
+        try {
+          this.clearErrorFields()
 
-        let reserveInfos = {}
+          let reserveInfos = {}
 
-        reserveInfos.apartment_id = this.$route.params.id
-        if (!this.isValidStartDate())
-          this.setError('iptStartDate', 'Informe a data de início da reserva.')
-        else
-          reserveInfos.start = this.forms.reserve.iptStartDate.value
+          reserveInfos.apartment_id = this.$route.params.id
+          if (!this.isValidStartDate())
+            this.setError('iptStartDate', 'Informe a data de início da reserva.')
+          else
+            reserveInfos.start = this.forms.reserve.iptStartDate.value
 
-        if (!this.isValidEndDate())
-          this.setError('iptEndDate', 'Informe a data de fim da reserva.')
-        else
-          reserveInfos.end = this.forms.reserve.iptEndDate.value
+          if (!this.isValidEndDate())
+            this.setError('iptEndDate', 'Informe a data de fim da reserva.')
+          else
+            reserveInfos.end = this.forms.reserve.iptEndDate.value
 
-        if (this.forms.reserve.hasErrors) {
-          console.error('Error no formulário')
-        } else {
-          const axiosConfig = {
-            headers: {
-              Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
-            }
-          }
-
-          const edit_reserve_link = this.reserve._links.find(el => el.rel == 'edit_reserve').href
-
-          axios.put(edit_reserve_link, reserveInfos, axiosConfig)
-            .then(() => { 
-              if (alert('Reserva atualizada')) {
-                this.getInfos()
+          if (this.forms.reserve.hasErrors) {
+            console.error('Error no formulário.')
+          } else {
+            const axiosConfig = {
+              headers: {
+                Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
               }
-            })
-            .catch(error => { console.error(error) })
+            }
+
+            const edit_reserve_link = this.reserve._links.find(el => el.rel == 'edit_reserve').href
+
+            await axios.put(edit_reserve_link, reserveInfos, axiosConfig)
+            await this.getInfos()
+            alert('Reserva atualizada com sucesso.')
+          }
+        } catch (errorUpdateReservation) {
+          errorUpdateReservation.response.data.RestException.ErrorFields.map(el => {
+            this.setError(el.field, el.hasError.error)
+          })
         }
       }
     }
