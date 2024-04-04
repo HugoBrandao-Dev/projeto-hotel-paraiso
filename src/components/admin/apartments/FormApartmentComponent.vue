@@ -72,11 +72,10 @@
                     <select v-model="forms.newApartment.iptStatus.value">
                       <option 
                         v-for="item in statusList" 
-                        :key="item.id" 
+                        :key="item" 
                         :selected="forms.newApartment.iptStatus.value"
-                        :value="item.id"
                       >
-                        {{ item.type }}
+                        {{ item }}
                       </option>
                     </select>
                   </div>
@@ -168,10 +167,10 @@
                 </tfoot>
                 <tbody>
                   <tr v-for="room in forms.newApartment.rooms" :key="room.room">
-                    <td>{{ room.amount }}</td>
+                    <td>{{ room.quantity }}</td>
                     <td>{{ room.room }}</td>
                     <td>
-                      <form @submit.prevent="confirmDeletion(room.id)">
+                      <form @submit.prevent="confirmRoomDeletion(room.room)">
                         <input type="hidden">
                         <button type="submit" class="button is-danger is-small" title="Deletar cômodo.">
                           <span class="icon is-small">
@@ -240,11 +239,10 @@
                       <select :disabled="this.forms.newRoom.ckbCustomRoom" v-model="forms.newRoom.iptRoom.value">
                         <option 
                           v-for="item in roomsList"
-                          :key="item.id"
-                          :value="item.id"
+                          :key="item"
                           :selected="forms.newRoom.iptRoom.value"
                         >
-                          {{ item.room }}
+                          {{ item }}
                         </option>
                       </select>
                     </div>
@@ -312,42 +310,8 @@
   export default {
     data() {
       return {
-        statusList: [
-          {
-            id: '1',
-            type: 'Livre'
-          },
-          {
-            id: '2',
-            type: 'Reservado'
-          },
-          {
-            id: '3',
-            type: 'Ocupado'
-          },
-          {
-            id: '4',
-            type: 'Indisponível'
-          }
-        ],
-        roomsList: [
-          {
-            id: '1',
-            room: 'Sala de estar'
-          },
-          {
-            id: '2',
-            room: 'Cozinha'
-          },
-          {
-            id: '3',
-            room: 'Banheiro'
-          },
-          {
-            id: '4',
-            room: 'Quarto'
-          }
-        ],
+        statusList: ['livre', 'reservado', 'ocupado', 'indisponível'],
+        roomsList: ['sala de estar', 'cozinha', 'banheiro', 'quarto'],
         messages: {
           hasErrors: false,
           roomsRegistred: {
@@ -372,7 +336,7 @@
               error: ''
             },
             iptStatus: {
-              value: '1',
+              value: 'livre',
               hasError: false,
               error: ''
             },
@@ -397,7 +361,7 @@
               error: ''
             },
             iptRoom: {
-              value: '1',
+              value: 'sala de estar',
               hasError: false,
               error: ''
             },
@@ -422,15 +386,15 @@
       },
       calcTotalRooms() {
         if (this.forms.newApartment.rooms.length) {
-          let amounts = this.forms.newApartment.rooms.map(room => room.amount)
-          return amounts.reduce((now, next) => now + next)
+          let quantities = this.forms.newApartment.rooms.map(room => room.quantity)
+          return quantities.reduce((now, next) => now + next)
         }
         return 0
       }
     },
     methods: {
-      confirmDeletion(id) {
-        let indexId = this.forms.newApartment.rooms.findIndex(room => room.id == id)
+      confirmRoomDeletion(room) {
+        let indexId = this.forms.newApartment.rooms.findIndex(el => el.room == room)
         if (confirm('Deseja realmente excluir o cômodo?')) {
           this.forms.newApartment.rooms.splice(indexId, 1)
         }
@@ -479,21 +443,18 @@
         })
       },
       isValidRoom() {
-        let ids = this.roomsList.map(room => room.id)
-        let idsRegistredRooms = this.forms.newApartment.rooms.map(room => room.id)
-
         // Verifica se o cômodo do select está presente no array de cômodos disponíveis.
-        let isSelectable = validator.isIn(this.forms.newRoom.iptRoom.value, ids)
+        let isSelectable = validator.isIn(this.forms.newRoom.iptRoom.value, this.roomsList)
 
+        const roomsRegistred = this.forms.newApartment.rooms.map(el => el.room)
         // Verifica se o cômodo já está registrado.
-        let isAlreadyRegistred = validator.isIn(this.forms.newRoom.iptRoom.value, idsRegistredRooms)
+        let isAlreadyRegistred = validator.isIn(this.forms.newRoom.iptRoom.value, roomsRegistred)
 
         return isSelectable && !isAlreadyRegistred
       },
       isValidNewRoom() {
-        let roomNames = this.roomsList.map(item => item.room)
         let isEmpty = validator.isEmpty(this.forms.newRoom.iptNewRoom.value)
-        let isIn = validator.isIn(this.forms.newRoom.iptNewRoom.value, roomNames)
+        let isIn = validator.isIn(this.forms.newRoom.iptNewRoom.value, this.roomsList)
         let isAlphaPT_BR = validator.isAlpha(this.forms.newRoom.iptNewRoom.value, ['pt-BR'], {
           ignore: ' \''
         })
@@ -521,12 +482,10 @@
 
         if (!this.forms.newRoom.hasErrors) {
           if (!this.forms.newRoom.ckbCustomRoom) {
-            let roomObj = this.roomsList.find(item => item.id == this.forms.newRoom.iptRoom.value)
             this.messages.roomInserted.show = true
             this.forms.newApartment.rooms.push({
-              id: this.forms.newRoom.iptRoom.value,
-              amount: parseInt(this.forms.newRoom.iptRoomNumber.value),
-              room: roomObj.room
+              quantity: parseInt(this.forms.newRoom.iptRoomNumber.value),
+              room: this.forms.newRoom.iptRoom.value
             })
           }
         } else {
@@ -540,8 +499,8 @@
         })
       },
       isValidStatus() {
-        let ids = this.statusList.map(status => status.id)
-        return validator.isIn(this.forms.newApartment.iptStatus.value, ids)
+        return validator.isIn(this.forms.newApartment.iptStatus.value, this.statusList)
+
       },
       isValidFloor() {
         return validator.isInt(this.forms.newApartment.iptFloor.value, {
@@ -559,25 +518,37 @@
       },
       saveApartment() {
         this.clearErrorFields()
+        let newApartment = {}
 
-        if (!this.isValidPrice()) {
+        if (!this.isValidPrice())
           this.setError('iptPrice', 'Preço da diária inválido.')
-        }
-        if (!this.isValidStatus()) {
+        else
+          newApartment.daily_price = this.forms.newApartment.iptPrice.value
+
+        if (!this.isValidStatus())
           this.setError('iptStatus', 'Status inválido.')
-        }
-        if (!this.isValidFloor()) {
+        else
+          newApartment.status = this.forms.newApartment.iptStatus.value
+
+        if (!this.isValidFloor())
           this.setError('iptFloor', 'Número de andar inválido.')
-        }
-        if (!this.isValidNumber()) {
+        else
+          newApartment.floor = this.forms.newApartment.iptFloor.value
+
+        if (!this.isValidNumber())
           this.setError('iptNumber', 'Número de apartamento inválido.')
-        }
+        else
+          newApartment.number = this.forms.newApartment.iptNumber.value
+
         if (!this.isValidRooms()) {
           this.setErrorMessage('roomsRegistred', 'Nenhum cômodo cadastrado!')
+        } else {
+          newApartment.rooms = this.forms.newApartment.rooms
         }
 
+
         if (!this.forms.newApartment.hasErrors && !this.messages.hasErrors) {
-          alert('Apartamento registrado com sucesso.')
+          console.log(newApartment)
         }
       }
     }
