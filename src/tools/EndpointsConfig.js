@@ -27,6 +27,11 @@ class BackEnd {
     return `${ this.baseURL }/users/${ id }`
   }
 
+  // Endpoint de busca por usuário através de documentação.
+  static POST_SEARCH_USER() {
+    return `${ this.baseURL }/users/search`
+  }
+
   // Endpoint de login.
   static POST_LOGIN() {
     return `${ this.baseURL }/login`

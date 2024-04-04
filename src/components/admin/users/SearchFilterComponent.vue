@@ -103,8 +103,10 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import validator from 'validator'
   import { IMaskComponent }  from 'vue-imask'
+  import Endpoints from '@/tools/EndpointsConfig'
 
   export default {
     data() {
@@ -212,7 +214,7 @@
           this.setError('iptPassportNumber', 'Número de Passaporte inválido.')
         }
 
-        if (this.search.hasErrors) {
+        if (!this.search.hasErrors) {
           switch (this.search.type) {
             case 'nome':
               searchInfo.name = this.search.iptName.value
@@ -224,7 +226,19 @@
               searchInfo.passportNumber = this.search.iptPassportNumber.value
           }
 
-          console.info(searchInfo)
+          const axiosConfig = {
+            headers: {
+              Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+            }
+          }
+
+          axios.post(Endpoints.POST_SEARCH_USER(), searchInfo, axiosConfig)
+            .then(res => {
+              this.$emit('userFound', res.data)
+            })
+            .catch(error => {
+              console.error(error)
+            })
         }
 
       }

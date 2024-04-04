@@ -4,7 +4,7 @@
     <hr>
     <div class="content">
       <div class="columns">
-        <SearchFilterComponent />
+        <SearchFilterComponent @userFound="userFound($event)" />
       </div>
     </div>
     <table class="table is-striped is-fullwidth">
@@ -170,6 +170,9 @@
       }
     },
     methods: {
+      userFound(event) {
+        this.users = event.users
+      },
       getUsers() {
         axios.get(Endpoints.GET_USERS(), this.axiosConfig)
           .then(res => {
