@@ -19,31 +19,33 @@
             <div class="is-flex is-justify-content-space-between">
               <div class="box has-background-primary has-text-white">
                 <p>
-                  Diária: <strong class="is-size-4 has-text-white">R$ 200,00</strong>
+                  Diária: <strong class="is-size-4 has-text-white">{{ apartment.daily_price | formatPrice }}</strong>
                 </p>
               </div>    
-              <span class="tag is-success is-large" title="Status atual do apartamento.">Livre</span>
+              <span 
+                class="tag is-large is-capitalized" 
+                :class="applyTagColor(apartment.reserve.status)" 
+                title="Status atual do apartamento.">{{ apartment.reserve.status }}</span>
             </div>
             <div class="field">
               <label class="label">Andar:</label>
               <div class="control">
-                <p>2</p>
+                <p>{{ apartment.floor }}</p>
               </div>
             </div>
             <div class="field">
-              <label class="label">Apartamento:</label>
+              <label class="label">Número:</label>
               <div class="control">
-                <p>4</p>
+                <p>{{ apartment.number }}</p>
               </div>
             </div>
             <div class="field">
               <label class="label">4 Cômodos:</label>
               <div class="control">
                 <ul>
-                  <li>1 Cozinha</li>
-                  <li>1 Sala de estar</li>
-                  <li>1 Quarto</li>
-                  <li>1 Banheiro</li>
+                  <li v-for="room in apartment.rooms" :key="room.room" class="is-capitalized">
+                    {{ room.quantity }}x {{ room.room }}
+                  </li>
                 </ul>
               </div>
             </div>
@@ -55,7 +57,76 @@
 </template>
 
 <script>
-  
+  import axios from 'axios'
+  import Endpoints from '@/tools/EndpointsConfig'
+
+  export default {
+    created() {
+
+      const axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+        }
+      }
+
+      axios.get(Endpoints.GET_APARTMENT(this.$route.params.id), axiosConfig)
+        .then(res => this.apartment = res.data)
+        .catch(error => console.error(error))
+    },
+    data() {
+      return {
+        apartment: {
+          floor: 4,
+          number: 10,
+          daily_price: 230,
+          rooms: [
+            {
+              room: 'sala de estar',
+              quantity: 1
+            },
+            {
+              room: 'cozinha',
+              quantity: 1
+            },
+            {
+              room: 'banheiro',
+              quantity: 2
+            },
+            {
+              room: 'quarto',
+              quantity: 2
+            }
+          ],
+          reserve: {
+            status: 'livre'
+          }
+        }
+      }
+    },
+    filters: {
+      formatPrice(price) {
+        if (price)
+          return price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+      }
+    },
+    methods: {
+      applyTagColor(status) {
+        if (status) {
+          switch (status) {
+            case 'livre':
+              return 'is-primary'
+            case 'reservado':
+              return 'is-link'
+            case 'ocupado':
+              return 'is-danger'
+            default:
+              return 'is-dark'
+          }
+        }
+        return ''
+      }
+    }
+  }
 </script>
 
 <style scoped>
