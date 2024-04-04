@@ -3,7 +3,7 @@
     <h1>Lista de apartamentos</h1>
     <hr>
     <div class="content">
-      <SearchFilterComponent />
+      <!-- <SearchFilterComponent /> -->
       <div class="buttons is-right">
         <a href="/admin/apartments/new" class="button is-primary is-large">
           Novo apartamento
@@ -29,36 +29,30 @@
           </tr>
         </tfoot>
         <tbody>
-          <tr
-            v-for="apartment in apartments"
-            :key="apartment.id"
-          >
-            <td class="is-hidden-mobile">{{ apartment.andar }}</td>
-            <td>{{ apartment.numero }}</td>
-            <td class="is-hidden-mobile">{{ apartment.rooms }}</td>
-            <td>
-              <span v-if="apartment.status == 1" class="tag is-success">Livre</span>
-              <span v-else-if="apartment.status == 2" class="tag is-link">Reservado</span>
-              <span v-else-if="apartment.status == 3" class="tag is-danger">Ocupado</span>
-              <span v-else class="tag is-dark">Indisponível</span>
+          <tr v-for="apartment in apartments" :key="apartment._id" >
+            <td class="is-hidden-mobile">{{ apartment.floor }}</td>
+            <td>{{ apartment.number }}</td>
+            <td class="is-hidden-mobile">{{ apartment.rooms | calcTotalRooms }}</td>
+            <td v-if="apartment.reserve">
+              <span class="tag" :class="applyTagColor(apartment.reserve.status)">{{ apartment.reserve.status }}</span>
             </td>
             <td>
               <div class="dropdown is-right is-hidden-desktop">
                 <div class="dropdown-trigger">
-                  <button class="button" aria-haspopup="true" :aria-controls="apartment.id">
+                  <button class="button" aria-haspopup="true" :aria-controls="apartment._id">
                     <span>
                       <i class="fas fa-ellipsis-v"></i>
                     </span>
                   </button>
                 </div>
-                <div class="dropdown-menu" :id="apartment.id" role="menu">
+                <div class="dropdown-menu" :id="apartment._id" role="menu">
                   <div class="dropdown-content">
                     <div class="dropdown-item">
                       <div class="buttons">
                         <router-link :to="{
                             name: 'Apartment_admin',
                             params: {
-                              id: apartment.id
+                              id: apartment._id
                             }
                           }" class="button is-small is-info" title="Informação completa.">
                           <span class="icon is-small">
@@ -68,7 +62,7 @@
                           <router-link :to="{
                               name: 'ApartmentEdit_admin',
                               params: {
-                                id: apartment.id
+                                id: apartment._id
                               }
                             }" class="button is-small is-warning" title="Editar usuário.">
                             <span class="icon is-small">
@@ -76,7 +70,7 @@
                             </span>
                           </router-link>
                           <form @submit.prevent="confirmDeletion()">
-                            <input type="hidden" :value="apartment.id">
+                            <input type="hidden" :value="apartment._id">
                             <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                               <span class="icon is-small">
                                 <i class="fas fa-trash-alt"></i>
@@ -92,7 +86,7 @@
                 <router-link :to="{
                   name: 'Apartment_admin',
                   params: {
-                    id: apartment.id
+                    id: apartment._id
                   }
                 }" class="button is-small is-info" title="Informação completa.">
                   <span class="icon is-small">
@@ -102,7 +96,7 @@
                 <router-link :to="{
                   name: 'ApartmentEdit_admin',
                   params: {
-                    id: apartment.id
+                    id: apartment._id
                   }
                 }" class="button is-small is-warning" title="Editar usuário.">
                   <span class="icon is-small">
@@ -110,7 +104,7 @@
                   </span>
                 </router-link>
                 <form @submit.prevent="confirmDeletion()">
-                  <input type="hidden" :value="apartment.id">
+                  <input type="hidden" :value="apartment._id">
                   <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                     <span class="icon is-small">
                       <i class="fas fa-trash-alt"></i>
@@ -138,75 +132,57 @@
 </template>
 
 <script>
-  import SearchFilterComponent from './SearchFilterComponent'
+  import axios from 'axios'
+  // import SearchFilterComponent from './SearchFilterComponent'
+  import Endpoints from '@/tools/EndpointsConfig'
 
   export default {
+    created() {
+      this.getApartments()
+    },
     data() {
       return {
-        apartments: [
-          {
-            id: 1,
-            andar: 1,
-            numero: 1,
-            rooms: 8,
-            status: 1
-          },
-          {
-            id: 2,
-            andar: 1,
-            numero: 2,
-            rooms: 8,
-            status: 2
-          },
-          {
-            id: 3,
-            andar: 2,
-            numero: 3,
-            rooms: 4,
-            status: 3
-          },
-          {
-            id: 4,
-            andar: 2,
-            numero: 4,
-            rooms: 4,
-            status: 4
-          },
-          {
-            id: 5,
-            andar: 2,
-            numero: 5,
-            rooms: 4,
-            status: 1
-          },
-          {
-            id: 6,
-            andar: 2,
-            numero: 6,
-            rooms: 4,
-            status: 2
-          },
-          {
-            id: 7,
-            andar: 3,
-            numero: 7,
-            rooms: 8,
-            status: 3
-          },
-          {
-            id: 8,
-            andar: 3,
-            numero: 8,
-            rooms: 8,
-            status: 4
+        axiosConfig: {
+          headers: {
+            Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
           }
-        ]
+        },
+        apartments: []
       }
     },
     components: {
-      SearchFilterComponent
+      // SearchFilterComponent
+    },
+    filters:{
+      calcTotalRooms(rooms) {
+        if (rooms.length) {
+          let quantities = rooms.map(el => el.quantity)
+          return quantities.reduce((a, b) => a + b)
+        }
+        return 0
+      }
     },
     methods: {
+      applyTagColor(status) {
+        if (status) {
+          switch (status) {
+            case 'livre':
+              return 'is-primary'
+            case 'reservado':
+              return 'is-link'
+            case 'ocupado':
+              return 'is-danger'
+            default:
+              return 'is-dark'
+          }
+        }
+        return ''
+      },
+      getApartments() {
+        axios.get(Endpoints.GET_APARTMENTS(), this.axiosConfig)
+          .then(res => this.apartments = res.data.apartments)
+          .catch(error=> console.log(error))
+      },
       confirmDeletion() {
         if (confirm('Deseja deletar apartamento?')) {
           alert('Apartamento deletado com sucesso.')
