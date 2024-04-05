@@ -189,7 +189,8 @@
             </div>
           </div>
           <footer class="card-footer">
-            <a href="#" class="card-footer-item button is-success is-light" @click.prevent="saveApartment()">Salvar</a>
+            <a href="#" v-if="type == 'register'" class="card-footer-item button is-success is-light" @click.prevent="saveApartment()">Salvar</a>
+            <a href="#" v-else class="card-footer-item button is-link is-light" @click.prevent="updateApartment()">Atualizar</a>
             <a href="#" class="card-footer-item button is-danger is-light">Cancelar</a>
           </footer>
         </div>
@@ -314,8 +315,29 @@
   import Endpoints from '@/tools/EndpointsConfig'
 
   export default {
+    created() {
+      if (this.type == 'update') {
+        axios.get(Endpoints.GET_APARTMENT(this.$route.params.id), this.axiosConfig)
+          .then(res => {
+            this.forms.newApartment.iptPrice.value = res.data.daily_price
+            this.forms.newApartment.iptFloor.value = res.data.floor
+            this.forms.newApartment.iptNumber.value = res.data.number
+            this.forms.newApartment.iptStatus.value = res.data.reserve.status
+            this.forms.newApartment.rooms = res.data.rooms
+            this.forms.newApartment.ckbAccepts_animals = res.data.accepts_animals == 1
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      }
+    },
     data() {
       return {
+        axiosConfig: {
+          headers: {
+            Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+          }
+        },
         statusList: ['livre', 'reservado', 'ocupado', 'indisponível'],
         roomsList: ['sala de estar', 'cozinha', 'banheiro', 'quarto'],
         messages: {
@@ -380,6 +402,9 @@
           }
         }
       }
+    },
+    props: {
+      type: String
     },
     computed: {
       isModalsRoomsActive() {
@@ -509,24 +534,35 @@
         }
       },
       isValidPrice() {
-        return validator.isCurrency(this.forms.newApartment.iptPrice.value, {
-          allow_negatives: false,
-          digits_after_decimal: [2]
-        })
+        if (this.type == 'register') {
+          return validator.isCurrency(this.forms.newApartment.iptPrice.value, {
+            allow_negatives: false,
+            digits_after_decimal: [2]
+          })
+        }
+        return true
       },
       isValidStatus() {
-        return validator.isIn(this.forms.newApartment.iptStatus.value, this.statusList)
-
+        if (this.type == 'register') {
+          return validator.isIn(this.forms.newApartment.iptStatus.value, this.statusList)
+        }
+        return true
       },
       isValidFloor() {
-        return validator.isInt(this.forms.newApartment.iptFloor.value, {
-          min: 0
-        })
+        if (this.type == 'register') {
+          return validator.isInt(this.forms.newApartment.iptFloor.value, {
+            min: 0
+          })
+        }
+        return true
       },
       isValidNumber() {
-        return validator.isInt(this.forms.newApartment.iptNumber.value, {
-          gt: 0
-        })
+        if (this.type == 'register') {
+          return validator.isInt(this.forms.newApartment.iptNumber.value, {
+            gt: 0
+          })          
+        }
+        return true
       },
       // Verifica se tem cômodo(s) cadastrado(s) no apartamento.
       isValidRooms() {
@@ -566,19 +602,63 @@
 
         if (!this.forms.newApartment.hasErrors && !this.messages.hasErrors) {
 
-          const axiosConfig = {
-            headers: {
-              Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
-            }
-          }
-
-          axios.post(Endpoints.POST_APARTMENTS(), newApartment, axiosConfig)
+          axios.post(Endpoints.POST_APARTMENTS(), newApartment, this.axiosConfig)
             .then(() => {
               alert('Apartamento cadastrado com sucesso.')
             })
             .catch(error => {
               console.error(error)
             })
+        }
+      },
+      updateApartment() {
+        this.clearErrorFields()
+        let newApartment = {}
+
+        if (!this.isValidPrice())
+          this.setError('iptPrice', 'Preço da diária inválido.')
+        else
+          newApartment.daily_price = this.forms.newApartment.iptPrice.value
+
+        if (!this.isValidStatus())
+          this.setError('iptStatus', 'Status inválido.')
+        else
+          newApartment.status = this.forms.newApartment.iptStatus.value
+
+        if (!this.isValidFloor())
+          this.setError('iptFloor', 'Número de andar inválido.')
+        else
+          newApartment.floor = this.forms.newApartment.iptFloor.value
+
+        if (!this.isValidNumber())
+          this.setError('iptNumber', 'Número de apartamento inválido.')
+        else
+          newApartment.number = this.forms.newApartment.iptNumber.value
+
+        newApartment.accepts_animals = this.forms.newApartment.ckbAccepts_animals ? 1 : 0
+
+        if (!this.isValidRooms()) {
+          this.setErrorMessage('roomsRegistred', 'Nenhum cômodo cadastrado!')
+        } else {
+          newApartment.rooms = this.forms.newApartment.rooms
+        }
+
+        if (!this.forms.newApartment.hasErrors && !this.messages.hasErrors) {
+
+          axios.put(Endpoints.PUT_APARTMENT(this.$route.params.id), newApartment, this.axiosConfig)
+            .then(() => {
+              alert('Apartamento atualizado com sucesso.')
+            })
+            .catch(error => {
+              console.error(error)
+            })
+
+        } else {
+          for (let k of Object.keys(this.forms.newApartment)) {
+            if (this.forms.newApartment[k].hasError) {
+              console.log(this.forms.newApartment[k].error)
+            }
+          }
         }
       }
     }

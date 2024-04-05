@@ -59,6 +59,11 @@ class BackEnd {
     return `${ this.baseURL }/apartments/${ id }`
   }
 
+  // Endpoint para atualização das informações de um apartamento.
+  static PUT_APARTMENT(id) {
+    return `${ this.baseURL }/apartments/${ id }`
+  }
+
   /* ################# ROTAS PARA RESERVAS ################# */
 
   // Endpoint de cadastro de uma reserva.

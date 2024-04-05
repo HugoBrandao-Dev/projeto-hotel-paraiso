@@ -2,7 +2,7 @@
   <article id="new-apartment">
     <h1>Novo apartamento</h1>
     <hr>
-    <FormComponent />
+    <FormComponent type="register" />
   </article>
 </template>
 
