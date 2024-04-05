@@ -122,6 +122,10 @@
                 </p>
               </div>
             </div>
+            <label class="checkbox mb-3">
+              <input type="checkbox" v-model="forms.newApartment.ckbAccepts_animals" />
+              Aceita animais.
+            </label>
             <div>
               <div class="field">
                 <label class="label">Cômodos:</label>
@@ -350,7 +354,8 @@
               hasError: false,
               error: ''
             },
-            rooms: []
+            rooms: [],
+            ckbAccepts_animals: false
           },
           newRoom: {
             hasErrors: false,
@@ -453,7 +458,10 @@
         return isSelectable && !isAlreadyRegistred
       },
       isValidNewRoom() {
+        let roomsRegistred = this.forms.newApartment.rooms.map(el => el.room)
+
         let isEmpty = validator.isEmpty(this.forms.newRoom.iptNewRoom.value)
+        let isAlreadyRegistred = validator.isIn(this.forms.newRoom.iptNewRoom.value, roomsRegistred)
         let isIn = validator.isIn(this.forms.newRoom.iptNewRoom.value, this.roomsList)
         let isAlphaPT_BR = validator.isAlpha(this.forms.newRoom.iptNewRoom.value, ['pt-BR'], {
           ignore: ' \''
@@ -462,7 +470,7 @@
           ignore: ' \''
         })
 
-        return !isEmpty && !isIn && (isAlphaPT_BR || isAlphaEN_US)
+        return !isEmpty && !isAlreadyRegistred && !isIn && (isAlphaPT_BR || isAlphaEN_US)
       },
       addRoom() {
         this.clearErrorFields()
@@ -486,6 +494,12 @@
             this.forms.newApartment.rooms.push({
               quantity: parseInt(this.forms.newRoom.iptRoomNumber.value),
               room: this.forms.newRoom.iptRoom.value
+            })
+          } else if (!this.forms.newRoom.iptNewRoom.hasError) {
+            this.messages.roomInserted.show = true
+            this.forms.newApartment.rooms.push({
+              quantity: parseInt(this.forms.newRoom.iptRoomNumber.value),
+              room: this.forms.newRoom.iptNewRoom.value
             })
           }
         } else {
@@ -540,12 +554,13 @@
         else
           newApartment.number = this.forms.newApartment.iptNumber.value
 
+        newApartment.accepts_animals = this.forms.newApartment.ckbAccepts_animals
+
         if (!this.isValidRooms()) {
           this.setErrorMessage('roomsRegistred', 'Nenhum cômodo cadastrado!')
         } else {
           newApartment.rooms = this.forms.newApartment.rooms
         }
-
 
         if (!this.forms.newApartment.hasErrors && !this.messages.hasErrors) {
           console.log(newApartment)
