@@ -49,6 +49,12 @@
                 </ul>
               </div>
             </div>
+            <div class="field">
+              <label class="label">Aceita animais:</label>
+              <div class="control">
+                <p>{{ apartment.accepts_animals ? 'Sim' : 'Não' }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -107,6 +113,12 @@
       formatPrice(price) {
         if (price)
           return price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})
+      },
+      formatDateTime(dateTime) {
+        if (dateTime) {
+          let formated = new Date(dateTime)
+          return `${ formated.toLocaleDateString() } ${ formated.toLocaleTimeString() }`
+        }
       }
     },
     methods: {
