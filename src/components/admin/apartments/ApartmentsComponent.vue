@@ -103,7 +103,7 @@
                     <i class="fas fa-edit"></i>
                   </span>
                 </router-link>
-                <form @submit.prevent="confirmDeletion()">
+                <form @submit.prevent="confirmDeletion(apartment._links.find(el => el.rel == 'delete_apartment').href)">
                   <input type="hidden" :value="apartment._id">
                   <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                     <span class="icon is-small">
@@ -183,10 +183,15 @@
           .then(res => this.apartments = res.data.apartments)
           .catch(error=> console.log(error))
       },
-      confirmDeletion() {
-        if (confirm('Deseja deletar apartamento?')) {
-          alert('Apartamento deletado com sucesso.')
-        }
+      confirmDeletion(delete_apartment_link) {
+        axios.delete(delete_apartment_link, this.axiosConfig)
+          .then(() => {
+            alert('Apartamento deletado com sucesso.')
+            this.getApartments()
+          })
+          .catch(error => {
+            console.error(error)
+          })
       }
     }
   }
