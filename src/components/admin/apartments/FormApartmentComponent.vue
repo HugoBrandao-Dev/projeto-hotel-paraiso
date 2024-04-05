@@ -25,15 +25,15 @@
                           <p class="control is-expanded">
                             <input 
                               type="number" class="input" 
-                              :class="{'is-danger': forms.newApartment.iptPrice.hasError}" v-model="forms.newApartment.iptPrice.value"
+                              :class="{'is-danger': forms.newApartment.iptDailyPrice.hasError}" v-model="forms.newApartment.iptDailyPrice.value"
                             />
                           </p>
                         </div>
                         <p 
                           class="help" 
-                          :class="{'is-danger': forms.newApartment.iptPrice.hasError}" 
+                          :class="{'is-danger': forms.newApartment.iptDailyPrice.hasError}" 
                         >
-                          {{ forms.newApartment.iptPrice.error }}
+                          {{ forms.newApartment.iptDailyPrice.error }}
                         </p>
                       </div>
                     </div>
@@ -319,7 +319,7 @@
       if (this.type == 'update') {
         axios.get(Endpoints.GET_APARTMENT(this.$route.params.id), this.axiosConfig)
           .then(res => {
-            this.forms.newApartment.iptPrice.value = res.data.daily_price
+            this.forms.newApartment.iptDailyPrice.value = res.data.daily_price
             this.forms.newApartment.iptFloor.value = res.data.floor
             this.forms.newApartment.iptNumber.value = res.data.number
             this.forms.newApartment.iptStatus.value = res.data.reserve.status
@@ -358,7 +358,7 @@
         forms: {
           newApartment: {
             hasErrors: false,
-            iptPrice: {
+            iptDailyPrice: {
               value: '',
               hasError: false,
               error: ''
@@ -535,7 +535,7 @@
       },
       isValidPrice() {
         if (this.type == 'register') {
-          return validator.isCurrency(this.forms.newApartment.iptPrice.value, {
+          return validator.isCurrency(this.forms.newApartment.iptDailyPrice.value, {
             allow_negatives: false,
             digits_after_decimal: [2]
           })
@@ -564,6 +564,14 @@
         }
         return true
       },
+      clearFields() {
+        this.forms.newApartment.iptDailyPrice.value = ''
+        this.forms.newApartment.iptStatus.value = 'livre'
+        this.forms.newApartment.iptFloor.value = ''
+        this.forms.newApartment.iptNumber.value = ''
+        this.forms.newApartment.rooms = []
+        this.forms.newApartment.ckbAccepts_animals = false
+      },
       // Verifica se tem cômodo(s) cadastrado(s) no apartamento.
       isValidRooms() {
         return this.forms.newApartment.rooms.length
@@ -573,9 +581,9 @@
         let newApartment = {}
 
         if (!this.isValidPrice())
-          this.setError('iptPrice', 'Preço da diária inválido.')
+          this.setError('iptDailyPrice', 'Preço da diária inválido.')
         else
-          newApartment.daily_price = this.forms.newApartment.iptPrice.value
+          newApartment.daily_price = this.forms.newApartment.iptDailyPrice.value
 
         if (!this.isValidStatus())
           this.setError('iptStatus', 'Status inválido.')
@@ -605,9 +613,15 @@
           axios.post(Endpoints.POST_APARTMENTS(), newApartment, this.axiosConfig)
             .then(() => {
               alert('Apartamento cadastrado com sucesso.')
+              this.clearFields()
             })
             .catch(error => {
-              console.error(error)
+              if (error.response.data) {
+                error.response.data.RestException.ErrorFields.map(el => {
+                  this.forms.newApartment[el.field].hasError = true
+                  this.forms.newApartment[el.field].error = el.hasError.error
+                })
+              }
             })
         }
       },
@@ -616,9 +630,9 @@
         let newApartment = {}
 
         if (!this.isValidPrice())
-          this.setError('iptPrice', 'Preço da diária inválido.')
+          this.setError('iptDailyPrice', 'Preço da diária inválido.')
         else
-          newApartment.daily_price = this.forms.newApartment.iptPrice.value
+          newApartment.daily_price = this.forms.newApartment.iptDailyPrice.value
 
         if (!this.isValidStatus())
           this.setError('iptStatus', 'Status inválido.')
@@ -648,9 +662,16 @@
           axios.put(Endpoints.PUT_APARTMENT(this.$route.params.id), newApartment, this.axiosConfig)
             .then(() => {
               alert('Apartamento atualizado com sucesso.')
+              this.clearFields()
+              this.$router.push('/admin/apartments')
             })
             .catch(error => {
-              console.error(error)
+              if (error.response.data) {
+                error.response.data.RestException.ErrorFields.map(el => {
+                  this.forms.newApartment[el.field].hasError = true
+                  this.forms.newApartment[el.field].error = el.hasError.error
+                })
+              }
             })
 
         } else {
