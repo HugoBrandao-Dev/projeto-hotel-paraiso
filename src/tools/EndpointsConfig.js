@@ -49,6 +49,11 @@ class BackEnd {
     return `${ this.baseURL }/apartments`
   }
 
+  // Endpoint de cadastro de apartamento.
+  static POST_APARTMENTS() {
+    return `${ this.baseURL }/apartments`
+  }
+
   // Endpoint de busca de apartamento pelo ID.
   static GET_APARTMENT(id) {
     return `${ this.baseURL }/apartments/${ id }`

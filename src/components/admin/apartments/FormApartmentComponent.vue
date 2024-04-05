@@ -309,7 +309,9 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import validator from 'validator'
+  import Endpoints from '@/tools/EndpointsConfig'
 
   export default {
     data() {
@@ -554,7 +556,7 @@
         else
           newApartment.number = this.forms.newApartment.iptNumber.value
 
-        newApartment.accepts_animals = this.forms.newApartment.ckbAccepts_animals
+        newApartment.accepts_animals = this.forms.newApartment.ckbAccepts_animals ? 1 : 0
 
         if (!this.isValidRooms()) {
           this.setErrorMessage('roomsRegistred', 'Nenhum cômodo cadastrado!')
@@ -563,7 +565,20 @@
         }
 
         if (!this.forms.newApartment.hasErrors && !this.messages.hasErrors) {
-          console.log(newApartment)
+
+          const axiosConfig = {
+            headers: {
+              Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+            }
+          }
+
+          axios.post(Endpoints.POST_APARTMENTS(), newApartment, axiosConfig)
+            .then(() => {
+              alert('Apartamento cadastrado com sucesso.')
+            })
+            .catch(error => {
+              console.error(error)
+            })
         }
       }
     }
