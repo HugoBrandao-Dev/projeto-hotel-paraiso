@@ -53,36 +53,29 @@
               <tr>
                 <th class="is-hidden-touch"><abbr title="Selecionar apartamento">Selecione</abbr></th>
                 <th><abbr title="Andar do apartamento">Andar</abbr></th>
-                <th><abbr title="Número do apartamento">Apto.</abbr></th>
-                <th><abbr title="Atual status do apartamento">Status</abbr></th>
+                <th><abbr title="Número do apartamento">Nº</abbr></th>
               </tr>
             </thead>
             <tfoot>
               <tr>
                 <th class="is-hidden-touch"><abbr title="Selecionar apartamento">Selecione</abbr></th>
                 <th><abbr title="Andar do apartamento">Andar</abbr></th>
-                <th><abbr title="Número do apartamento">Apto.</abbr></th>
-                <th><abbr title="Atual status do apartamento">Status</abbr></th>
+                <th><abbr title="Número do apartamento">Nº</abbr></th>
               </tr>
             </tfoot>
             <tbody>
               <tr 
-                v-for="item in apartamentos"
-                :key="item.id"
-                @click="apto.selected = item.id"
-                :class="{'is-selected': item.id == apto.selected }"
+                v-for="apartment in apartments"
+                :key="apartment._id"
+                @click="apartmentSelected = apartment"
+                :class="{'is-selected': apartment == apartmentSelected }"
               >
                 <td class="is-hidden-touch">
-                  <input type="hidden" :value="item.id">
-                  <input type="radio" :value="item.id" v-model="apto.selected">
+                  <input type="hidden" :value="apartment._id">
+                  <input type="radio" :value="apartment._id" v-model="apartmentSelected._id">
                 </td>
-                <td>{{ item.andar }}</td>
-                <td>{{ item.apartamento }}</td>
-                <td>
-                  <span class="tag" :class="item.ocupado ? 'is-danger' : 'is-success'">
-                    {{ item.ocupado ? 'Ocupado' : 'Livre' }}
-                  </span>
-                </td>
+                <td>{{ apartment.floor }}</td>
+                <td>{{ apartment.number }}</td>
               </tr>
             </tbody>
           </table>
@@ -200,29 +193,29 @@
               <tr>
                 <th class="is-hidden-touch">Selecione</th>
                 <th>Nome</th>
-                <th>CPF</th>
+                <th><abbr title="CPF ou Número do Passaporte do cliente">CPF/NP</abbr></th>
               </tr>
             </thead>
             <tfoot>
               <tr>
                 <th class="is-hidden-touch">Selecione</th>
                 <th>Nome</th>
-                <th>CPF</th>
+                <th><abbr title="CPF ou Número do Passaporte do cliente">CPF/NP</abbr></th>
               </tr>
             </tfoot>
             <tbody>
               <tr 
-                v-for="item in users"
-                :key="item.id"
-                @click="user.selected = item.id"
-                :class="{'is-selected': item.id == user.selected }"
+                v-for="user in users"
+                :key="user._id"
+                @click="userSelected = user"
+                :class="{'is-selected': user._id == userSelected._id }"
               >
                 <td class="is-hidden-touch">
-                  <input type="hidden" :value="item.id">
-                  <input type="radio" name="user" :value="item.id" v-model="user.selected">
+                  <input type="hidden" :value="user._id">
+                  <input type="radio" name="user" :value="user._id" v-model="userSelected._id">
                 </td>
-                <td>{{ item.nome }}</td>
-                <td>{{ item.cpf }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.cpf }}</td>
               </tr>
             </tbody>
           </table>
@@ -246,13 +239,13 @@
               <div class="field column is-half">
                 <label class="label">Andar:</label>
                 <div class="control">
-                  <p>4</p>
+                  <p>{{ apartmentSelected.floor }}</p>
                 </div>
               </div>
               <div class="field column">
                 <label class="label">Nº:</label>
                 <div class="control">
-                  <p>17</p>
+                  <p>{{ apartmentSelected.number }}</p>
                 </div>
               </div>
             </div>
@@ -264,20 +257,23 @@
               <div class="field column is-half">
                 <label class="label">Nome:</label>
                 <div class="control">
-                  <p>Tobias de Oliveira</p>
+                  <p>{{ userSelected.name }}</p>
                 </div>
               </div>
               <div class="field column">
-                <label class="label">CPF:</label>
-                <div class="control">
-                  <p>111.111.111-11</p>
+                <label class="label">CPF/NP:</label>
+                <div class="control" v-if="userSelected.cpf">
+                  <p>{{ userSelected.cpf }}</p>
+                </div>
+                <div class="control" v-else>
+                  <p>{{ userSelected.passportNumber }}</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success">Cadastrar</button>
+          <button class="button is-success" @click="registerReserve()">Cadastrar</button>
           <button class="button is-danger" @click="closeConfirmReservaModal()">Cancelar</button>
         </footer>
       </div>
@@ -309,42 +305,42 @@
             active: false
           }
         },
-        apartamentos: [
+        apartmentSelected: {
+          _id: null
+        },
+        userSelected: {
+          _id: null
+        },
+        apartments: [
           {
-            id: 1,
-            andar: 1,
-            apartamento: 1,
-            ocupado: 1
+            _id: 1,
+            floor: 1,
+            number: 1
           },
           {
-            id: 2,
-            andar: 1,
-            apartamento: 2,
-            ocupado: 0
+            _id: 2,
+            floor: 1,
+            number: 2
           },
           {
-            id: 3,
-            andar: 2,
-            apartamento: 3,
-            ocupado: 1
+            _id: 3,
+            floor: 2,
+            number: 3
           },
           {
-            id: 4,
-            andar: 2,
-            apartamento: 4,
-            ocupado: 0
+            _id: 4,
+            floor: 2,
+            number: 4
           },
           {
-            id: 5,
-            andar: 2,
-            apartamento: 5,
-            ocupado: 1
+            _id: 5,
+            floor: 2,
+            number: 5
           },
           {
-            id: 6,
-            andar: 2,
-            apartamento: 6,
-            ocupado: 1
+            _id: 6,
+            floor: 2,
+            number: 6
           },
         ],
         searchApartment: {
@@ -358,9 +354,6 @@
             hasError: false,
             error: ''
           }
-        },
-        apto: {
-          selected: null
         },
         searchClient: {
           type: 'nome',
@@ -381,14 +374,27 @@
           }
         },
         users: [
-          { id: 1, nome: 'Tobias de Oliveira', cpf: '11111111111', telefone: '55119111111111', reservas_ativas: '2' },
-          { id: 2, nome: 'Dinorá de Oliveira', cpf: '22222222222', telefone: '55119222222222', reservas_ativas: '3' },
-          { id: 3, nome: 'Josias Cruz', cpf: '33333333333', telefone: '55119333333333', reservas_ativas: '1' },
-          { id: 4, nome: 'Doralice Cruz', cpf: '44444444444', telefone: '55119444444444', reservas_ativas: '1' }
-        ],
-        user: {
-          selected: null
-        }
+          {
+            _id: 1,
+            name: 'Tobias de Oliveira',
+            cpf: '11111111111'
+          },
+          {
+            _id: 2,
+            name: 'Dinorá de Oliveira',
+            cpf: '22222222222'
+          },
+          {
+            _id: 3,
+            name: 'Josias Cruz',
+            cpf: '33333333333'
+          },
+          {
+            _id: 4,
+            name: 'Doralice Cruz',
+            cpf: '44444444444'
+          }
+        ]
       }
     },
     components: {
@@ -404,6 +410,9 @@
       clearFields() {
         this.searchApartment.iptFloor = ''
         this.searchApartment.iptNumber = ''
+      },
+      registerReserve() {
+        console.log(`Apartamento ${this.apartmentSelected.number} reservado para ${this.userSelected.name}`)
       }
     }
   }
