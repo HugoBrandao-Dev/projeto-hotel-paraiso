@@ -6,6 +6,7 @@
       <section id="search-filter" class="columns">
         <div class="column is-half mx-auto">
           <div class="box">
+            <!--
             <hgroup>
               <h2>Filtro</h2>
               <h3>Apartamento</h3>
@@ -67,6 +68,7 @@
                 </p>
               </div>
             </div>
+            -->
             <div class="mb-4">
               <h3>Cliente</h3>
               <div>
@@ -211,78 +213,88 @@
         <table class="table is-striped is-fullwidth">
           <thead>
             <tr>
-              <th><abbr title="Nome do usuário.">Tipo</abbr></th>
-              <th><abbr title="CPF do usuário.">Status</abbr></th>
-              <th class="is-hidden-mobile"><abbr title="Telefone de contato do usuário.">Reservado por</abbr></th>
+              <th>Cliente</th>
+              <th><abbr title="Início da reserva">Início</abbr></th>
+              <th><abbr title="Fim da reserva">Fim</abbr></th>
+              <th class="is-hidden-mobile">Status</th>
               <th><abbr title="Opções de ação.">Ações</abbr></th>
             </tr>
           </thead>
           <tfoot>
             <tr>
-              <th><abbr title="Nome do usuário.">Tipo</abbr></th>
-              <th><abbr title="CPF do usuário.">Status</abbr></th>
-              <th class="is-hidden-mobile"><abbr title="Telefone de contato do usuário.">Reservado por</abbr></th>
+              <th>Cliente</th>
+              <th><abbr title="Início da reserva">Início</abbr></th>
+              <th><abbr title="Fim da reserva">Fim</abbr></th>
+              <th class="is-hidden-mobile">Status</th>
               <th><abbr title="Opções de ação.">Ações</abbr></th>
             </tr>
           </tfoot>
           <tbody>
-            <tr v-for="reserva in reservas" :key="reserva.id">
-              <td>{{ reserva.tipo }}</td>
+            <tr v-for="item in reserves" :key="item._id">
+              <td 
+                class="is-capitalized"
+                v-if="item.reserve.CLIENT_ID && item.reserve.CLIENT_ID.length">
+                {{ item.reserve.CLIENT_ID[0].name }}
+              </td>
+              <td class="is-capitalized" v-else>???????</td>
               <td>
+                {{ item.reserve.start | formatDate }}
+              </td>
+              <td>
+                {{ item.reserve.end | formatDate }}
+              </td>
+              <td class="is-hidden-mobile">
                 <span 
                   class="tag" 
                   :class="{
-                    'is-success': reserva.status == 'Livre',
-                    'is-danger': reserva.status == 'Ocupado'
+                    'is-link': item.reserve.status == 'reservado',
+                    'is-danger': item.reserve.status == 'ocupado'
                   }"
                 >
-                  {{ reserva.status }}
+                  {{ item.reserve.status }}
                 </span>
-              </td>
-              <td class="is-hidden-mobile">
-                {{ reserva.reservado_por }}
               </td>
               <td>
                 <div class="dropdown is-right is-hidden-desktop">
                   <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" :aria-controls="reserva.id">
+                    <button class="button" aria-haspopup="true" :aria-controls="item._id">
                       <span>
                         <i class="fas fa-ellipsis-v"></i>
                       </span>
                     </button>
                   </div>
-                  <div class="dropdown-menu" :id="reserva.id" role="menu">
+                  <div class="dropdown-menu" :id="item._id" role="menu">
                     <div class="dropdown-content">
                       <div class="dropdown-item">
                         <div class="buttons">
                           <router-link :to="{
                               name: 'Reserva_admin',
                               params: {
-                                id: reserva.id
+                                id: item._id
                               }
                             }" class="button is-small is-info" title="Informação completa.">
                             <span class="icon is-small">
                               <i class="fas fa-info"></i>
                             </span>
                           </router-link>
-                            <router-link :to="{
-                                name: 'ReservaEdit_admin',
-                                params: {
-                                  id: reserva.id
-                                }
-                              }" class="button is-small is-warning" title="Editar usuário.">
+                          <router-link :to="{
+                              name: 'ReservaEdit_admin',
+                              params: {
+                                id: item._id
+                              }
+                            }" class="button is-small is-warning" title="Editar usuário.">
+                            <span class="icon is-small">
+                              <i class="fas fa-edit"></i>
+                            </span>
+                          </router-link>
+                          <form @submit.prevent="confirmDeletion()">
+                            <input type="hidden" :value="item._id">
+                            <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                               <span class="icon is-small">
-                                <i class="fas fa-edit"></i>
+                                <i class="fas fa-trash-alt"></i>
                               </span>
-                            </router-link>
-                            <form @submit.prevent="confirmDeletion()">
-                              <input type="hidden" :value="reserva.id">
-                              <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
-                                <span class="icon is-small">
-                                  <i class="fas fa-trash-alt"></i>
-                                </span>
-                              </button>
-                            </form>
+                            </button>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -292,7 +304,7 @@
                   <router-link :to="{
                     name: 'Reserva_admin',
                     params: {
-                      id: reserva.id
+                      id: item._id
                     }
                   }" class="button is-small is-info" title="Informação completa.">
                     <span class="icon is-small">
@@ -302,7 +314,7 @@
                   <router-link :to="{
                     name: 'ReservaEdit_admin',
                     params: {
-                      id: reserva.id
+                      id: item._id
                     }
                   }" class="button is-small is-warning" title="Editar usuário.">
                     <span class="icon is-small">
@@ -310,7 +322,7 @@
                     </span>
                   </router-link>
                   <form @submit.prevent="confirmDeletion()">
-                    <input type="hidden" :value="reserva.id">
+                    <input type="hidden" :value="item._id">
                     <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                       <span class="icon is-small">
                         <i class="fas fa-trash-alt"></i>
@@ -330,8 +342,8 @@
 <script>
   import validator from 'validator'
   import { IMaskComponent }  from 'vue-imask'
-
   import axios from 'axios'
+  import Endpoints from '@/tools/EndpointsConfig'
 
   let axios_countriesStatesCities = axios.create({
     headers: {
@@ -340,8 +352,25 @@
   })
 
   export default {
+    components: {
+      'imask-input': IMaskComponent
+    },
+    created() {
+      this.setCountries()
+      this.getReserves()
+    },
+    filters: {
+      formatDate(date) {
+        return new Date(date).toLocaleDateString()
+      }
+    },
     data() {
       return {
+        axiosConfig: {
+          headers: {
+            Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
+          }
+        },
         masks: {
           cpf: '000.000.000-00',
           passportNumber: {
@@ -350,32 +379,7 @@
           }
         },
         countries: [],
-        reservas: [
-          {
-            id: 1,
-            tipo: 'Apartamento',
-            status: 'Ocupado',
-            reservado_por: 'Tobias de Oliveira'
-          },
-          {
-            id: 2,
-            tipo: 'Apartamento',
-            status: 'Livre',
-            reservado_por: 'N/A'
-          },
-          {
-            id: 3,
-            tipo: 'Apartamento',
-            status: 'Ocupado',
-            reservado_por: 'Doralice Cruz'
-          },
-          {
-            id: 4,
-            tipo: 'Apartamento',
-            status: 'Livre',
-            reservado_por: 'N/A'
-          }
-        ],
+        reserves: [],
         statusList: [
           {
             id: 1,
@@ -431,13 +435,16 @@
         }
       }
     },
-    created() {
-      this.setCountries()
-    },
-    components: {
-      'imask-input': IMaskComponent
-    },
     methods: {
+      getReserves() {
+        axios.get(Endpoints.GET_RESERVES(), this.axiosConfig)
+          .then(res => {
+            this.reserves = res.data.reserves
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      },
       async setCountries() {
         try {
           let resCountries = await axios_countriesStatesCities.get('https://api.countrystatecity.in/v1/countries')
