@@ -98,95 +98,95 @@
                 <label class="label">Pesquisar por:</label>
                 <div class="control">
                   <label class="radio">
-                    <input type="radio" checked name="tipo-pesquisa" value="nome" v-model="searchClient.type">
+                    <input type="radio" checked name="tipo-pesquisa" value="name" v-model="forms.searchClient.type">
                     Nome
                   </label>
                   <label class="radio">
-                    <input type="radio" name="tipo-pesquisa" value="cpf" v-model="searchClient.type">
+                    <input type="radio" name="tipo-pesquisa" value="cpf" v-model="forms.searchClient.type">
                       CPF
                   </label>
                   <label class="radio">
-                    <input type="radio" name="tipo-pesquisa" value="passport-number" v-model="searchClient.type">
+                    <input type="radio" name="tipo-pesquisa" value="passportNumber" v-model="forms.searchClient.type">
                       Passport Number
                   </label>
                 </div>
               </div>
-              <div class="field is-grouped" v-if="searchClient.type == 'nome'">
-                <p class="control is-expanded" :class="{ 'has-icons-right': searchClient.iptName.hasError }">
+              <div class="field is-grouped" v-if="forms.searchClient.type == 'name'">
+                <p class="control is-expanded" :class="{ 'has-icons-right': forms.searchClient.iptName.hasError }">
                   <input
                     class="input is-small"
                     :class="{
-                      'is-normal': searchClient.iptName.hasError,
-                      'is-danger': searchClient.iptName.hasError
+                      'is-normal': forms.searchClient.iptName.hasError,
+                      'is-danger': forms.searchClient.iptName.hasError
                     }"
                     type="text"
                     placeholder="Tobias de Oliveira"
-                    v-model="searchClient.iptName.value"
+                    v-model="forms.searchClient.iptName.value"
                   />
-                  <span class="icon is-small is-right" v-show="searchClient.iptName.hasError">
+                  <span class="icon is-small is-right" v-show="forms.searchClient.iptName.hasError">
                     <i class="fas fa-exclamation-triangle"></i>
                   </span>
                 </p>
                 <p class="control">
-                  <a class="button is-small is-info">
+                  <a class="button is-small is-info" @click.prevent="searchClient()">
                     Pesquisar
                   </a>
                 </p>
               </div>
-              <div class="field is-grouped" v-else-if="searchClient.type == 'cpf'">
-                <p class="control is-expanded" :class="{ 'has-icons-right': searchClient.iptCPF.hasError }">
+              <div class="field is-grouped" v-else-if="forms.searchClient.type == 'cpf'">
+                <p class="control is-expanded" :class="{ 'has-icons-right': forms.searchClient.iptCPF.hasError }">
                   <imask-input
                     class="input is-small"
                     :class="{
-                      'is-normal': searchClient.iptCPF.hasError,
-                      'is-danger': searchClient.iptCPF.hasError
+                      'is-normal': forms.searchClient.iptCPF.hasError,
+                      'is-danger': forms.searchClient.iptCPF.hasError
                     }"
                     type="text"
                     placeholder="000.000.000-00"
                     :mask="masks.cpf"
                     :unmask="true"
-                    v-model="searchClient.iptCPF.value"
+                    v-model="forms.searchClient.iptCPF.value"
                   />
-                  <span class="icon is-small is-right" v-show="searchClient.iptCPF.hasError">
+                  <span class="icon is-small is-right" v-show="forms.searchClient.iptCPF.hasError">
                     <i class="fas fa-exclamation-triangle"></i>
                   </span>
                 </p>
                 <p class="control">
-                  <a class="button is-small is-info">
+                  <a class="button is-small is-info" @click.prevent="searchClient()">
                     Pesquisar
                   </a>
                 </p>
               </div>
               <div class="field is-grouped" v-else>
-                <p class="control is-expanded" :class="{ 'has-icons-right': searchClient.iptPassportNumber.hasError }">
+                <p class="control is-expanded" :class="{ 'has-icons-right': forms.searchClient.iptPassportNumber.hasError }">
                   <imask-input
                     class="input is-small"
                     :class="{
-                      'is-normal': searchClient.iptPassportNumber.hasError,
-                      'is-danger': searchClient.iptPassportNumber.hasError
+                      'is-normal': forms.searchClient.iptPassportNumber.hasError,
+                      'is-danger': forms.searchClient.iptPassportNumber.hasError
                     }"
                     type="text"
                     placeholder="0A0A0A0A0A"
-                    v-model="searchClient.iptPassportNumber.value"
+                    v-model="forms.searchClient.iptPassportNumber.value"
                   />
-                  <span class="icon is-small is-right" v-show="searchClient.iptPassportNumber.hasError">
+                  <span class="icon is-small is-right" v-show="forms.searchClient.iptPassportNumber.hasError">
                     <i class="fas fa-exclamation-triangle"></i>
                   </span>
                 </p>
                 <p class="control">
-                  <a class="button is-small is-info">
+                  <a class="button is-small is-info" @click.prevent="searchClient()">
                     Pesquisar
                   </a>
                 </p>
               </div>
-              <p class="help" :class="{ 'is-danger': searchClient.iptName.error }">
-                {{ searchClient.iptName.error }}
+              <p class="help" :class="{ 'is-danger': forms.searchClient.iptName.error }">
+                {{ forms.searchClient.iptName.error }}
               </p>
-              <p class="help" :class="{ 'is-danger': searchClient.iptCPF.error }">
-                {{ searchClient.iptCPF.error }}
+              <p class="help" :class="{ 'is-danger': forms.searchClient.iptCPF.error }">
+                {{ forms.searchClient.iptCPF.error }}
               </p>
-              <p class="help" :class="{ 'is-danger': searchClient.iptPassportNumber.error }">
-                {{ searchClient.iptPassportNumber.error }}
+              <p class="help" :class="{ 'is-danger': forms.searchClient.iptPassportNumber.error }">
+                {{ forms.searchClient.iptPassportNumber.error }}
               </p>
             </div>
           </div>
@@ -432,6 +432,25 @@
               hasError: false,
               error: ''
             }
+          },
+          searchClient: {
+            type: 'name',
+            hasErrors: false,
+            iptName: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptCPF: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptPassportNumber: {
+              value: '',
+              hasError: false,
+              error: ''
+            }
           }
         },
         apartments: [],
@@ -448,24 +467,6 @@
             error: ''
           }
         },
-        searchClient: {
-          type: 'nome',
-          iptName: {
-            value: '',
-            hasError: false,
-            error: ''
-          },
-          iptCPF: {
-            value: '',
-            hasError: false,
-            error: ''
-          },
-          iptPassportNumber: {
-            value: '',
-            hasError: false,
-            error: ''
-          }
-        }
       }
     },
     methods: {
@@ -532,13 +533,15 @@
         this.forms[form][field].error = msg
       },
       clearErrorFields() {
-
-        // Limpeza do formulário de reserva.
-        this.forms.reserve.hasErrors = false
-        for (let item of Object.keys(this.forms.reserve)) {
-          if (Object.keys(this.forms.reserve[item]).includes('hasError')) {
-            this.forms.reserve[item].hasError = false
-            this.forms.reserve[item].error = ''
+        let allForms = Object.keys(this.forms)
+        for (let f of allForms) {
+          this.forms[f].hasErrors = false
+          let allFields = Object.keys(this.forms[f])
+          for (let k of allFields) {
+            if (Object.keys(this.forms[f][k]).includes('hasError')) {
+              this.forms[f][k].hasError = false
+              this.forms[f][k].error = ''
+            }
           }
         }
       },
@@ -560,6 +563,91 @@
         let hasLength = this.forms.reserve.iptClient.value._id.length == 24
         let isAlphanumeric = validator.isAlphanumeric(this.forms.reserve.iptClient.value._id, ['pt-BR'])
         return hasLength && isAlphanumeric
+      },
+      isValidName() {
+        if (this.forms.searchClient.iptName.value) {
+          let itsValidPT_BR = validator.isAlpha(this.forms.searchClient.iptName.value, ['pt-BR'], {
+            ignore: ' \''
+          })
+          let itsValidEN_US = validator.isAlpha(this.forms.searchClient.iptName.value, ['en-US'], {
+            ignore: ' \''
+          })
+
+          return itsValidPT_BR || itsValidEN_US
+        }
+        return true
+      },
+      isValidCPF() {
+        if (this.forms.searchClient.iptCPF.value) {
+          if (this.forms.searchClient.iptCPF.value && !this.forms.searchClient.iptPassportNumber.value) {
+            let isInt = validator.isInt(this.forms.searchClient.iptCPF.value, {
+              allow_leading_zeroes: true
+            })
+            let isLength = validator.isLength(this.forms.searchClient.iptCPF.value, {
+              min: 11,
+              max: 11
+            })
+            return isInt && isLength
+          }
+        }
+        return true
+      },
+      isValidPassportNumber() {
+        if (this.forms.searchClient.iptPassportNumber.value) {
+          if (!this.forms.searchClient.iptCPF.value && this.forms.searchClient.iptPassportNumber.value) {
+            let hasLengthRight = validator.isLength(this.forms.searchClient.iptPassportNumber.value, {
+              min: 7,
+              max: 8
+            })
+            let isAlphanumeric = validator.isAlphanumeric(this.forms.searchClient.iptPassportNumber.value, ['en-US'])
+
+            return hasLengthRight && isAlphanumeric
+          }
+        }
+        return true
+      },
+      searchClient() {
+        this.clearErrorFields()
+        let searchInfo = {}
+
+        switch (this.forms.searchClient.type) {
+          case 'name':
+            if (!this.isValidName()) {
+              this.setError('searchClient', 'iptName', 'Nome inválido.')
+            }
+            break
+          case 'cpf':
+            if (!this.isValidCPF()) {
+              this.setError('searchClient', 'iptCPF', 'Número de CPF inválido.')
+            }
+            break
+          case 'passportNumber':
+            if (!this.isValidPassportNumber()) {
+              this.setError('searchClient', 'iptPassportNumber', 'Número de Passaporte inválido.')
+            }
+            break
+        }
+
+        if (!this.forms.searchClient.hasErrors) {
+          switch (this.forms.searchClient.type) {
+            case 'nome':
+              searchInfo.name = this.forms.searchClient.iptName.value
+              break
+            case 'cpf':
+              searchInfo.cpf = this.forms.searchClient.iptCPF.value
+              break
+            default:
+              searchInfo.passportNumber = this.forms.searchClient.iptPassportNumber.value
+          }
+
+          axios.post(Endpoints.POST_SEARCH_USER(), searchInfo, this.axiosConfig)
+            .then(res => {
+              this.users = res.data.users
+            })
+            .catch(error => {
+              console.error(error)
+            })
+        }
       },
       registerReserve() {
         let newReserve = {
