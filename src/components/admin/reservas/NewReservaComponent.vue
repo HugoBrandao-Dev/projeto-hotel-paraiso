@@ -491,23 +491,23 @@
         this.clearErrorFields()
 
         if (!this.isValidUser()) {
-          this.setError('iptClient', 'Cliente não selecionado ou inválido.')
+          this.setError('reserve', 'iptClient', 'Cliente não selecionado ou inválido.')
         }
 
         if (!this.isValidApartment()) {
-          this.setError('iptApartment', 'Apartamento não selecionado ou inválido.')
+          this.setError('reserve', 'iptApartment', 'Apartamento não selecionado ou inválido.')
         }
 
         if (!this.isValidStartDate()) {
-          this.setError('iptStartDate', 'Data de início não informada ou inválida.')
+          this.setError('reserve', 'iptStartDate', 'Data de início não informada ou inválida.')
         }
 
         if (!this.isValidEndDate()) {
-          this.setError('iptEndDate', 'Data de fim não informada ou inválida.')
+          this.setError('reserve', 'iptEndDate', 'Data de fim não informada ou inválida.')
         }
 
         if (!this.isValidStatus()) {
-          this.setError('iptStatus', 'O Status é inválido.')
+          this.setError('reserve', 'iptStatus', 'O Status é inválido.')
         }
 
         if (!this.forms.reserve.hasErrors) {
@@ -526,10 +526,10 @@
         this.forms.reserve.iptEndDate.value = ''
         this.forms.reserve.iptStatus.value = this.statusList[0]
       },
-      setError(field, msg) {
-        this.forms.reserve.hasErrors = true
-        this.forms.reserve[field].hasError = true
-        this.forms.reserve[field].error = msg
+      setError(form, field, msg) {
+        this.forms[form].hasErrors = true
+        this.forms[form][field].hasError = true
+        this.forms[form][field].error = msg
       },
       clearErrorFields() {
 
@@ -562,9 +562,30 @@
         return hasLength && isAlphanumeric
       },
       registerReserve() {
-        this.clearFields()
-        this.closeConfirmReservaModal()
-        console.log('Reserva feita com sucesso.')
+        let newReserve = {
+          apartment_id: this.forms.reserve.iptApartment.value._id,
+          status: this.forms.reserve.iptStatus.value,
+          client_id: this.forms.reserve.iptClient.value._id,
+          start: this.forms.reserve.iptStartDate.value,
+          end: this.forms.reserve.iptEndDate.value
+        }
+
+        axios.post(Endpoints.POST_RESERVE(), newReserve, this.axiosConfig)
+          .then(() => {
+            this.clearFields()
+            this.closeConfirmReservaModal()
+            this.getApartments()
+            alert('Reserva feita com sucesso.')
+            this.$router.push('/admin/reservas')
+          })
+          .catch(error => {
+            this.closeConfirmReservaModal()
+            if (error.response.data.RestException.ErrorFields) {
+              error.response.data.RestException.ErrorFields.map(el => {
+                this.setError('reserve', el.field, el.hasError.error)
+              })
+            }
+          })
       }
     }
   }
