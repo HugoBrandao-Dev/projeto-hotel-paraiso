@@ -4,13 +4,13 @@
     <hr>
     <div class="content columns">
       <section class="section column is-fullhd-tablet">
-        <div class="notification is-danger" v-show="messages.apartment.hasError">
-          <button class="delete" @click="messages.apartment.hasError = false"></button>
-          {{ messages.apartment.error }}
+        <div class="notification is-danger" v-show="forms.reserve.iptApartment.hasError">
+          <button class="delete" @click="forms.reserve.iptApartment.hasError = false"></button>
+          {{ forms.reserve.iptApartment.error }}
         </div>
-        <div class="tile is-child box" :class="{'has-background-danger': messages.apartment.hasError}">
-          <h2>Reservas</h2>
-          <p>Selecione uma reserva...</p>
+        <div class="tile is-child box" :class="{'has-background-danger': forms.reserve.iptApartment.hasError}">
+          <h2>Apartamentos</h2>
+          <p>Selecione um apartamento...</p>
           <!--
           <div class="box">
             <h3>Filtro</h3>
@@ -84,11 +84,11 @@
         </div>
       </section>
       <section class="section column is-fullhd-tablet">
-        <div class="notification is-danger" v-show="messages.client.hasError">
-          <button class="delete" @click="messages.client.hasError = false"></button>
-          {{ messages.client.error }}
+        <div class="notification is-danger" v-show="forms.reserve.iptClient.hasError">
+          <button class="delete" @click="forms.reserve.iptClient.hasError = false"></button>
+          {{ forms.reserve.iptClient.error }}
         </div>
-        <div class="tile is-child box" :class="{'has-background-danger': messages.client.hasError}">
+        <div class="tile is-child box" :class="{'has-background-danger': forms.reserve.iptClient.hasError}">
           <h2>Clientes</h2>
           <p>Selecione um cliente...</p>
           <div class="box">
@@ -216,7 +216,7 @@
                   <input type="hidden" :value="user._id">
                   <input type="radio" name="user" :value="user._id" v-model="forms.reserve.iptClient.value._id">
                 </td>
-                <td>{{ user.name }}</td>
+                <td class="is-capitalized">{{ user.name }}</td>
                 <td>{{ user.cpf }}</td>
               </tr>
             </tbody>
@@ -314,7 +314,13 @@
               <div class="field column is-one-third">
                 <label class="label">Status:</label>
                 <div class="control">
-                  <p>{{ forms.reserve.iptStatus.value }}</p>
+                  <p
+                    class="tag" 
+                    :class="{
+                      'is-link': forms.reserve.iptStatus.value == 'reservado',
+                      'is-danger': forms.reserve.iptStatus.value == 'ocupado'
+                    }"
+                  >{{ forms.reserve.iptStatus.value }}</p>
                 </div>
               </div>
             </div>
@@ -344,7 +350,7 @@
               <div class="field column is-half">
                 <label class="label">Nome:</label>
                 <div class="control">
-                  <p>{{ forms.reserve.iptClient.value.name }}</p>
+                  <p class="is-capitalized">{{ forms.reserve.iptClient.value.name }}</p>
                 </div>
               </div>
               <div class="field column">
@@ -369,28 +375,30 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import validator from 'validator'
   import { IMaskComponent }  from 'vue-imask'
+  import Endpoints from '@/tools/EndpointsConfig'
 
   export default {
     components: {
       'imask-input': IMaskComponent
+    },
+    created() {
+      this.getUsers()
+      this.getApartments()
     },
     data() {
       return {
         masks: {
           cpf: '000.000.000-00'
         },
-        statusList: ['reservado', 'ocupado'],
-        messages: {
-          apartment: {
-            hasError: false,
-            error: ''
-          },
-          client: {
-            hasError: false,
-            error: ''
+        axiosConfig: {
+          headers: {
+            Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
           }
         },
+        statusList: ['reservado', 'ocupado'],
         modals: {
           confirmReserva: {
             active: false
@@ -426,38 +434,8 @@
             }
           }
         },
-        apartments: [
-          {
-            _id: 1,
-            floor: 1,
-            number: 1
-          },
-          {
-            _id: 2,
-            floor: 1,
-            number: 2
-          },
-          {
-            _id: 3,
-            floor: 2,
-            number: 3
-          },
-          {
-            _id: 4,
-            floor: 2,
-            number: 4
-          },
-          {
-            _id: 5,
-            floor: 2,
-            number: 5
-          },
-          {
-            _id: 6,
-            floor: 2,
-            number: 6
-          },
-        ],
+        apartments: [],
+        users: [],
         searchApartment: {
           iptFloor: {
             value: '',
@@ -487,44 +465,106 @@
             hasError: false,
             error: ''
           }
-        },
-        users: [
-          {
-            _id: 1,
-            name: 'Tobias de Oliveira',
-            cpf: '11111111111'
-          },
-          {
-            _id: 2,
-            name: 'Dinorá de Oliveira',
-            cpf: '22222222222'
-          },
-          {
-            _id: 3,
-            name: 'Josias Cruz',
-            cpf: '33333333333'
-          },
-          {
-            _id: 4,
-            name: 'Doralice Cruz',
-            cpf: '44444444444'
-          }
-        ]
+        }
       }
     },
     methods: {
+      getUsers() {
+        axios.get(Endpoints.GET_USERS(), this.axiosConfig)
+          .then(res => {
+            this.users = res.data.users
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      },
+      getApartments() {
+        axios.get(Endpoints.GET_APARTMENTS(), this.axiosConfig)
+          .then(res => {
+            this.apartments = res.data.apartments
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      },
       openConfirmReservaModal() {
-        this.modals.confirmReserva.active = true
+        this.clearErrorFields()
+
+        if (!this.isValidUser()) {
+          this.setError('iptClient', 'Cliente não selecionado ou inválido.')
+        }
+
+        if (!this.isValidApartment()) {
+          this.setError('iptApartment', 'Apartamento não selecionado ou inválido.')
+        }
+
+        if (!this.isValidStartDate()) {
+          this.setError('iptStartDate', 'Data de início não informada ou inválida.')
+        }
+
+        if (!this.isValidEndDate()) {
+          this.setError('iptEndDate', 'Data de fim não informada ou inválida.')
+        }
+
+        if (!this.isValidStatus()) {
+          this.setError('iptStatus', 'O Status é inválido.')
+        }
+
+        if (!this.forms.reserve.hasErrors) {
+          this.modals.confirmReserva.active = true
+        }
       },
       closeConfirmReservaModal() {
         this.modals.confirmReserva.active = false
       },
       clearFields() {
-        this.searchApartment.iptFloor = ''
-        this.searchApartment.iptNumber = ''
+
+        // Limpeza do formulário de reserva.
+        this.forms.reserve.iptClient.value = { _id: '' }
+        this.forms.reserve.iptApartment.value = { _id: '' }
+        this.forms.reserve.iptStartDate.value = ''
+        this.forms.reserve.iptEndDate.value = ''
+        this.forms.reserve.iptStatus.value = this.statusList[0]
+      },
+      setError(field, msg) {
+        this.forms.reserve.hasErrors = true
+        this.forms.reserve[field].hasError = true
+        this.forms.reserve[field].error = msg
+      },
+      clearErrorFields() {
+
+        // Limpeza do formulário de reserva.
+        this.forms.reserve.hasErrors = false
+        for (let item of Object.keys(this.forms.reserve)) {
+          if (Object.keys(this.forms.reserve[item]).includes('hasError')) {
+            this.forms.reserve[item].hasError = false
+            this.forms.reserve[item].error = ''
+          }
+        }
+      },
+      isValidStartDate() {
+        return validator.isDate(this.forms.reserve.iptStartDate.value)
+      },
+      isValidEndDate() {
+        return validator.isDate(this.forms.reserve.iptEndDate.value)
+      },
+      isValidStatus() {
+        return validator.isIn(this.forms.reserve.iptStatus.value, this.statusList)
+      },
+      isValidApartment() {
+        let hasLength = this.forms.reserve.iptApartment.value._id.length == 24
+        let isAlphanumeric = validator.isAlphanumeric(this.forms.reserve.iptApartment.value._id, ['pt-BR'])
+        return hasLength && isAlphanumeric
+      },
+      isValidUser() {
+        let hasLength = this.forms.reserve.iptClient.value._id.length == 24
+        let isAlphanumeric = validator.isAlphanumeric(this.forms.reserve.iptClient.value._id, ['pt-BR'])
+        return hasLength && isAlphanumeric
       },
       registerReserve() {
-        console.log(`Apartamento ${this.forms.reserve.iptApartment.value.number} reservado para ${this.forms.reserve.iptClient.value.name}`)
+        this.clearFields()
+        this.closeConfirmReservaModal()
+        console.log('Reserva feita com sucesso.')
       }
     }
   }
