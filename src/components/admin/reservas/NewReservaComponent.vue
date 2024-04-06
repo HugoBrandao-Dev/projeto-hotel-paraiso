@@ -11,6 +11,7 @@
         <div class="tile is-child box" :class="{'has-background-danger': messages.apartment.hasError}">
           <h2>Reservas</h2>
           <p>Selecione uma reserva...</p>
+          <!--
           <div class="box">
             <h3>Filtro</h3>
             <div class="columns">
@@ -48,6 +49,7 @@
               <button class="button is-small is-info">Buscar</button>
             </div>
           </div>
+          -->
           <table class="table">
             <thead>
               <tr>
@@ -67,12 +69,12 @@
               <tr 
                 v-for="apartment in apartments"
                 :key="apartment._id"
-                @click="apartmentSelected = apartment"
-                :class="{'is-selected': apartment == apartmentSelected }"
+                @click="forms.reserve.iptApartment.value = apartment"
+                :class="{'is-selected': apartment._id == forms.reserve.iptApartment.value._id }"
               >
                 <td class="is-hidden-touch">
                   <input type="hidden" :value="apartment._id">
-                  <input type="radio" :value="apartment._id" v-model="apartmentSelected._id">
+                  <input type="radio" :value="apartment._id" v-model="forms.reserve.iptApartment.value._id">
                 </td>
                 <td>{{ apartment.floor }}</td>
                 <td>{{ apartment.number }}</td>
@@ -207,12 +209,12 @@
               <tr 
                 v-for="user in users"
                 :key="user._id"
-                @click="userSelected = user"
-                :class="{'is-selected': user._id == userSelected._id }"
+                @click="forms.reserve.iptClient.value = user"
+                :class="{'is-selected': user._id == forms.reserve.iptClient.value._id }"
               >
                 <td class="is-hidden-touch">
                   <input type="hidden" :value="user._id">
-                  <input type="radio" name="user" :value="user._id" v-model="userSelected._id">
+                  <input type="radio" name="user" :value="user._id" v-model="forms.reserve.iptClient.value._id">
                 </td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.cpf }}</td>
@@ -221,6 +223,67 @@
           </table>
         </div>
       </section>
+    </div>
+    <div class="columns">
+      <div class="field column is-one-third">
+        <label class="label">Início da estadia:</label>
+        <div class="control">
+          <input 
+            id="iptStartDate"
+            type="date" 
+            class="input"
+            :class="{
+              'is-normal': !forms.reserve.iptStartDate.hasError,
+              'is-danger': forms.reserve.iptStartDate.hasError
+            }"
+            v-model="forms.reserve.iptStartDate.value">
+        </div>
+        <p class="help" :class="{ 'is-danger': forms.reserve.iptStartDate.hasError }">
+          {{ forms.reserve.iptStartDate.error }}
+        </p>
+      </div>
+      <div class="field column is-one-third">
+        <label class="label">Fim da estadia:</label>
+        <div class="control">
+          <input 
+            id="iptEndDate"
+            type="date" 
+            class="input"
+            :class="{
+              'is-normal': !forms.reserve.iptEndDate.hasError,
+              'is-danger': forms.reserve.iptEndDate.hasError
+            }"
+            v-model="forms.reserve.iptEndDate.value">
+        </div>
+        <p class="help" :class="{ 'is-danger': forms.reserve.iptEndDate.hasError }">
+          {{ forms.reserve.iptEndDate.error }}
+        </p>
+      </div>
+      <div class="field column is-one-third">
+        <label class="label">Status:</label>
+        <div class="control">
+          <div 
+            class="select" 
+            :class="{'is-danger': forms.reserve.iptStatus.hasError}"
+          >
+            <select v-model="forms.reserve.iptStatus.value">
+              <option 
+                v-for="item in statusList" 
+                :key="item" 
+                :selected="forms.reserve.iptStatus.value"
+              >
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </div>
+          <p 
+            class="help" 
+            :class="{'is-danger': forms.reserve.iptStatus.hasError}"
+          >
+            {{ forms.reserve.iptStatus.error }}
+          </p>
+      </div>
     </div>
     <div class="buttons is-right">
       <button class="button is-success is-large" @click="openConfirmReservaModal()">Cadastrar</button>
@@ -233,19 +296,43 @@
           <button class="delete" aria-label="close" @click="closeConfirmReservaModal()"></button>
         </header>
         <section class="modal-card-body">
-          <div id="info-reserva">
+          <div id="info-reserve">
+            <p class="is-size-5">Reserva</p>
+            <div class="columns">
+              <div class="field column is-one-third">
+                <label class="label">Início:</label>
+                <div class="control">
+                  <p>{{ forms.reserve.iptStartDate.value }}</p>
+                </div>
+              </div>
+              <div class="field column is-one-third">
+                <label class="label">Fim:</label>
+                <div class="control">
+                  <p>{{ forms.reserve.iptEndDate.value }}</p>
+                </div>
+              </div>
+              <div class="field column is-one-third">
+                <label class="label">Status:</label>
+                <div class="control">
+                  <p>{{ forms.reserve.iptStatus.value }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div id="info-apartment">
             <p class="is-size-5">Apartamento</p>
             <div class="columns">
               <div class="field column is-half">
                 <label class="label">Andar:</label>
                 <div class="control">
-                  <p>{{ apartmentSelected.floor }}</p>
+                  <p>{{ forms.reserve.iptApartment.value.floor }}</p>
                 </div>
               </div>
               <div class="field column">
                 <label class="label">Nº:</label>
                 <div class="control">
-                  <p>{{ apartmentSelected.number }}</p>
+                  <p>{{ forms.reserve.iptApartment.value.number }}</p>
                 </div>
               </div>
             </div>
@@ -257,16 +344,16 @@
               <div class="field column is-half">
                 <label class="label">Nome:</label>
                 <div class="control">
-                  <p>{{ userSelected.name }}</p>
+                  <p>{{ forms.reserve.iptClient.value.name }}</p>
                 </div>
               </div>
               <div class="field column">
                 <label class="label">CPF/NP:</label>
-                <div class="control" v-if="userSelected.cpf">
-                  <p>{{ userSelected.cpf }}</p>
+                <div class="control" v-if="forms.reserve.iptClient.value.cpf">
+                  <p>{{ forms.reserve.iptClient.value.cpf }}</p>
                 </div>
                 <div class="control" v-else>
-                  <p>{{ userSelected.passportNumber }}</p>
+                  <p>{{ forms.reserve.iptClient.value.passportNumber }}</p>
                 </div>
               </div>
             </div>
@@ -285,11 +372,15 @@
   import { IMaskComponent }  from 'vue-imask'
 
   export default {
+    components: {
+      'imask-input': IMaskComponent
+    },
     data() {
       return {
         masks: {
           cpf: '000.000.000-00'
         },
+        statusList: ['reservado', 'ocupado'],
         messages: {
           apartment: {
             hasError: false,
@@ -305,11 +396,35 @@
             active: false
           }
         },
-        apartmentSelected: {
-          _id: null
-        },
-        userSelected: {
-          _id: null
+        forms: {
+          reserve: {
+            hasErrors: false,
+            iptApartment: {
+              value: { _id: '' },
+              hasErrors: false,
+              error: ''
+            },
+            iptClient: {
+              value: { _id: '' },
+              hasError: false,
+              error: ''
+            },
+            iptStartDate: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptEndDate: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptStatus: {
+              value: 'reservado',
+              hasError: false,
+              error: ''
+            }
+          }
         },
         apartments: [
           {
@@ -397,9 +512,6 @@
         ]
       }
     },
-    components: {
-      'imask-input': IMaskComponent
-    },
     methods: {
       openConfirmReservaModal() {
         this.modals.confirmReserva.active = true
@@ -412,7 +524,7 @@
         this.searchApartment.iptNumber = ''
       },
       registerReserve() {
-        console.log(`Apartamento ${this.apartmentSelected.number} reservado para ${this.userSelected.name}`)
+        console.log(`Apartamento ${this.forms.reserve.iptApartment.value.number} reservado para ${this.forms.reserve.iptClient.value.name}`)
       }
     }
   }
