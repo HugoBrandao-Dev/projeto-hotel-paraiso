@@ -229,7 +229,7 @@
                               <i class="fas fa-edit"></i>
                             </span>
                           </router-link>
-                          <form @submit.prevent="confirmDeletion()">
+                          <form @submit.prevent="confirmDeletion(item._links.find(el => el.rel == 'delete_reserve').href)">
                             <input type="hidden" :value="item._id">
                             <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                               <span class="icon is-small">
@@ -263,7 +263,7 @@
                       <i class="fas fa-edit"></i>
                     </span>
                   </router-link>
-                  <form @submit.prevent="confirmDeletion()">
+                  <form @submit.prevent="confirmDeletion(item._links.find(el => el.rel == 'delete_reserve').href)">
                     <input type="hidden" :value="item._id">
                     <button type="submit" class="button is-small is-danger" title="Deletar usuário.">
                       <span class="icon is-small">
@@ -386,9 +386,13 @@
           console.log(error)
         }
       },
-      confirmDeletion() {
+      confirmDeletion(delete_reserve_link) {
         if (confirm('Deseja deletar reserva?')) {
-          alert('Reserva deletada com sucesso.')
+          axios.delete(delete_reserve_link, this.axiosConfig)
+            .then(() => {
+              this.getReserves()
+            })
+            .catch(error => console.error(error))
         }
       },
       clearFields() {
