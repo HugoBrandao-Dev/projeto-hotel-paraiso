@@ -3,6 +3,7 @@
     <h1>Lista de reservas</h1>
     <hr>
     <div class="content">
+      <!--
       <section id="search-filter" class="columns">
         <div class="column is-half mx-auto">
           <div class="box">
@@ -143,6 +144,7 @@
           </div>
         </div>
       </section>
+      -->
       <div class="buttons is-right">
         <a href="/admin/reservas/new" class="button is-primary is-large">
           Nova Reserva
@@ -281,7 +283,7 @@
 
 <script>
   import validator from 'validator'
-  import { IMaskComponent }  from 'vue-imask'
+  // import { IMaskComponent }  from 'vue-imask'
   import axios from 'axios'
   import Endpoints from '@/tools/EndpointsConfig'
 
@@ -293,7 +295,7 @@
 
   export default {
     components: {
-      'imask-input': IMaskComponent
+      // 'imask-input': IMaskComponent
     },
     created() {
       this.setCountries()
