@@ -80,6 +80,11 @@ class BackEnd {
   static GET_RESERVE(id) {
     return `${ this.baseURL }/reserves/${ id }`
   }
+
+  // Endpoint de busca de uma reserva pelo ID.
+  static PUT_RESERVE(id) {
+    return `${ this.baseURL }/reserves/${ id }`
+  }
 }
 
 module.exports = BackEnd

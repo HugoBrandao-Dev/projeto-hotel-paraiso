@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="container is-max-desktop">
-        <table class="table is-striped is-fullwidth">
+        <table class="table is-striped is-fullwidth" v-if="users.length">
           <thead>
             <tr>
               <th class="is-hidden-touch">Selecione</th>
@@ -117,45 +117,25 @@
 <script>
   import validator from 'validator'
   import SearchFilterComponent from '../users/SearchFilterComponent'
+  import axios from 'axios'
+  import Endpoints from '@/tools/EndpointsConfig'
 
   export default {
     components: {
       SearchFilterComponent
     },
+    created() {
+      this.getUsers()
+    },
     data() {
       return {
-        statusList: ['reservado', 'ocupado'],
-        users: [
-          {
-            _id: 'ic5ccnfba3gfg6n6i7kdm937',
-            name: 'Tobias de Oliveira',
-            cpf: '11111111111',
-            phoneCode: '254',
-            phoneNumber: '55119111111111'
-          },
-          {
-            _id: '4fmnb27l0l7327gg8cib1jie',
-            name: 'Dinorá de Oliveira',
-            cpf: '22222222222',
-            phoneCode: '254',
-            phoneNumber: '55119222222222'
-          },
-          {
-            _id: '7g99693nfj58ne44n5k6855h',
-            name: 'Josias Cruz',
-            passportNumber: 'A4S5D67F0',
-            phoneCode: '55',
-            phoneNumber: '55119333333333'
-          },
-          {
-            _id: '1c6i6mj1nlbdljd8c15bnb12',
-            name: 'Doralice Cruz',
-            passportNumber: 'O65I4U3Y1',
-            phoneCode: '55',
-            phoneNumber: '55119444444444'
+        axiosConfig: {
+          headers: {
+            Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
           }
-        ],
-        apartment_id: '',
+        },
+        statusList: ['reservado', 'ocupado'],
+        users: [],
         forms: {
           reserve: {
             hasErrors: false,
@@ -203,6 +183,13 @@
       }
     },
     methods: {
+      getUsers() {
+        axios.get(Endpoints.GET_USERS(), this.axiosConfig)
+          .then(res => {
+            this.users = res.data.users
+          })
+          .catch(error => console.error(error))
+      },
       setError(form, field, msg) {
         this.forms[form].hasErrors = true
         this.forms[form][field].hasError = true
@@ -268,11 +255,15 @@
         }
 
         if (!this.forms.reserve.hasErrors) {
-          console.log(editReserve)
-        } else {
-          console.log(this.forms.reserve)
+          axios.put(Endpoints.PUT_RESERVE(this.$route.params.id), editReserve, this.axiosConfig)
+            .then(() => {
+              alert('Reserva atualizada com sucesso')
+              this.$router.push('/admin/reservas')
+            })
+            .catch(error => {
+              console.log(error)
+            })
         }
-      
       }
     }
   }
