@@ -6,71 +6,11 @@
       <section id="search-filter" class="columns">
         <div class="column is-half mx-auto">
           <div class="box">
-            <!--
-            <hgroup>
-              <h2>Filtro</h2>
-              <h3>Apartamento</h3>
-            </hgroup>
-            <div class="columns">
-              <div class="field column">
-                <label class="label">Status:</label>
-                <div class="control">
-                  <div 
-                    class="select" 
-                    :class="{'is-danger': search.apartment.iptStatus.hasError}"
-                  >
-                    <select v-model="search.apartment.iptStatus.value">
-                      <option 
-                        v-for="item in statusList" 
-                        :key="item.id"
-                        :value="item.id"
-                        :selected="search.apartment.iptStatus.value"
-                      >
-                        {{ item.status }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <p class="help is-danger" v-show="search.apartment.iptStatus.hasError">
-                  {{ search.apartment.iptStatus.error }}
-                </p>
-              </div>
-              <div class="field column">
-                <label class="label">Andar:</label>
-                <div class="control">
-                  <input 
-                    type="number"
-                    class="input"
-                    :class="{
-                      'is-danger': search.apartment.iptFloor.hasError
-                    }"
-                    v-model="search.apartment.iptFloor.value"
-                  />
-                </div>
-                <p class="help is-danger" v-show="search.apartment.iptFloor.hasError">
-                  {{ search.apartment.iptFloor.error }}
-                </p>
-              </div>
-              <div class="field column">
-                <label class="label">Número:</label>
-                <div class="control">
-                  <input 
-                    type="number" 
-                    class="input"
-                    :class="{
-                      'is-danger': search.apartment.iptNumber.hasError
-                    }"
-                    v-model="search.apartment.iptNumber.value"
-                  />
-                </div>
-                <p class="help is-danger" v-show="search.apartment.iptNumber.hasError">
-                  {{ search.apartment.iptNumber.error }}
-                </p>
-              </div>
-            </div>
-            -->
             <div class="mb-4">
-              <h3>Cliente</h3>
+              <hgroup>
+                <h2>Filtro</h2>
+                <h3>Cliente</h3>
+              </hgroup>
               <div>
                 <div class="field">
                   <label class="label">Pesquisar por:</label>
@@ -79,8 +19,8 @@
                       <input 
                         type="radio"
                         name="tipo-pesquisa"
-                        value="nome"
-                        v-model="search.client.type"
+                        value="name"
+                        v-model="forms.searchClient.type"
                       >
                         Nome
                     </label>
@@ -89,7 +29,7 @@
                         type="radio"
                         name="tipo-pesquisa"
                         value="cpf"
-                        v-model="search.client.type"
+                        v-model="forms.searchClient.type"
                       >
                         CPF
                     </label>
@@ -97,51 +37,51 @@
                       <input 
                         type="radio"
                         name="tipo-pesquisa"
-                        value="passport-number"
-                        v-model="search.client.type"
+                        value="passportNumber"
+                        v-model="forms.searchClient.type"
                       >
                         Passport Number
                     </label>
                   </div>
                 </div>
-                <div class="field" v-if="search.client.type == 'nome'">
+                <div class="field" v-if="forms.searchClient.type == 'name'">
                   <div class="control has-icons-right">
                     <input 
                       class="input"
                       :class="{
-                        'is-danger': search.client.iptName.hasError
+                        'is-danger': forms.searchClient.iptName.hasError
                       }"
                       type="text"
                       placeholder="Tobias de Oliveira"
-                      v-model="search.client.iptName.value"
+                      v-model="forms.searchClient.iptName.value"
                     />
-                    <span class="icon is-small is-right" v-show="search.client.iptName.hasError">
+                    <span class="icon is-small is-right" v-show="forms.searchClient.iptName.hasError">
                       <i class="fas fa-exclamation-triangle"></i>
                     </span>
                   </div>
-                  <p class="help is-danger" v-show="search.client.iptName.hasError">
-                    {{ search.client.iptName.error }}
+                  <p class="help is-danger" v-show="forms.searchClient.iptName.hasError">
+                    {{ forms.searchClient.iptName.error }}
                   </p>
                 </div>
-                <div class="field" v-else-if="search.client.type == 'cpf'">
+                <div class="field" v-else-if="forms.searchClient.type == 'cpf'">
                   <div class="control has-icons-right">
                     <imask-input
                       class="input"
                       :class="{
-                        'is-danger': search.client.iptCPF.hasError
+                        'is-danger': forms.searchClient.iptCPF.hasError
                       }"
                       type="text"
                       placeholder="000.000.000-00"
                       :mask="masks.cpf"
                       :unmask="true"
-                      v-model="search.client.iptCPF.value"
+                      v-model="forms.searchClient.iptCPF.value"
                     />
-                    <span class="icon is-small is-right" v-show="search.client.iptCPF.hasError">
+                    <span class="icon is-small is-right" v-show="forms.searchClient.iptCPF.hasError">
                       <i class="fas fa-exclamation-triangle"></i>
                     </span>
                   </div>
-                  <p class="help is-danger" v-show="search.client.iptCPF.hasError">
-                    {{ search.client.iptCPF.error }}
+                  <p class="help is-danger" v-show="forms.searchClient.iptCPF.hasError">
+                    {{ forms.searchClient.iptCPF.error }}
                   </p>
                 </div>
                 <div class="field columns" v-else>
@@ -151,15 +91,15 @@
                           class="select"
                           :class="{
                             'is-loading': !countries.length,
-                            'is-danger': search.client.iptCountry.hasError
+                            'is-danger': forms.searchClient.iptCountry.hasError
                           }"
                         >
-                          <select v-model="search.client.iptCountry.value">
+                          <select v-model="forms.searchClient.iptCountry.value">
                             <option
                               v-for="item in countries"
                               :key="item.iso2"
                               :value="item.iso2"
-                              :selected="search.client.iptCountry.value"
+                              :selected="forms.searchClient.iptCountry.value"
                             >
                               {{ item.name }}
                             </option>
@@ -169,8 +109,8 @@
                           <i class="fas fa-globe"></i>
                         </div>
                       </div>
-                      <p class="help is-danger" v-show="search.client.iptCountry.hasError">
-                        {{ search.client.iptCountry.error }}
+                      <p class="help is-danger" v-show="forms.searchClient.iptCountry.hasError">
+                        {{ forms.searchClient.iptCountry.error }}
                       </p>
                     </div>
                     <div class="column is-full-mobile is-half-tablet">
@@ -178,19 +118,19 @@
                         <imask-input
                           class="input"
                           :class="{
-                            'is-danger': search.client.iptPassportNumber.hasError
+                            'is-danger': forms.searchClient.iptPassportNumber.hasError
                           }"
                           type="text"
                           placeholder="0A0A0A0A0A"
                           :mask="masks.passportNumber.custom"
-                          v-model="search.client.iptPassportNumber.value"
+                          v-model="forms.searchClient.iptPassportNumber.value"
                         />
-                        <span class="icon is-small is-right" v-show="search.client.iptPassportNumber.hasError">
+                        <span class="icon is-small is-right" v-show="forms.searchClient.iptPassportNumber.hasError">
                           <i class="fas fa-exclamation-triangle"></i>
                         </span>
                       </div>
-                      <p class="help is-danger" v-show="search.client.iptPassportNumber.hasError">
-                        {{ search.client.iptPassportNumber.error }}
+                      <p class="help is-danger" v-show="forms.searchClient.iptPassportNumber.hasError">
+                        {{ forms.searchClient.iptPassportNumber.error }}
                       </p>
                     </div>
                 </div>
@@ -390,27 +330,10 @@
             status: 'Reservado'
           }
         ],
-        search: {
-          hasErrors: false,
-          apartment: {
-            iptStatus: {
-              value: 1,
-              hasError: false,
-              error: ''
-            },
-            iptFloor: {
-              value: '',
-              hasError: false,
-              error: ''
-            },
-            iptNumber: {
-              value: '',
-              hasError: false,
-              error: ''
-            }
-          },
-          client: {
-            type: 'nome',
+        forms: {
+          searchClient: {
+            type: 'name',
+            hasErrors: false,
             iptName: {
               value: '',
               hasError: false,
@@ -431,7 +354,7 @@
               hasError: false,
               error: ''
             }
-          }
+          },
         }
       }
     },
@@ -456,7 +379,7 @@
             })
           }
 
-          this.search.client.iptCountry.value = this.countries[0].iso2
+          this.forms.searchClient.iptCountry.value = this.countries[0].iso2
         } catch (error) {
           console.log(error)
         }
@@ -467,81 +390,50 @@
         }
       },
       clearFields() {
-        this.search.apartment.hasErrors = false
-        let fieldsSearch = Object.keys(this.search)
-        fieldsSearch.forEach(searchField => {
-          let fields = Object.keys(this.search[searchField])
-          fields.forEach(field => {
-            if (field.indexOf('ipt') >= 0) {
-              if (field == 'iptStatus') {
-                this.search[searchField][field].value = 1
-                return
-              }
-              this.search[searchField][field].value = ''
+        this.forms.searchClient.type = 'name'
+        let allForms = Object.keys(this.forms)
+        for (let form of allForms) {
+          let allFields = Object.keys(this.forms[form])
+          for (let field of allFields) {
+            if (Object.keys(this.forms[form][field]).includes('value')) {
+              this.forms[form][field].value = ''
             }
-          })
-        })
-        this.search.client.type = 'nome'
+          }
+        }
       },
       clearErrorFields() {
-        this.search.apartment.hasErrors = false
-        let fieldsSearch = Object.keys(this.search)
-        fieldsSearch.forEach(searchField => {
-          let fields = Object.keys(this.search[searchField])
-          fields.forEach(field => {
-            if (field.indexOf('ipt') >= 0) {
-              this.search[searchField][field].hasError = false
-              this.search[searchField][field].error = ''
+        let allForms = Object.keys(this.forms)
+        for (let form of allForms) {
+          this.forms[form].hasErrors = false
+          let allFields = Object.keys(this.forms[form])
+          for (let field of allFields) {
+            if (Object.keys(this.forms[form][field]).includes('hasError')) {
+              this.forms[form][field].hasError = false
+              this.forms[form][field].error = ''
             }
-          })
-        })
-      },
-      setError(field, msg) {
-        this.search.hasErrors = true
-        let fieldsSearch = Object.keys(this.search)
-        fieldsSearch.forEach(searchField => {
-          let fields = Object.keys(this.search[searchField])
-          let isInside = fields.indexOf(field) >= 0
-          if (isInside) {
-            this.search[searchField][field].hasError = true
-            this.search[searchField][field].error = msg
           }
-        })
+        }
       },
-      isValidStatus() {
-        let ids = this.statusList.map(item => (item.id).toString())
-        let id = (this.search.apartment.iptStatus.value).toString()
-        return validator.isIn(id, ids)
-      },
-      isValidFloor() {
-        let isInt = validator.isInt(this.search.apartment.iptFloor.value, {
-          min: 0
-        })
-        let isEmpty = validator.isEmpty(this.search.apartment.iptFloor.value)
-        return isInt || isEmpty
-      },
-      isValidNumber() {
-        let isInt = validator.isInt(this.search.apartment.iptNumber.value, {
-          min: 1
-        })
-        let isEmpty = validator.isEmpty(this.search.apartment.iptNumber.value)
-        return isInt || isEmpty
+      setError(form, field, msg) {
+        this.forms[form].hasErrors = true
+        this.forms[form][field].hasError = true
+        this.forms[form][field].error = msg
       },
       isValidName() {
-        let isEmpty = validator.isEmpty(this.search.client.iptName.value)
-        let stringPT_BR = validator.isAlpha(this.search.client.iptName.value, ['pt-BR'], {
+        let isEmpty = validator.isEmpty(this.forms.searchClient.iptName.value)
+        let stringPT_BR = validator.isAlpha(this.forms.searchClient.iptName.value, ['pt-BR'], {
           ignore: ' \''
         })
-        let stringEN_US = validator.isAlpha(this.search.client.iptName.value, ['en-US'], {
+        let stringEN_US = validator.isAlpha(this.forms.searchClient.iptName.value, ['en-US'], {
           ignore: ' \''
         })
         return stringPT_BR || stringEN_US || isEmpty
       },
       isValidCPF() {
-        let isInt = validator.isInt(this.search.client.iptCPF.value, {
+        let isInt = validator.isInt(this.forms.searchClient.iptCPF.value, {
           allow_leading_zeroes: true
         })
-        let isLength = validator.isLength(this.search.client.iptCPF.value, {
+        let isLength = validator.isLength(this.forms.searchClient.iptCPF.value, {
           min: 11,
           max: 11
         })
@@ -549,37 +441,41 @@
         return isInt && isLength
       },
       isValidCountry() {
-        return validator.isISO31661Alpha2(this.search.client.iptCountry.value)
+        return validator.isISO31661Alpha2(this.forms.searchClient.iptCountry.value)
       },
       isValidPassportNumber() {
-        let isEmpty = validator.isEmpty(this.search.client.iptPassportNumber.value)
-        let isPassportNumber = validator.isPassportNumber(this.search.client.iptPassportNumber.value, this.search.client.iptCountry.value)
+        let isEmpty = validator.isEmpty(this.forms.searchClient.iptPassportNumber.value)
+        let isPassportNumber = validator.isPassportNumber(this.forms.searchClient.iptPassportNumber.value, this.forms.searchClient.iptCountry.value)
 
         return isEmpty || isPassportNumber
       },
       searchReserva() {
         this.clearErrorFields()
-        if (!this.isValidStatus()) {
-          this.setError('iptStatus', 'Status inválido.')
+
+        switch (this.forms.searchClient.type) {
+          case 'name':
+            if (!this.isValidName()) {
+              this.setError('searchClient', 'iptName', 'Nome inválido.')
+            }
+            break
+          case 'cpf':
+            if (!this.isValidCPF()) {
+              this.setError('searchClient', 'iptCPF', 'Número do CPF inválido.')
+            }
+            break
+          case 'passportNumber':
+            if (!this.isValidCountry()) {
+              this.setError('searchClient', 'iptCountry', 'País inválido.')
+            } else {
+              if (!this.isValidPassportNumber()) {
+                this.setError('searchClient', 'iptPassportNumber', 'Número do passaporte inválido.')
+              }
+            }
+            break
         }
-        if (!this.isValidFloor()) {
-          this.setError('iptFloor', 'Andar inválido.')
-        }
-        if (!this.isValidNumber()) {
-          this.setError('iptNumber', 'Número inválido.')
-        }
-        if (!this.isValidName()) {
-          this.setError('iptName', 'Nome inválido.')
-        }
-        if (!this.isValidCPF()) {
-          this.setError('iptCPF', 'Número do CPF inválido.')
-        }
-        if (!this.isValidCountry()) {
-          this.setError('iptCountry', 'País inválido.')
-        } else {
-          if (!this.isValidPassportNumber()) {
-            this.setError('iptPassportNumber', 'Número do passaporte inválido.')
-          }
+
+        if (!this.forms.searchClient.hasErrors) {
+          console.log('Busca feita com sucesso.')
         }
       }
     }
