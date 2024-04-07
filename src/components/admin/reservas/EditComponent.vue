@@ -2,7 +2,7 @@
   <article id="reserva-edit">
     <h1>Edição de uma reserva</h1>
     <hr>
-    <div :class="{'has-background-danger': forms.reserve.iptClient.hasError}">
+    <div>
       <h2 class="title is-2">Clientes</h2>
       <div class="content">
         <div class="columns">
@@ -115,6 +115,7 @@
 </template>
 
 <script>
+  import validator from 'validator'
   import SearchFilterComponent from '../users/SearchFilterComponent'
 
   export default {
@@ -126,34 +127,35 @@
         statusList: ['reservado', 'ocupado'],
         users: [
           {
-            _id: '1',
+            _id: 'ic5ccnfba3gfg6n6i7kdm937',
             name: 'Tobias de Oliveira',
             cpf: '11111111111',
             phoneCode: '254',
             phoneNumber: '55119111111111'
           },
           {
-            _id: '2',
+            _id: '4fmnb27l0l7327gg8cib1jie',
             name: 'Dinorá de Oliveira',
             cpf: '22222222222',
             phoneCode: '254',
             phoneNumber: '55119222222222'
           },
           {
-            _id: '3',
+            _id: '7g99693nfj58ne44n5k6855h',
             name: 'Josias Cruz',
             passportNumber: 'A4S5D67F0',
             phoneCode: '55',
             phoneNumber: '55119333333333'
           },
           {
-            _id: '4',
+            _id: '1c6i6mj1nlbdljd8c15bnb12',
             name: 'Doralice Cruz',
             passportNumber: 'O65I4U3Y1',
             phoneCode: '55',
             phoneNumber: '55119444444444'
           }
         ],
+        apartment_id: '',
         forms: {
           reserve: {
             hasErrors: false,
@@ -201,15 +203,76 @@
       }
     },
     methods: {
-      addUser() {
-        if (confirm('Colocar o usuário como ocupante?')) {
-          alert('Colocado com sucesso.')
+      setError(form, field, msg) {
+        this.forms[form].hasErrors = true
+        this.forms[form][field].hasError = true
+        this.forms[form][field].error = msg
+      },
+      clearErrorFields() {
+        let allForms = Object.keys(this.forms)
+        for (let f of allForms) {
+          this.forms[f].hasErrors = false
+          let allFields = Object.keys(this.forms[f])
+          for (let k of allFields) {
+            if (Object.keys(this.forms[f][k]).includes('hasError')) {
+              this.forms[f][k].hasError = false
+              this.forms[f][k].error = ''
+            }
+          }
         }
       },
-      removeUser() {
-        if (confirm('Remover ocupante?')) {
-          alert('Removido com sucesso.')
+      isValidStartDate() {
+        return validator.isDate(this.forms.reserve.iptStartDate.value)
+      },
+      isValidEndDate() {
+        return validator.isDate(this.forms.reserve.iptEndDate.value)
+      },
+      isValidStatus() {
+        return validator.isIn(this.forms.reserve.iptStatus.value, this.statusList)
+      },
+      isValidUser() {
+        let hasLength = this.forms.reserve.iptClient.value._id.length == 24
+        let isAlphanumeric = validator.isAlphanumeric(this.forms.reserve.iptClient.value._id, ['pt-BR'])
+        return hasLength && isAlphanumeric
+      },
+      updateReserve() {
+        this.clearErrorFields()
+        let editReserve = {}
+
+        if (this.forms.reserve.iptClient.value._id) {
+          if (!this.isValidUser())
+            this.setError('reserve', 'iptClient', 'Cliente inválido.')
+          else
+            editReserve.client_id = this.forms.reserve.iptClient.value._id
         }
+
+        if (this.forms.reserve.iptStartDate.value) {
+          if (!this.isValidStartDate())
+            this.setError('reserve', 'iptStartDate', 'Data de início inválida.')
+          else
+            editReserve.start = this.forms.reserve.iptStartDate.value
+        }
+
+        if (this.forms.reserve.iptEndDate.value) {
+          if (!this.isValidEndDate())
+            this.setError('reserve', 'iptEndDate', 'Data de fim inválida.')
+          else
+            editReserve.end = this.forms.reserve.iptEndDate.value
+        }
+
+        if (this.forms.reserve.iptStatus.value) {
+          if (!this.isValidStatus())
+            this.setError('reserve', 'iptStatus', 'O Status é inválido.')
+          else
+            editReserve.status = this.forms.reserve.iptStatus.value
+        }
+
+        if (!this.forms.reserve.hasErrors) {
+          console.log(editReserve)
+        } else {
+          console.log(this.forms.reserve)
+        }
+      
       }
     }
   }
