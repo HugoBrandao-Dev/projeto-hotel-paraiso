@@ -183,6 +183,9 @@
       }
     },
     methods: {
+      userFound(event) {
+        this.users = event.users
+      },
       getUsers() {
         axios.get(Endpoints.GET_USERS(), this.axiosConfig)
           .then(res => {
@@ -261,7 +264,11 @@
               this.$router.push('/admin/reservas')
             })
             .catch(error => {
-              console.log(error)
+              if (error.response.data.RestException.ErrorFields && error.response.data.RestException.ErrorFields.length) {
+                error.response.data.RestException.ErrorFields.map(el => {
+                  this.setError('reserve', el.field, el.hasError.error)
+                })
+              }
             })
         }
       }
