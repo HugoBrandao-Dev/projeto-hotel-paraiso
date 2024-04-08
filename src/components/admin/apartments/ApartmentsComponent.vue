@@ -37,7 +37,7 @@
               <span class="tag" :class="applyTagColor(apartment.reserve.status)">{{ apartment.reserve.status }}</span>
             </td>
             <td>
-              <div class="dropdown is-right is-hidden-desktop">
+              <div class="dropdown is-right is-hidden-desktop" @click="showMenuMobile(apartment._id)">
                 <div class="dropdown-trigger">
                   <button class="button" aria-haspopup="true" :aria-controls="apartment._id">
                     <span>
@@ -163,6 +163,10 @@
       }
     },
     methods: {
+      showMenuMobile(elementID) {
+        let parentElement = document.getElementById(elementID).parentElement
+        parentElement.classList.toggle('is-active')
+      },
       applyTagColor(status) {
         if (status) {
           switch (status) {

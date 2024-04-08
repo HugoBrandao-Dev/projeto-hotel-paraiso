@@ -35,7 +35,7 @@
           <td class="is-hidden-mobile">{{ user.phoneCode }} {{ user.phoneNumber }}</td>
           <td class="is-hidden-mobile">{{ user.role | formatRole }}</td>
           <td>
-            <div class="dropdown is-right is-hidden-desktop">
+            <div class="dropdown is-right is-hidden-desktop" @click="showMenuMobile(user._id)">
               <div class="dropdown-trigger">
                 <button class="button" aria-haspopup="true" :aria-controls="user._id">
                   <span>
@@ -170,6 +170,10 @@
       }
     },
     methods: {
+      showMenuMobile(elementID) {
+        let parentElement = document.getElementById(elementID).parentElement
+        parentElement.classList.toggle('is-active')
+      },
       userFound(event) {
         this.users = event.users
       },
