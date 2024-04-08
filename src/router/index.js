@@ -1,5 +1,10 @@
 import Vue from 'vue'
+import axios from 'axios'
+import Endpoints from '@/tools/EndpointsConfig'
+
 import VueRouter from 'vue-router'
+
+// Views
 import HomeView from '../views/HomeView.vue'
 import SobreView from '../views/SobreView.vue'
 import ApartamentosView from '../views/ApartamentosView.vue'
@@ -72,26 +77,31 @@ const routes = [
     path: '/user',
     name: 'User',
     component: UserView,
+    meta: { requiresAuthorization: true },
     children: [
       {
         path: 'account',
         name: 'UserAccount',
-        component: AccountComponent
+        component: AccountComponent,
+        meta: { requiresAuthorization: true }
       },
       {
         path: 'update',
         name: 'UserUpdate',
-        component: UpdateComponent
+        component: UpdateComponent,
+        meta: { requiresAuthorization: true }
       },
       {
         path: 'reservas',
         name: 'UserReservas',
-        component: ReservasComponent
+        component: ReservasComponent,
+        meta: { requiresAuthorization: true }
       },
       {
         path: 'reserva/:id',
         name: 'UserReserva',
-        component: ReservaComponent
+        component: ReservaComponent,
+        meta: { requiresAuthorization: true }
       }
     ]
   },
@@ -99,61 +109,73 @@ const routes = [
     path: '/admin',
     name: 'Admin',
     component: AdminView,
+    meta: { requiresAuthentication: true },
     children: [
       {
         path: 'users',
         name: 'Users',
-        component: UsersComponent
+        component: UsersComponent,
+        meta: { requiresAuthentication: true }
       },
       {
         path: 'user/:id',
         name: 'UserInfo',
-        component: InfoComponent
+        component: InfoComponent,
+        meta: { requiresAuthentication: true }
       },
       {
         path: 'user/edit/:id',
         name: 'UserEdit',
-        component: EditComponent
+        component: EditComponent,
+        meta: { requiresAuthentication: true }
       },
       {
         path: 'reservas',
         name: 'Reservas_admin',
-        component: AdminReservasComponent
+        component: AdminReservasComponent,
+        meta: { requiresAuthentication: true }
       },
       {
         path: 'reserva/:id',
         name: 'Reserva_admin',
-        component: AdminReservaComponent
+        component: AdminReservaComponent,
+        meta: { requiresAuthentication: true }
       },
       {
         path: 'reservas/new',
         name: 'NewReserva_admin',
-        component: AdminNewReservaComponent
+        component: AdminNewReservaComponent,
+        meta: { requiresAuthentication: true }
       },
       {
         path: 'reserva/edit/:id',
         name: 'ReservaEdit_admin',
         component: AdminReservaEditComponent,
+        meta: { requiresAuthentication: true }
       },
       {
         path: 'apartments',
         name: 'Apartments_admin',
-        component: ApartmentsComponent
+        component: ApartmentsComponent,
+        meta: { requiresAuthentication: true }
       },
       {
         path: 'apartments/new',
         name: 'NewApartment_admin',
-        component: NewApartmentComponent
+        component: NewApartmentComponent,
+        meta: { requiresAuthentication: true }
       },
       {
         path: 'apartment/:id',
         name: 'Apartment_admin',
-        component: ApartmentComponent
+        component: ApartmentComponent,
+        meta: { requiresAuthentication: true }
       },
       {
         path: 'apartment/edit/:id',
         name: 'ApartmentEdit_admin',
-        component: EditApartmentComponent
+        component: EditApartmentComponent,
+        meta: { requiresAuthentication: true }
       }
     ]
   }
@@ -163,6 +185,58 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuthorization) {
+    const token = localStorage.getItem('token_hotel_paraiso')
+    if (token) {
+      const axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${ token }`
+        }
+      }
+
+      axios.post(Endpoints.POST_VALIDATE(), {}, axiosConfig)
+        .then(() => {
+          next()
+        })
+        .catch(() => {
+          localStorage.removeItem('token_hotel_paraiso')
+          next('/')
+        })
+    } else {
+      next('/')
+    }
+  }
+
+  if (to.meta.requiresAuthentication) {
+    const token = localStorage.getItem('token_hotel_paraiso')
+    if (token) {
+      const axiosConfig = {
+        headers: {
+          Authorization: `Bearer ${ token }`
+        }
+      }
+
+      axios.post(Endpoints.POST_VALIDATE(), {}, axiosConfig)
+        .then(res => {
+          if (!res.data.isClient) {
+            next()
+          } else {
+            next('/')
+          }
+        })
+        .catch(() => {
+          localStorage.removeItem('token_hotel_paraiso')
+          next('/')
+        })
+    } else {
+      next('/')
+    }
+  }
+
+  next()
 })
 
 export default router
