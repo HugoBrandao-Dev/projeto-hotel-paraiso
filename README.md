@@ -67,7 +67,8 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 * Corrigir dropdown dos botões de ação (para tela touch), na listagem de usuários.
 
 ### Usuários, Apartamento e Reservas
-* Criar modals de sucesso na criação, atualização e deleção onde faltam.
+* Criar modals de sucesso na criação, atualização e deleção onde faltam;
+* Calcular quantos dias existem entre o início e o fim da reserva.
 
 ### Estado/Cidade
 * Implementar métodos de validação do estado e da cidade, no componente/formulário de cadastro de um novo cliente.
