@@ -3,7 +3,7 @@
     <h1>Lista de apartamentos</h1>
     <hr>
     <div class="content">
-      <!-- <SearchFilterComponent /> -->
+      <SearchFilterComponent />
       <div class="buttons is-right">
         <a href="/admin/apartments/new" class="button is-primary is-large">
           Novo apartamento
@@ -133,7 +133,7 @@
 
 <script>
   import axios from 'axios'
-  // import SearchFilterComponent from './SearchFilterComponent'
+  import SearchFilterComponent from './SearchFilterComponent'
   import Endpoints from '@/tools/EndpointsConfig'
 
   export default {
@@ -151,7 +151,7 @@
       }
     },
     components: {
-      // SearchFilterComponent
+      SearchFilterComponent
     },
     filters:{
       calcTotalRooms(rooms) {

@@ -5,35 +5,24 @@
         <h2>Filtro</h2>
         <div class="columns">
           <div class="field column is-half">
-            <label class="label">Andar:</label>
-            <div class="control">
-              <input 
-                type="number"
-                class="input"
-                :class="{
-                  'is-danger': search.iptFloor.hasError
-                }"
-                v-model="search.iptFloor.value"
-              />
+            <label class="label">Status:</label>
+            <div 
+              class="select"
+              :class="{
+                'is-danger': forms.searchApartment.iptStatus.hasError
+              }">
+              <select v-model="forms.searchApartment.iptStatus.value">
+                <option 
+                  v-for="status in statusList" 
+                  :key="status" 
+                  :selected="forms.searchApartment.iptStatus.value"
+                >
+                  {{ status }}
+                </option>
+              </select>
             </div>
-            <p class="help" :class="{ 'is-danger': search.iptFloor.hasError }">
-              {{ search.iptFloor.error }}
-            </p>
-          </div>
-          <div class="field column">
-            <label class="label">Número:</label>
-            <div class="control">
-              <input 
-                type="number" 
-                class="input"
-                :class="{
-                  'is-danger': search.iptNumber.hasError
-                }"
-                v-model="search.iptNumber.value"
-              />
-            </div>
-            <p class="help" :class="{ 'is-danger': search.iptNumber.hasError }">
-              {{ search.iptNumber.error }}
+            <p class="help" :class="{ 'is-danger': forms.searchApartment.iptStatus.hasError }">
+              {{ forms.searchApartment.iptStatus.error }}
             </p>
           </div>
         </div>
@@ -52,63 +41,61 @@
   export default {
     data() {
       return {
-        search: {
-          type: 'apartamento',
-          hasErrors: false,
-          iptFloor: {
-            value: '',
-            hasError: false,
-            error: ''
-          },
-          iptNumber: {
-            value: '',
-            hasError: false,
-            error: ''
+        statusList: ['livre', 'reservado', 'ocupado', 'indiponível'],
+        forms: {
+          searchApartment: {
+            hasErrors: false,
+            iptStatus: {
+              value: 'livre',
+              hasError: false,
+              error: ''
+            }
           }
         }
       }
     },
     methods: {
       clearFields() {
-        this.search.iptFloor.value = ''
-        this.search.iptNumber.value = ''
+        this.forms.searchApartment.iptStatus.value = 'livre'
       },
       clearErrorFields() {
-        let fields = Object.keys(this.search)
-        fields.forEach(field => {
-          if (field.indexOf('ipt') >= 0) {
-            this.search[field].hasError = false
-            this.search[field].error = ''
-          }
+        let formsList = Object.keys(this.forms)
+
+        formsList.forEach(form => {
+          let fields = Object.keys(this.forms[form])
+          fields.forEach(field => {
+            if (field.indexOf('ipt') >= 0) {
+              this.forms[form].hasErrors = false
+              this.forms[form][field].hasError = false
+              this.forms[form][field].error = ''
+            }
+          })
         })
       },
-      setError(field, msg) {
-        this.search.hasErrors = true
-        this.search[field].hasError = true
-        this.search[field].error = msg
+      setError(form, field, msg) {
+        this.forms[form].hasErrors = true
+        this.forms[form][field].hasError = true
+        this.forms[form][field].error = msg
       },
-      isValidFloor() {
-        let isEmpty = validator.isEmpty(this.search.iptFloor.value)
-        let isInt = validator.isInt(this.search.iptFloor.value, {
-          min: 0
-        })
-        return isEmpty || isInt
-      },
-      isValidNumber() {
-        let isEmpty = validator.isEmpty(this.search.iptNumber.value)
-        let isInt = validator.isInt(this.search.iptNumber.value, {
-          gt: 0
-        })
-        return isEmpty || isInt
+      isValidStatus() {
+        return validator.isIn(this.forms.searchApartment.iptStatus.value, this.statusList)
       },
       applyFilters() {
         this.clearErrorFields()
 
-        if (!this.isValidFloor()) {
-          this.setError('iptFloor', 'Número do andar inválido.')
+        let queryString = ''
+
+        if (!this.isValidStatus()) {
+          this.setError('searchApartment', 'iptStatus', 'Valor de status inválido.')
+        } else {
+          if (queryString.length)
+            queryString += `&status=${ this.forms.searchApartment.iptStatus.value }`
+          else
+            queryString += `?status=${ this.forms.searchApartment.iptStatus.value }`
         }
-        if (!this.isValidNumber()) {
-          this.setError('iptNumber', 'Número do apartamento inválido.')
+
+        if (!this.forms.searchApartment.hasErrors) {
+          console.info(queryString)
         }
       }
     }
