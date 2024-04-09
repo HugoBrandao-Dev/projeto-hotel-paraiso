@@ -41,7 +41,7 @@
   export default {
     data() {
       return {
-        statusList: ['livre', 'reservado', 'ocupado', 'indiponível'],
+        statusList: ['livre', 'reservado', 'ocupado', 'indisponível'],
         forms: {
           searchApartment: {
             hasErrors: false,
@@ -57,6 +57,7 @@
     methods: {
       clearFields() {
         this.forms.searchApartment.iptStatus.value = 'livre'
+        this.$emit('queryString', '')
       },
       clearErrorFields() {
         let formsList = Object.keys(this.forms)
@@ -95,7 +96,7 @@
         }
 
         if (!this.forms.searchApartment.hasErrors) {
-          console.info(queryString)
+          this.$emit('queryString', queryString)
         }
       }
     }

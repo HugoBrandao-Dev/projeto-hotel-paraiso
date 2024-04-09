@@ -3,7 +3,7 @@
     <h1>Lista de apartamentos</h1>
     <hr>
     <div class="content">
-      <SearchFilterComponent />
+      <SearchFilterComponent @queryString="getApartments($event)" />
       <div class="buttons is-right">
         <a href="/admin/apartments/new" class="button is-primary is-large">
           Novo apartamento
@@ -182,8 +182,10 @@
         }
         return ''
       },
-      getApartments() {
-        axios.get(Endpoints.GET_APARTMENTS(), this.axiosConfig)
+      getApartments(queryString = '') {
+        const URL = Endpoints.GET_APARTMENTS().concat(queryString)
+        
+        axios.get(URL, this.axiosConfig)
           .then(res => this.apartments = res.data.apartments)
           .catch(error=> console.log(error))
       },
