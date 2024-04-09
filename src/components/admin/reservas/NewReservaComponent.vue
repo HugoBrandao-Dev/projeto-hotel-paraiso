@@ -11,45 +11,6 @@
         <div class="tile is-child box" :class="{'has-background-danger': forms.reserve.iptApartment.hasError}">
           <h2>Apartamentos</h2>
           <p>Selecione um apartamento...</p>
-          <!--
-          <div class="box">
-            <h3>Filtro</h3>
-            <div class="columns">
-              <div class="field column is-half is-fullhd-tablet">
-                <label class="label">Andar:</label>
-                <div class="control">
-                  <input 
-                    type="number" 
-                    class="input is-small"
-                    :class="{'is-danger': searchApartment.iptFloor.hasError}"
-                    v-model="searchApartment.iptFloor.value"
-                  />
-                </div>
-                <p class="help" :class="{'is-danger': searchApartment.iptFloor.hasError}">
-                  {{ searchApartment.iptFloor.error }}
-                </p>
-              </div>
-              <div class="field column is-half is-fullhd-tablet">
-                <label class="label">Apartamento:</label>
-                <div class="control">
-                  <input 
-                  type="number" 
-                  class="input is-small"
-                  :class="{'is-danger': searchApartment.iptNumber.hasError}"
-                  v-model="searchApartment.iptNumber.value"
-                />
-                </div>
-                <p class="help" :class="{'is-danger': searchApartment.iptNumber.hasError}">
-                  {{ searchApartment.iptNumber.error }}
-                </p>
-              </div>
-            </div>
-            <div class="buttons is-right">
-              <button class="button is-small is-ghost" @click="clearFields()">Limpar</button>
-              <button class="button is-small is-info">Buscar</button>
-            </div>
-          </div>
-          -->
           <table class="table">
             <thead>
               <tr>
@@ -480,7 +441,9 @@
           })
       },
       getApartments() {
-        axios.get(Endpoints.GET_APARTMENTS(), this.axiosConfig)
+        const URL = Endpoints.GET_APARTMENTS().concat('?status=livre')
+
+        axios.get(URL, this.axiosConfig)
           .then(res => {
             this.apartments = res.data.apartments
           })
