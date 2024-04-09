@@ -3,7 +3,7 @@
     <h1>Lista de apartamentos</h1>
     <hr>
     <div class="content">
-      <SearchFilterComponent @queryString="getApartments($event)" />
+      <SearchFilterComponent :resource="'apartments'" @queryString="getApartments($event)" />
       <div class="buttons is-right">
         <a href="/admin/apartments/new" class="button is-primary is-large">
           Novo apartamento

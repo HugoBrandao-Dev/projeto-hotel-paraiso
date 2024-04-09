@@ -39,14 +39,26 @@
   import validator from 'validator'
 
   export default {
+    created() {
+      switch (this.resource) {
+        case 'reserves':
+          this.statusList = ['reservado', 'ocupado']
+          this.forms.searchApartment.iptStatus.value = 'reservado'
+          break
+        case 'apartments':
+          this.statusList = ['livre', 'reservado', 'ocupado', 'indisponível']
+          this.forms.searchApartment.iptStatus.value = 'livre'
+          break
+      }
+    },
     data() {
       return {
-        statusList: ['livre', 'reservado', 'ocupado', 'indisponível'],
+        statusList: [],
         forms: {
           searchApartment: {
             hasErrors: false,
             iptStatus: {
-              value: 'livre',
+              value: '',
               hasError: false,
               error: ''
             }
@@ -54,9 +66,19 @@
         }
       }
     },
+    props: {
+      resource: String
+    },
     methods: {
       clearFields() {
-        this.forms.searchApartment.iptStatus.value = 'livre'
+        switch (this.resource) {
+          case 'reserves':
+            this.forms.searchApartment.iptStatus.value = 'reservado'
+            break
+          case 'apartments':
+            this.forms.searchApartment.iptStatus.value = 'livre'
+            break
+        }
         this.$emit('queryString', '')
       },
       clearErrorFields() {

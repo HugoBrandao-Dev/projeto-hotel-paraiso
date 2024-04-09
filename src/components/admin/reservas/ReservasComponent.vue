@@ -3,148 +3,7 @@
     <h1>Lista de reservas</h1>
     <hr>
     <div class="content">
-      <!--
-      <section id="search-filter" class="columns">
-        <div class="column is-half mx-auto">
-          <div class="box">
-            <div class="mb-4">
-              <hgroup>
-                <h2>Filtro</h2>
-                <h3>Cliente</h3>
-              </hgroup>
-              <div>
-                <div class="field">
-                  <label class="label">Pesquisar por:</label>
-                  <div class="control">
-                    <label class="radio">
-                      <input 
-                        type="radio"
-                        name="tipo-pesquisa"
-                        value="name"
-                        v-model="forms.searchClient.type"
-                      >
-                        Nome
-                    </label>
-                    <label class="radio">
-                      <input 
-                        type="radio"
-                        name="tipo-pesquisa"
-                        value="cpf"
-                        v-model="forms.searchClient.type"
-                      >
-                        CPF
-                    </label>
-                    <label class="radio">
-                      <input 
-                        type="radio"
-                        name="tipo-pesquisa"
-                        value="passportNumber"
-                        v-model="forms.searchClient.type"
-                      >
-                        Passport Number
-                    </label>
-                  </div>
-                </div>
-                <div class="field" v-if="forms.searchClient.type == 'name'">
-                  <div class="control has-icons-right">
-                    <input 
-                      class="input"
-                      :class="{
-                        'is-danger': forms.searchClient.iptName.hasError
-                      }"
-                      type="text"
-                      placeholder="Tobias de Oliveira"
-                      v-model="forms.searchClient.iptName.value"
-                    />
-                    <span class="icon is-small is-right" v-show="forms.searchClient.iptName.hasError">
-                      <i class="fas fa-exclamation-triangle"></i>
-                    </span>
-                  </div>
-                  <p class="help is-danger" v-show="forms.searchClient.iptName.hasError">
-                    {{ forms.searchClient.iptName.error }}
-                  </p>
-                </div>
-                <div class="field" v-else-if="forms.searchClient.type == 'cpf'">
-                  <div class="control has-icons-right">
-                    <imask-input
-                      class="input"
-                      :class="{
-                        'is-danger': forms.searchClient.iptCPF.hasError
-                      }"
-                      type="text"
-                      placeholder="000.000.000-00"
-                      :mask="masks.cpf"
-                      :unmask="true"
-                      v-model="forms.searchClient.iptCPF.value"
-                    />
-                    <span class="icon is-small is-right" v-show="forms.searchClient.iptCPF.hasError">
-                      <i class="fas fa-exclamation-triangle"></i>
-                    </span>
-                  </div>
-                  <p class="help is-danger" v-show="forms.searchClient.iptCPF.hasError">
-                    {{ forms.searchClient.iptCPF.error }}
-                  </p>
-                </div>
-                <div class="field columns" v-else>
-                    <div class="column is-full-mobile is-half-tablet">
-                      <div class="control has-icons-left">
-                        <div 
-                          class="select"
-                          :class="{
-                            'is-loading': !countries.length,
-                            'is-danger': forms.searchClient.iptCountry.hasError
-                          }"
-                        >
-                          <select v-model="forms.searchClient.iptCountry.value">
-                            <option
-                              v-for="item in countries"
-                              :key="item.iso2"
-                              :value="item.iso2"
-                              :selected="forms.searchClient.iptCountry.value"
-                            >
-                              {{ item.name }}
-                            </option>
-                          </select>
-                        </div>
-                        <div class="icon is-small is-left">
-                          <i class="fas fa-globe"></i>
-                        </div>
-                      </div>
-                      <p class="help is-danger" v-show="forms.searchClient.iptCountry.hasError">
-                        {{ forms.searchClient.iptCountry.error }}
-                      </p>
-                    </div>
-                    <div class="column is-full-mobile is-half-tablet">
-                      <div class="control has-icons-right">
-                        <imask-input
-                          class="input"
-                          :class="{
-                            'is-danger': forms.searchClient.iptPassportNumber.hasError
-                          }"
-                          type="text"
-                          placeholder="0A0A0A0A0A"
-                          :mask="masks.passportNumber.custom"
-                          v-model="forms.searchClient.iptPassportNumber.value"
-                        />
-                        <span class="icon is-small is-right" v-show="forms.searchClient.iptPassportNumber.hasError">
-                          <i class="fas fa-exclamation-triangle"></i>
-                        </span>
-                      </div>
-                      <p class="help is-danger" v-show="forms.searchClient.iptPassportNumber.hasError">
-                        {{ forms.searchClient.iptPassportNumber.error }}
-                      </p>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <div class="buttons is-right">
-              <button class="button is-ghost" @click="clearFields()">Limpar</button>
-              <button class="button is-info" @click="searchReserva()">Buscar</button>
-            </div>
-          </div>
-        </div>
-      </section>
-      -->
+      <SearchFilterComponent :resource="'reserves'" @queryString="getReserves($event)" />
       <div class="buttons is-right">
         <a href="/admin/reservas/new" class="button is-primary is-large">
           Nova Reserva
@@ -283,6 +142,7 @@
 
 <script>
   import validator from 'validator'
+  import SearchFilterComponent from '../apartments/SearchFilterComponent'
   // import { IMaskComponent }  from 'vue-imask'
   import axios from 'axios'
   import Endpoints from '@/tools/EndpointsConfig'
@@ -295,6 +155,7 @@
 
   export default {
     components: {
+      SearchFilterComponent
       // 'imask-input': IMaskComponent
     },
     created() {
@@ -365,8 +226,10 @@
         let parentElement = document.getElementById(elementID).parentElement
         parentElement.classList.toggle('is-active')
       },
-      getReserves() {
-        axios.get(Endpoints.GET_RESERVES(), this.axiosConfig)
+      getReserves(queryString = '') {
+        const URL = Endpoints.GET_RESERVES().concat(queryString)
+
+        axios.get(URL, this.axiosConfig)
           .then(res => {
             this.reserves = res.data.reserves
           })
