@@ -44,7 +44,7 @@
               <div class="tile is-child is-flex is-justify-content-center is-align-items-center">
                 <div class="file is-link has-name is-boxed">
                   <label class="file-label">
-                    <input class="file-input" type="file" name="resume" multiple>
+                    <input class="file-input" ref="iptImages" type="file" name="resume" multiple>
                     <span class="file-cta">
                       <span class="file-icon">
                         <i class="fas fa-cloud-upload-alt"></i>
@@ -310,6 +310,7 @@
 </template>
 
 <script>
+  import FormData from 'form-data'
   import axios from 'axios'
   import validator from 'validator'
   import Endpoints from '@/tools/EndpointsConfig'
@@ -610,19 +611,51 @@
 
         if (!this.forms.newApartment.hasErrors && !this.messages.hasErrors) {
 
-          axios.post(Endpoints.POST_APARTMENTS(), newApartment, this.axiosConfig)
-            .then(() => {
-              alert('Apartamento cadastrado com sucesso.')
-              this.clearFields()
-            })
-            .catch(error => {
-              if (error.response.data) {
-                error.response.data.RestException.ErrorFields.map(el => {
-                  this.forms.newApartment[el.field].hasError = true
-                  this.forms.newApartment[el.field].error = el.hasError.error
-                })
+          let form = new FormData()
+
+          if (this.$refs.iptImages.files.length) {
+            form.append('apartment', JSON.stringify(newApartment))
+            for (let i = 0; i < this.$refs.iptImages.files.length; i++) {
+              let file = this.$refs.iptImages.files[i]
+              form.append(`iptImages`, file)
+            }
+            let axiosConfigForImgs = {
+              headers: {
+                'Authorization': `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`,
+                'Content-Type': 'multipart/form-data'
               }
-            })
+            }
+
+            axios.post(Endpoints.POST_APARTMENTS(), form, axiosConfigForImgs)
+              .then(() => {
+                alert('Apartamento cadastrado com sucesso.')
+                this.clearFields()
+              })
+              .catch(error => {
+                if (error.response.data) {
+                  error.response.data.RestException.ErrorFields.map(el => {
+                    this.forms.newApartment[el.field].hasError = true
+                    this.forms.newApartment[el.field].error = el.hasError.error
+                  })
+                }
+              })
+            
+          } else {
+            axios.post(Endpoints.POST_APARTMENTS(), newApartment, this.axiosConfig)
+              .then(() => {
+                alert('Apartamento cadastrado com sucesso.')
+                this.clearFields()
+              })
+              .catch(error => {
+                if (error.response.data) {
+                  error.response.data.RestException.ErrorFields.map(el => {
+                    this.forms.newApartment[el.field].hasError = true
+                    this.forms.newApartment[el.field].error = el.hasError.error
+                  })
+                }
+              })
+          }
+
         }
       },
       updateApartment() {
