@@ -1,7 +1,7 @@
 <template>
   <carousel>
     <slide class="container-apartment-image">
-      <button class="button is-small is-danger btn-delete">
+      <button v-if="enableDeleteButton" class="button is-small is-danger btn-delete" @click="deleteImg('aaaa')">
         <span class="icon" title="Deletar imagem">
           <i class="fas fa-trash"></i>
         </span>
@@ -11,7 +11,7 @@
       </figure>
     </slide>
     <slide class="container-apartment-image">
-      <button class="button is-small is-danger btn-delete">
+      <button v-if="enableDeleteButton" class="button is-small is-danger btn-delete" @click="deleteImg('aaab')">
         <span class="icon" title="Deletar imagem">
           <i class="fas fa-trash"></i>
         </span>
@@ -21,7 +21,7 @@
       </figure>
     </slide>
     <slide class="container-apartment-image">
-      <button class="button is-small is-danger btn-delete">
+      <button v-if="enableDeleteButton" class="button is-small is-danger btn-delete" @click="deleteImg('aaac')">
         <span class="icon" title="Deletar imagem">
           <i class="fas fa-trash"></i>
         </span>
@@ -31,7 +31,7 @@
       </figure>
     </slide>
     <slide class="container-apartment-image">
-      <button class="button is-small is-danger btn-delete">
+      <button v-if="enableDeleteButton" class="button is-small is-danger btn-delete" @click="deleteImg('aaad')">
         <span class="icon" title="Deletar imagem">
           <i class="fas fa-trash"></i>
         </span>
@@ -55,8 +55,16 @@
       Carousel,
       Slide
     },
-    data() {
-      return {
+    computed: {
+      enableDeleteButton() {
+        return this.type == 'update' || this.type == 'create'
+      }
+    },
+    methods: {
+      deleteImg(imgID) {
+        if(confirm('Deseja realmente deletar a imagem?')) {
+          this.$emit('deleteImg', imgID)
+        }
       }
     }
   }

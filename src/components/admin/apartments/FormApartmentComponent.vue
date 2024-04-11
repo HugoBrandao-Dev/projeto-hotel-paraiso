@@ -3,11 +3,7 @@
     <div class="columns">
       <div class="column is-three-fifths mx-auto">
         <div class="card">
-          <div class="card-image">
-            <figure class="image is-16by9">
-              <img src="../../../assets/reservas/reserva.png" alt="Placeholder image">
-            </figure>
-          </div>
+          <CarouselComponent :type="'create'" />
           <div class="card-content">
             <article class="message is-danger" v-show="messages.errorForm.hasError">
               <div class="message-header">
@@ -326,8 +322,12 @@
   import axios from 'axios'
   import validator from 'validator'
   import Endpoints from '@/tools/EndpointsConfig'
+  import CarouselComponent from './CarouselComponent'
 
   export default {
+    components: {
+      CarouselComponent
+    },
     created() {
       if (this.type == 'update') {
         axios.get(Endpoints.GET_APARTMENT(this.$route.params.id), this.axiosConfig)

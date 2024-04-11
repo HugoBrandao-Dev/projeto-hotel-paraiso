@@ -5,14 +5,7 @@
         Reserva #{{ this.$route.params.id }}
       </p>
     </header>
-
-    <!-- Criar carousel das imagens do apartamento -->
-
-    <div class="card-image">
-      <figure class="image is-4by3">
-        <img src="../../assets/reservas/reserva.png" alt="Placeholder image">
-      </figure>
-    </div>
+    <CarouselComponent :type="'read'" />
     <div class="card-content" v-if="apartment && reserve.reserve">
       <div class="content">
         <article class="message is-info">
@@ -171,8 +164,12 @@
   import axios from 'axios'
   import validator from 'validator'
   import Endpoints from '@/tools/EndpointsConfig'
+  import CarouselComponent from '../admin/apartments/CarouselComponent'
 
   export default {
+    components: {
+      CarouselComponent
+    },
     created() {
       this.getInfos()
     },

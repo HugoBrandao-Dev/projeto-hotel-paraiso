@@ -9,11 +9,7 @@
             Reserva #{{ this.$route.params.id }}
           </p>
         </header>
-        <div class="card-image">
-          <figure class="image is-16by9">
-            <img src="../../../assets/reservas/reserva.png">
-          </figure>
-        </div>
+        <CarouselComponent :type="'read'" />
         <div class="card-content">
           <div class="content">
             <article class="message is-info">
@@ -178,8 +174,12 @@
 <script>
   import axios from 'axios'
   import Endpoints from '@/tools/EndpointsConfig'
+  import CarouselComponent from '../apartments/CarouselComponent'
 
   export default {
+    components: {
+      CarouselComponent
+    },
     created() {
       axios.get(Endpoints.GET_APARTMENT(this.$route.params.id), this.axiosConfig)
         .then(resposeApartment => {
