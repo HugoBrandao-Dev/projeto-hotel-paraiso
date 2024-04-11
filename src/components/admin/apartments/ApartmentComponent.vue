@@ -10,11 +10,7 @@
               Apartamento #{{ this.$route.params.id }}
             </p>
           </header>
-          <div class="card-image">
-            <figure class="image is-16by9">
-              <img src="../../../assets/reservas/reserva.png" alt="Placeholder image">
-            </figure>
-          </div>
+          <CarouselComponent :type="'read'" />
           <div class="card-content">
             <div class="is-flex is-justify-content-space-between">
               <div class="box has-background-primary has-text-white">
@@ -65,10 +61,10 @@
 <script>
   import axios from 'axios'
   import Endpoints from '@/tools/EndpointsConfig'
+  import CarouselComponent from './CarouselComponent'
 
   export default {
     created() {
-
       const axiosConfig = {
         headers: {
           Authorization: `Bearer ${ localStorage.getItem('token_hotel_paraiso') }`
@@ -78,6 +74,9 @@
       axios.get(Endpoints.GET_APARTMENT(this.$route.params.id), axiosConfig)
         .then(res => this.apartment = res.data)
         .catch(error => console.error(error))
+    },
+    components: {
+      CarouselComponent
     },
     data() {
       return {
