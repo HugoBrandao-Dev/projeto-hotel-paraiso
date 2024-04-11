@@ -9,6 +9,15 @@
             </figure>
           </div>
           <div class="card-content">
+            <article class="message is-danger" v-show="messages.errorForm.hasError">
+              <div class="message-header">
+                <p>{{ messages.errorForm.structure.title }}</p>
+                <button class="delete" aria-label="delete" @click="messages.errorForm.close()"></button>
+              </div>
+              <div class="message-body">
+                <p>{{ messages.errorForm.structure.body }}</p>
+              </div>
+            </article>
             <div class="tile is-ancestor is-centered">
               <div class="tile is-parent">
                 <div class="tile is-child box has-background-primary is-flex is-justify-content-center is-align-items-center">
@@ -42,9 +51,12 @@
             </div>
             <div class="tile is-parent">
               <div class="tile is-child is-flex is-justify-content-center is-align-items-center">
-                <div class="file is-link has-name is-boxed">
+                <div class="file has-name is-boxed" :class="{
+                  'is-link': !this.messages.errorForm.hasError,
+                  'is-danger': this.messages.errorForm.hasError
+                }">
                   <label class="file-label">
-                    <input class="file-input" ref="iptImages" type="file" name="resume" multiple>
+                    <input class="file-input" @change="picturesChanged" ref="iptImages" type="file" name="resume" multiple>
                     <span class="file-cta">
                       <span class="file-icon">
                         <i class="fas fa-cloud-upload-alt"></i>
@@ -54,7 +66,7 @@
                       </span>
                     </span>
                     <span class="file-name">
-                      Screen Shot 2017-07-29 at 15.54.25.png
+                      {{ forms.newApartment.iptImages.value }}
                     </span>
                   </label>
                 </div>
@@ -349,6 +361,24 @@
           },
           roomInserted: {
             show: false
+          },
+          // Mensagem que será mostrada se for encontrado algum erro nas imagens.
+          errorForm: {
+            hasError: false,
+            structure: {
+              title: '',
+              body: ''
+            },
+            close: function() {
+              this.structure.title = ''
+              this.structure.body = ''
+              this.hasError = false
+            },
+            open: function(title, body) {
+              this.structure.title = title
+              this.structure.body = body
+              this.hasError = true
+            }
           }
         },
         modals: {
@@ -375,6 +405,11 @@
               error: ''
             },
             iptNumber: {
+              value: '',
+              hasError: false,
+              error: ''
+            },
+            iptImages: {
               value: '',
               hasError: false,
               error: ''
@@ -426,6 +461,13 @@
       }
     },
     methods: {
+      picturesChanged(event) {
+        let files = []
+        for (let i = 0; i < event.target.files.length; i++) {
+          files.push(event.target.files.item(i).name)
+        }
+        this.forms.newApartment.iptImages.value = files.join(' ')
+      },
       confirmRoomDeletion(room) {
         let indexId = this.forms.newApartment.rooms.findIndex(el => el.room == room)
         if (confirm('Deseja realmente excluir o cômodo?')) {
@@ -634,8 +676,12 @@
               .catch(error => {
                 if (error.response.data) {
                   error.response.data.RestException.ErrorFields.map(el => {
-                    this.forms.newApartment[el.field].hasError = true
-                    this.forms.newApartment[el.field].error = el.hasError.error
+                    if (el.field == 'iptImages') {
+                      this.messages.errorForm.open('Imagens', el.hasError.error)
+                    } else {
+                      this.forms.newApartment[el.field].hasError = true
+                      this.forms.newApartment[el.field].error = el.hasError.error
+                    }
                   })
                 }
               })
