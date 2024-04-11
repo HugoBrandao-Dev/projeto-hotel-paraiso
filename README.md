@@ -57,16 +57,9 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 ### Linguagem
 * Exportar/enviar a linguagem do navegador para o BACK-END, para que hajam verificações dos campos dos formulários corretamente.
 
-### Para sessões de Usuários e Admins
-* Colocar um carousel de imagens do apartamento/casa que o usuário está visualizando;
-* Implementado sistema para armazenamento das imagens de cada Apartamento;
-* Colocar icones para cômodos que são descritos na informação da reserva que o usuário está visualizando;
-* Colocar opções de compartilhamento da página da reserva que o usuário está visualizando;
-* Exibir informações quando o usuário passar o mouse ou clicar no ícone de informação de cada cômodo;
-* Colocar uma máscara dinâmica para o número de telefone;
-* Corrigir dropdown dos botões de ação (para tela touch), na listagem de usuários.
-
 ### Usuários, Apartamento e Reservas
+* Colocar opções de compartilhamento da página da reserva que o usuário está visualizando;
+* Colocar uma máscara dinâmica para o número de telefone;
 * Criar modals de sucesso na criação, atualização e deleção onde faltam;
 * Calcular quantos dias existem entre o início e o fim da reserva.
 
