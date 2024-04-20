@@ -54,6 +54,9 @@ Além disso, contará com o __BACK-END__ (API), que será desenvolvido.
 ## Bugs
 
 ## Possíveis melhorias futuras
+### Newsletter
+* Implementar JS do componente de newsletter.
+
 ### Linguagem
 * Exportar/enviar a linguagem do navegador para o BACK-END, para que hajam verificações dos campos dos formulários corretamente.
 
